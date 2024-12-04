@@ -9,10 +9,10 @@ int main(){
     int x , y;
     printf("please inter Height and Width:");
     scanf("%d %d", &x , &y);
-    maqar();
-    rosta();
-    masdod();
-    khali();
+    maqar(x,y);
+    rosta(x,y);
+    masdod(x,y);
+    khali(x,y);
 
 
     InitWindow(0,0,"MAP");
