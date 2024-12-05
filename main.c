@@ -5,24 +5,34 @@
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/project/img.png"
 //defining map
 int map[17][17] = {0};
+int vProduction[20][2] = {0};
 
 int main() {
-    //receiving map Hight and Width
+    //receiving map Height and Width
     int x, y;
     printf("please inter Height and Width:");
     scanf("%d %d", &x, &y);
+
+    //marking special points (map[i][j]) on the map
     Kingdom(x, y);
     Village(x, y);
     ForceClosed(x, y);
+
+    // setting difficulty for empty map[i][j]
     Empty(x, y);
 
-
     InitWindow(0, 0, "MAP");
+
+    // defining each  special point texture
     Texture2D Background = LoadTexture(IMAGE_PATH);
     Texture2D Kingdom = LoadTexture("C:/Users/Asus/CLionProjects/project/222   .png");
     Texture2D Village = LoadTexture("C:/Users/Asus/CLionProjects/project/vilage .png");
     Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/project/Water_ruins2.png");
-    SetTargetFPS(60);;
+
+    // Set the target frame rate to 60 frames per second for smooth rendering
+    SetTargetFPS(60);
+
+    // drawing Map
     while (!WindowShouldClose()) {
 
         BeginDrawing();

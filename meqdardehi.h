@@ -5,8 +5,11 @@
 #ifndef UNTITLED4_MEQDARDEHI_H
 #define UNTITLED4_MEQDARDEHI_H
 extern int map[17][17];
+extern int vProduction[20][2];
 
 void Kingdom(int x, int y);
+
+void VillageProduction(int k , int array[20][2]);
 
 void Village(int x, int y);
 

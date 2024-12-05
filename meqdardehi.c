@@ -6,6 +6,8 @@
 
 //defining map as an extern int to be known in all functions
 extern int map[17][17];
+extern int vProduction[20][2];
+
 
 //receiving number of kingdoms and each one's location
 void Kingdom(int k, int j) {
@@ -26,6 +28,20 @@ void Kingdom(int k, int j) {
     }
 }
 
+//receiving each village productions
+void VillageProduction(int k , int array[20][2]){
+        for( int j = 0 ; j < 2 ; j++){
+            if (j == 0) {
+                printf("please inter Village Gold production: ");
+                scanf("%d", &array[k][j]);
+            }
+            if ( j == 1){
+                printf("please inter Vilage Food production:");
+                scanf("%d" , &array[k][j]);
+            }
+        }
+    }
+
 //receiving number of Village and each one's location
 void Village(int k, int j) {
     int VillageNum;
@@ -42,11 +58,14 @@ void Village(int k, int j) {
 
             // placing the symbol v for each Village in the map
             map[x][y] = 'v';
+            //each village gold and food productions
+            VillageProduction( i , vProduction);
         }
             // if the input is not standard do the if loop again
         else i--;
     }
 }
+
 
 //receiving number of ForceClosed and each one's location
 void ForceClosed(int k, int j) {
