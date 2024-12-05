@@ -96,7 +96,7 @@ void Empty(int k, int i) {
             //making sure that the MAP[x][y] is empty
             if (map[r][j] != 'c' && map[r][j] != 'v' && map[r][j] != 'x') {
                 //setting difficulty
-                map[r][j] = '1';
+                map[r][j] = 1;
             }
         }
     }

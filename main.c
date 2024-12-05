@@ -53,8 +53,8 @@ int main() {
                     DrawTexture(ForceClosed, offsetX + i * 68, offsetY + j * 68, WHITE);
                 }
                 else {
-                    char *text = map[i][j];
-                    DrawText(&text, offsetX + i * 68, offsetY + j * 68, 24, RED);
+                    char text = map[i][j];
+                    DrawText(TextFormat("%d",text), offsetX + i * 68, offsetY + j * 68, 24, RED);
                 }
 
 
