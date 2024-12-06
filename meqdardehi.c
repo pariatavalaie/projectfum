@@ -21,7 +21,7 @@ void Kingdom(int k, int j) {
         scanf("%d %d", &x, &y);
 
         // making sure that inputs are standard
-        if (k < x || j < y) i--;
+        if (k <= x || j <= y || map[i][j]=='c'|| x < 0 || y < 0) i--;
 
             // placing the symbol c for each Kingdom in the map
         else map[x][y] = 'c';
@@ -34,10 +34,12 @@ void VillageProduction(int k , int array[20][2]){
             if (j == 0) {
                 printf("please inter Village Gold production: ");
                 scanf("%d", &array[k][j]);
+                if(array[k][j] < 0) j--;
             }
             if ( j == 1){
                 printf("please inter Vilage Food production:");
                 scanf("%d" , &array[k][j]);
+                if(array[k][j] < 0) j--;
             }
         }
     }
@@ -54,7 +56,7 @@ void Village(int k, int j) {
         scanf("%d %d", &x, &y);
 
         // making sure that inputs are standard and MAP[x][y] is empty
-        if (map[x][y] != 'c' && k > x && j > y) {
+        if (map[x][y] != 'c' && k > x && j > y && map[x][y]!= 'v' && x >= 0 && y >= 0 ) {
 
             // placing the symbol v for each Village in the map
             map[x][y] = 'v';
@@ -80,7 +82,7 @@ void ForceClosed(int k, int j) {
         scanf("%d %d", &x, &y);
 
         // making sure that inputs are standard and MAP[x][y] is empty
-        if (map[x][y] != 'c' && map[x][y] != 'v' && k > x && j > y)
+        if (map[x][y] != 'c' && map[x][y] != 'v' && k > x && j > y && map[x][y] != 'x' && x >= 0 && y>= 0)
 
             // placing the symbol x for each ForceClosed in the map
             map[x][y] = 'x';
