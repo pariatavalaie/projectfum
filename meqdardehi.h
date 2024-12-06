@@ -7,14 +7,14 @@
 extern int map[17][17];
 extern int vProduction[20][2];
 
-void Kingdom(int x, int y);
+void Kingdom(int k, int j);
 
 void VillageProduction(int k , int array[20][2]);
 
-void Village(int x, int y);
+void Village(int k, int j);
 
-void ForceClosed(int x, int y);
+void ForceClosed(int k, int j);
 
-void Empty(int x, int y);
+void Empty(int k, int j);
 
 #endif
