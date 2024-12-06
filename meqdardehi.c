@@ -15,6 +15,10 @@ void Kingdom(int k, int j) {
     int x, y;
     printf("please inter Kingdom's number:");
     scanf("%d", &KingdomNum);
+    while (KingdomNum<0){
+        printf("please inter Kingdom's number:");
+        scanf("%d", &KingdomNum);
+    }
 
     for (int i = 1; i <= KingdomNum; i++) {
         printf("please inter x , y Kingdom %d:", i);
@@ -50,6 +54,10 @@ void Village(int k, int j) {
     int x, y;
     printf("inter Village's number please:");
     scanf("%d", &VillageNum);
+    while (VillageNum<0){
+        printf("inter Village's number please:");
+        scanf("%d", &VillageNum);
+    }
 
     for (int i = 0; i < VillageNum; ++i) {
         printf("please inter x , y Village %d : ", i + 1);
@@ -76,6 +84,10 @@ void ForceClosed(int k, int j) {
     int BlockedNum;
     printf("please inter ForceCloseds number:");
     scanf("%d", &BlockedNum);
+    while (BlockedNum<0){
+        printf("please inter ForceCloseds number:");
+        scanf("%d", &BlockedNum);
+    }
 
     for (int i = 0; i < BlockedNum; ++i) {
         printf("please inter x , y ForceClosed %d: ", i + 1);
