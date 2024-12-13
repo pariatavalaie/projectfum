@@ -12,7 +12,7 @@ int main() {
     int x, y;
     printf("please inter Height and Width:");
     scanf("%d %d", &x, &y);
-    while(x <= 0 || y <= 0){
+    while(x <= 0 || y <= 0 || x > 17 || y > 17){
         printf("please inter Height and Width:");
         scanf("%d %d", &x, &y);
     }
