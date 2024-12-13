@@ -43,28 +43,36 @@ int main() {
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
+        int xq,yq,xv,yv;
+        float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
+        float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; ++j) {
-                float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
-                float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
                 if (map[i][j] == 'c') {
-                    DrawTexture(Kingdom, offsetX + i * 68, offsetY + j * 68, WHITE);
-                }
-                else if (map[i][j] == 'v') {
-                    DrawTexture(Village, offsetX + i * 68, offsetY + j * 68, WHITE);
-                }
-                else if (map[i][j] == 'x') {
-                    DrawTexture(ForceClosed, offsetX + i * 68, offsetY + j * 68, WHITE);
-                }
-                else {
+                    DrawTexture(Kingdom, offsetX + j * 68, offsetY + i * 68, WHITE);
+                    xq = i;
+                    yq = j;
+                } else if (map[i][j] == 'v') {
+                    DrawTexture(Village, offsetX + j * 68, offsetY + i * 68, WHITE);
+                    xv = i;
+                    yv = j;
+                } else if (map[i][j] == 'x') {
+                    DrawTexture(ForceClosed, offsetX + j * 68, offsetY + i * 68, WHITE);
+                } else {
                     char text = map[i][j];
-                    DrawText(TextFormat("%d",text), offsetX + i * 68, offsetY + j * 68, 24, RED);
+                    DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
 
 
             }
 
-
+        }
+        road(x,y,xq,yq,xv,yv);
+        for (int i = 0; i < 17 ; ++i) {
+            for (int j = 0; j <17 ; ++j) {
+                if(map[i][j]=='r')
+                    DrawRectangle( offsetX + j * 68, offsetY + i * 68,68,68 ,WHITE);
+            }
         }
 
         EndDrawing();

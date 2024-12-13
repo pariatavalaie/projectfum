@@ -17,4 +17,6 @@ void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
 
+void road(int k,int f,int xq,int yq,int xv,int yv);
+
 #endif
