@@ -3,7 +3,7 @@
 //
 #include "stdio.h"
 #include "meqdardehi.h"
-
+#include "raylib.h"
 //defining map as an extern int to be known in all functions
 extern int map[17][17];
 extern int vProduction[20][2];
@@ -111,7 +111,7 @@ void Empty(int k, int i) {
             //making sure that the MAP[x][y] is empty
             if (map[r][j] != 'c' && map[r][j] != 'v' && map[r][j] != 'x') {
                 //setting difficulty
-                map[r][j] = 1;
+                map[r][j] = GetRandomValue(1,9);
             }
         }
     }
