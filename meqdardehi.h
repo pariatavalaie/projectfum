@@ -6,6 +6,7 @@
 #define UNTITLED4_MEQDARDEHI_H
 extern int map[17][17];
 extern int vProduction[20][2];
+extern int KingdomPos[5][2];
 
 void Kingdom(int k, int j);
 
@@ -17,6 +18,6 @@ void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
 
-void road(int k,int f,int xq,int yq,int xv,int yv);
+void Road(int xq,int yq,int xv,int yv);
 
 #endif
