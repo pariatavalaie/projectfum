@@ -6,10 +6,10 @@
 //defining map
 int map[17][17] = {0};
 int vProduction[20][2] = {0};
-
 int main() {
     //receiving map Height and Width
     int x, y;
+    int VillageNum;
     printf("please inter Height and Width:");
     scanf("%d %d", &x, &y);
     while(x <= 0 || y <= 0 || x > 17 || y > 17){
@@ -19,7 +19,14 @@ int main() {
 
     //marking special points (map[i][j]) on the map
     Kingdom(x, y);
-    Village(x, y);
+    printf("inter Village's number please:");
+    scanf("%d", &VillageNum);
+    while (VillageNum<0){
+        printf("inter Village's number please:");
+        scanf("%d", &VillageNum);
+    }
+
+    Village(x, y,VillageNum);
     ForceClosed(x, y);
 
     // setting difficulty for empty map[i][j]
@@ -54,8 +61,9 @@ int main() {
                     yq = j;
                 } else if (map[i][j] == 'v') {
                     DrawTexture(Village, offsetX + j * 68, offsetY + i * 68, WHITE);
-                    xv = i;
-                    yv = j;
+                    xv=i;
+                    yv=j;
+
                 } else if (map[i][j] == 'x') {
                     DrawTexture(ForceClosed, offsetX + j * 68, offsetY + i * 68, WHITE);
                 } else {
@@ -67,14 +75,17 @@ int main() {
             }
 
         }
-        road(x,y,xq,yq,xv,yv);
-        for (int i = 0; i < 17 ; ++i) {
-            for (int j = 0; j <17 ; ++j) {
-                if(map[i][j]=='r')
-                    DrawRectangle( offsetX + j * 68, offsetY + i * 68,68,68 ,WHITE);
-            }
-        }
+        for (int i = 0; i <x ; ++i) {
+            for (int j = 0; j <y ; ++j) {
 
+                if (map[i][j] == 'v') road(x, y, xq, yq, i, j);
+                for (int k = 0; k < x; ++k) {
+                    for (int f = 0; f < y; ++f) {
+                        if (map[k][f] == 'r')
+                            DrawRectangle(offsetX + f * 68, offsetY + k * 68, 68, 68, WHITE);
+                    }
+                }
+            }}
         EndDrawing();
     }
     CloseWindow();
