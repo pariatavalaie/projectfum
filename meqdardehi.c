@@ -120,7 +120,7 @@ void road(int f,int k,int xq,int yq,int xv,int yv){
     int x = xq, y = yq;
     int endy=yv,endx=xv;
     while (x !=xv || y != yv) {
-       if(map[x][y]!='c'&&map[x][y]!='v'&&map[x][y]!='x') map[x][y] ='r';
+        if(map[x][y]!='c'&&map[x][y]!='v'&&map[x][y]!='x') map[x][y] ='r';
 
         if (y < yv && map[x][y + 1] != 'x') {
             y++;
@@ -142,5 +142,5 @@ void road(int f,int k,int xq,int yq,int xv,int yv){
 
     }
     if(endy>yv){map[x][y]='r';}
+}
 
-  }
