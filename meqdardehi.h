@@ -11,10 +11,12 @@ void Kingdom(int k, int j);
 
 void VillageProduction(int k , int array[20][2]);
 
-void Village(int k, int j);
+void Village(int k, int j,int VillageNum);
 
 void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
+
+void road(int k,int f,int xq,int yq,int xv,int yv);
 
 #endif
