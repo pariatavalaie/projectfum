@@ -7,8 +7,6 @@
 //defining map as an extern int to be known in all functions
 extern int map[17][17];
 extern int vProduction[20][2];
-
-
 //receiving number of kingdoms and each one's location
 void Kingdom(int k, int j) {
     int KingdomNum;
@@ -49,16 +47,8 @@ void VillageProduction(int k , int array[20][2]){
     }
 
 //receiving number of Village and each one's location
-void Village(int k, int j) {
-    int VillageNum;
-    int x, y;
-    printf("inter Village's number please:");
-    scanf("%d", &VillageNum);
-    while (VillageNum<0){
-        printf("inter Village's number please:");
-        scanf("%d", &VillageNum);
-    }
-
+void Village(int k, int j,int VillageNum) {
+    int x,y;
     for (int i = 0; i < VillageNum; ++i) {
         printf("please inter x , y Village %d : ", i + 1);
         scanf("%d %d", &x, &y);
@@ -120,7 +110,7 @@ void road(int f,int k,int xq,int yq,int xv,int yv){
     int x = xq, y = yq;
     int endy=yv,endx=xv;
     while (x !=xv || y != yv) {
-        if(map[x][y]!='c'&&map[x][y]!='v'&&map[x][y]!='x') map[x][y] ='r';
+        if(map[x][y]!='c'&&map[x][y]!='x'&&map[x][y]!='v') map[x][y] ='r';
 
         if (y < yv && map[x][y + 1] != 'x') {
             y++;
