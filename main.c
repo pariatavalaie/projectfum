@@ -2,34 +2,29 @@
 #include "raylib.h"
 #include "meqdardehi.h"
 #include "GRID2.h"
+
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
 //defining map
 int map[17][17] = {0};
-int vProduction[20][2] = {0};
+
 int main() {
     //receiving map Height and Width
-    int x, y;
-    int VillageNum;
+    int x ,y;
+    struct Kingdom kingdoms[4];
+    struct Village villages[20];
+    int kingdomCount = 0;
+    int villageCount = 0;
     printf("please inter Height and Width:");
     scanf("%d %d", &x, &y);
-    while(x <= 0 || y <= 0 || x > 17 || y > 17){
+    while (x <= 0 || y <= 0 || x > 17 || y > 17) {
         printf("please inter Height and Width:");
         scanf("%d %d", &x, &y);
     }
 
-    //marking special points (map[i][j]) on the map
-    Kingdom(x, y);
-    printf("inter Village's number please:");
-    scanf("%d", &VillageNum);
-    while (VillageNum<0){
-        printf("inter Village's number please:");
-        scanf("%d", &VillageNum);
-    }
-
-    Village(x, y,VillageNum);
+    // Mark special points on the map
+    Kingdoms(x, y, kingdoms, &kingdomCount);
+    Villages(x, y, villages, &villageCount);
     ForceClosed(x, y);
-
-    // setting difficulty for empty map[i][j]
     Empty(x, y);
 
     InitWindow(0, 0, "MAP");
@@ -50,23 +45,21 @@ int main() {
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
-        int xq,yq,xv,yv;
         float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
         float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; ++j) {
                 if (map[i][j] == 'c') {
                     DrawTexture(Kingdom, offsetX + j * 68, offsetY + i * 68, WHITE);
-                    xq = i;
-                    yq = j;
-                } else if (map[i][j] == 'v') {
+                }
+                else if (map[i][j] == 'v') {
                     DrawTexture(Village, offsetX + j * 68, offsetY + i * 68, WHITE);
-                    xv=i;
-                    yv=j;
 
-                } else if (map[i][j] == 'x') {
+                }
+                else if (map[i][j] == 'x') {
                     DrawTexture(ForceClosed, offsetX + j * 68, offsetY + i * 68, WHITE);
-                } else {
+                }
+                else {
                     char text = map[i][j];
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
@@ -75,17 +68,29 @@ int main() {
             }
 
         }
-        for (int i = 0; i <x ; ++i) {
-            for (int j = 0; j <y ; ++j) {
 
-                if (map[i][j] == 'v') road(x, y, xq, yq, i, j);
-                for (int k = 0; k < x; ++k) {
-                    for (int f = 0; f < y; ++f) {
-                        if (map[k][f] == 'r')
-                            DrawRectangle(offsetX + f * 68, offsetY + k * 68, 68, 68, WHITE);
+        for (int k = 1; k <= kingdomCount; k++) {
+            int xq = kingdoms[k -1].x;
+            int yq = kingdoms[k -1].y ;
+            for (int i = 0; i < x; ++i) {
+                for (int j = 0; j < y; ++j) {
+                    if (map[i][j] == 'v') {
+                        // Generate the road from (xq, yq) to the village (i, j)
+                        Road(xq, yq, i, j);
                     }
                 }
-            }}
+            }
+        }
+
+// Next, draw the entire map, marking all paths ('r') in WHITE
+        for (int i = 0; i < x; ++i) {
+            for (int j = 0; j < y; ++j) {
+                if (map[i][j] == 'r') {
+                    DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, WHITE);
+                }
+            }
+        }
+
         EndDrawing();
     }
     CloseWindow();
