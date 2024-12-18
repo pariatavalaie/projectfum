@@ -6,6 +6,7 @@
 //defining map
 int map[17][17] = {0};
 int vProduction[20][2] = {0};
+
 int main() {
     //receiving map Height and Width
     int x, y;
@@ -45,24 +46,21 @@ int main() {
 
     // drawing Map
     while (!WindowShouldClose()) {
-
+        Vector2 mouseposition=GetMousePosition();
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
-        int xq,yq,xv,yv;
         float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
         float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; ++j) {
+                Rectangle cellrect={offsetX+j*68,offsetY+i*68,68,68
+                };
                 if (map[i][j] == 'c') {
                     DrawTexture(Kingdom, offsetX + j * 68, offsetY + i * 68, WHITE);
-                    xq = i;
-                    yq = j;
                 } else if (map[i][j] == 'v') {
                     DrawTexture(Village, offsetX + j * 68, offsetY + i * 68, WHITE);
-                    xv=i;
-                    yv=j;
 
                 } else if (map[i][j] == 'x') {
                     DrawTexture(ForceClosed, offsetX + j * 68, offsetY + i * 68, WHITE);
@@ -70,22 +68,21 @@ int main() {
                     char text = map[i][j];
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
+                if(CheckCollisionPointRec(mouseposition,cellrect)){
+                    char infotext[50];
+                    DrawRectangle(cellrect.x,cellrect.y,68,68,GRAY);
+                    if(map[i][j]=='v'){
+                    sprintf(infotext,"gold:%d\nfood:%d", vProduction[1][1],vProduction[1][2]);
+                    DrawText(infotext,cellrect.x,cellrect.y,10,BLACK);}
+                }
 
 
             }
 
         }
-        for (int i = 0; i <x ; ++i) {
-            for (int j = 0; j <y ; ++j) {
 
-                if (map[i][j] == 'v') road(x, y, xq, yq, i, j);
-                for (int k = 0; k < x; ++k) {
-                    for (int f = 0; f < y; ++f) {
-                        if (map[k][f] == 'r')
-                            DrawRectangle(offsetX + f * 68, offsetY + k * 68, 68, 68, WHITE);
-                    }
-                }
-            }}
+
+
         EndDrawing();
     }
     CloseWindow();
