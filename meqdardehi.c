@@ -4,111 +4,119 @@
 #include "stdio.h"
 #include "meqdardehi.h"
 #include "raylib.h"
+#include "type.h"
 
 //defining map as an extern int to be known in all functions
 extern int map[17][17];
-extern int vProduction[20][2];
-extern int KingdomPos[5][2];
 
 //receiving number of kingdoms and each one's location
-void Kingdom(int k, int j) {
+void Kingdoms(int k, int j , struct Kingdom kingdoms[], int* kingdomCount) {
     int KingdomNum;
-    int x, y;
-    printf("please inter Kingdom's number:");
+    printf("Please enter the number of Kingdoms: ");
     scanf("%d", &KingdomNum);
-    KingdomPos[0][0] = KingdomNum;
-    while (KingdomNum < 0 || KingdomNum > 4) {
-        printf("please inter Kingdom's number:");
+
+    while (KingdomNum < 0 || KingdomNum > 5) {
+        printf("Please enter a valid number of Kingdoms (1-4): ");
         scanf("%d", &KingdomNum);
-        KingdomPos[0][0] = KingdomNum;
     }
 
-    for (int i = 1; i <= KingdomNum; i++) {
-        printf("please inter x , y Kingdom %d:", i);
+    *kingdomCount = KingdomNum;
+
+    for (int i = 0; i < KingdomNum; i++) {
+        int x, y;
+        printf("Please enter x, y for Kingdom %d: ", i + 1);
         scanf("%d %d", &x, &y);
-        KingdomPos[i][0] = x;
-        KingdomPos[i][1] = y;
 
-        // making sure that inputs are standard
-        if (k <= x || j <= y || map[i][j] == 'c' || x < 0 || y < 0) i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
+            printf("Invalid position. Try again.\n");
+            i--;
+        } else {
+            kingdoms[i].id = i + 1;
+            kingdoms[i].x = x;
+            kingdoms[i].y = y;
+            kingdoms[i].WorkersCount = 1;
+            kingdoms[i].soldierCount = 1;
+            kingdoms[i].GoldProduction = 1;
+            kingdoms[i].FoodProduction = 1;
+            kingdoms[i].Food = 1;
+            kingdoms[i].Gold = 1;
 
-            // placing the symbol c for each Kingdom in the map
-        else map[x][y] = 'c';
-    }
-}
-
-//receiving each village productions
-void VillageProduction(int k, int array[20][2]) {
-    for (int j = 0; j < 2; j++) {
-        if (j == 0) {
-            printf("please inter Village Gold production: ");
-            scanf("%d", &array[k][j]);
-            if (array[k][j] < 0) j--;
-        }
-        if (j == 1) {
-            printf("please inter Vilage Food production:");
-            scanf("%d", &array[k][j]);
-            if (array[k][j] < 0) j--;
+            map[x][y] = 'c';
         }
     }
 }
 
-//receiving number of Village and each one's location
-void Village(int k, int j, int VillageNum) {
-    int x, y;
-    for (int i = 0; i < VillageNum; ++i) {
-        printf("please inter x , y Village %d : ", i + 1);
+void Villages(int k, int j, struct Village villages[], int* villageCount) {
+    int VillageNum;
+    printf("Please enter the number of Villages: ");
+    scanf("%d", &VillageNum);
+
+    while (VillageNum < 0 || VillageNum > 20) {
+        printf("Please enter a valid number of Villages: ");
+        scanf("%d", &VillageNum);
+    }
+
+    *villageCount = VillageNum;
+
+    for (int i = 0; i < VillageNum; i++) {
+        int x, y;
+        printf("Please enter x, y for Village %d: ", i + 1);
         scanf("%d %d", &x, &y);
 
-        // making sure that inputs are standard and MAP[x][y] is empty
-        if (map[x][y] != 'c' && k > x && j > y && map[x][y] != 'v' && x >= 0 && y >= 0) {
+        // Validate the position
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
+            printf("Invalid position. Try again.\n");
+            i--;
+        } else {
+            villages[i].VillageId = i + 1;
+            villages[i].x = x;
+            villages[i].y = y;
+            villages[i].ownerId = 0;
 
-            // placing the symbol v for each Village in the map
+            printf("Please enter Gold production for Village %d: ", i + 1);
+            scanf("%d", &villages[i].GoldProduction);
+
+            printf("Please enter Food production for Village %d: ", i + 1);
+            scanf("%d", &villages[i].FoodProduction);
+
             map[x][y] = 'v';
-            //each village gold and food productions
-            VillageProduction(i, vProduction);
         }
-            // if the input is not standard do the if loop again
-        else i--;
     }
 }
 
-
-//receiving number of ForceClosed and each one's location
 void ForceClosed(int k, int j) {
-    int x, y;
-    //using blocked instead of ForceClosed to shorten
     int BlockedNum;
-    printf("please inter ForceCloseds number:");
+    printf("Please enter the number of ForceClosed cells: ");
     scanf("%d", &BlockedNum);
+
     while (BlockedNum < 0) {
-        printf("please inter ForceCloseds number:");
+        printf("Please enter a valid number of ForceClosed cells: ");
         scanf("%d", &BlockedNum);
     }
 
-    for (int i = 0; i < BlockedNum; ++i) {
-        printf("please inter x , y ForceClosed %d: ", i + 1);
+    for (int i = 0; i < BlockedNum; i++) {
+        int x, y;
+        printf("Please enter x, y for ForceClosed cells %d: ", i + 1);
         scanf("%d %d", &x, &y);
 
-        // making sure that inputs are standard and MAP[x][y] is empty
-        if (map[x][y] != 'c' && map[x][y] != 'v' && k > x && j > y && map[x][y] != 'x' && x >= 0 && y >= 0)
 
-            // placing the symbol x for each ForceClosed in the map
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
+            printf("Invalid position. Try again.\n");
+            i--;
+        } else {
             map[x][y] = 'x';
-
-            // if the input is not standard do the if loop again
-        else i--;
+        }
     }
 }
 
-//setting empty map[i][j] difficulty
+
 void Empty(int k, int i) {
     for (int r = 0; r < 17; ++r) {
         for (int j = 0; j < 17; ++j) {
             //making sure that the MAP[x][y] is empty
             if (map[r][j] != 'c' && map[r][j] != 'v' && map[r][j] != 'x') {
                 //setting difficulty
-                map[r][j] = GetRandomValue(1, 9);
+                map[r][j] = GetRandomValue(1,9);
             }
         }
     }
@@ -166,4 +174,6 @@ void Road(int xq, int yq, int xv, int yv) {
         map[x][y] = 'r';
     }
 }
+
+
 
