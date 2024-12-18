@@ -120,30 +120,49 @@ void Road(int xq, int yq, int xv, int yv) {
     while (x != xv || y != yv) {
         if (map[x][y] != 'c' && map[x][y] != 'x' && map[x][y] != 'v') map[x][y] = 'r';
 
-        if (y < yv && map[x][y + 1] != 'x') {
+        if (y < yv && map[x][y + 1] != 'x' && map[x][y+1] != 'c') {
             y++;
         }
-        else if (y > yv && map[x][y - 1] != 'x') {
+        else if (y > yv && map[x][y - 1] != 'x' && map[x][y - 1] != 'c') {
             y--;
         }
-        else if (x < xv && map[x + 1][y] != 'x') {
+        else if (x < xv && map[x + 1][y] != 'x' && map[x + 1][y] != 'c') {
             x++;
         }
-        else if (x > xv && map[x - 1][y] != 'x') {
+        else if (x > xv && map[x - 1][y] != 'x' && map[x - 1][y] != 'c') {
             x--;
 
         }
-        else if (y == yv && x > xv && map[x - 1][y] == 'x') {
+        else if ((y == yv && x > xv ) && (map[x - 1][y] == 'x'|| map [x- 1][y] == 'c')) {
+            y++;
+            yv++;
+        }
+        else if ((y == yv && x < xv) && (map[x + 1][y] == 'x' || map[x + 1][y] == 'c')) {
             y--;
             yv--;
         }
-        else if (y == yv && x < xv && map[x + 1][y] == 'x') {
-            y--;
-            yv--;
+        else if ((x == xv && y < yv) &&( map [ y - 1][x] == 'x' || map[ y - 1][x] == 'c')){
+            x++;
+            xv++;
         }
-
+        else if ((x == xv && y > yv) &&( map [ y + 1][x] == 'x' || map[ y + 1][x] == 'c')){
+            x--;
+            xv--;
+        }
+        else{
+            break;
+        }
     }
     if (endy > yv) {
+        map[x][y] = 'r';
+    }
+    else if (endy < yv) {
+        map[x][y] = 'r';
+    }
+    if(endx > xv){
+        map[x][y] = 'r';
+    }
+    else if( endx < xv){
         map[x][y] = 'r';
     }
 }
