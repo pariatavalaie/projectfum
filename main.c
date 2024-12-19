@@ -25,6 +25,8 @@ int main() {
     Kingdoms(x, y, kingdoms, &kingdomCount);
     Villages(x, y, villages, &villageCount);
     ForceClosed(x, y);
+
+    // setting difficulty for empty map[i][j]
     Empty(x, y);
 
     InitWindow(0, 0, "MAP");
@@ -40,15 +42,18 @@ int main() {
 
     // drawing Map
     while (!WindowShouldClose()) {
-
+        Vector2 mouseposition=GetMousePosition();
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
+        int xq,yq,xv,yv;
         float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
         float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; ++j) {
+                Rectangle cellrect={offsetX+j*68,offsetY+i*68,68,68
+                };
                 if (map[i][j] == 'c') {
                     DrawTexture(Kingdom, offsetX + j * 68, offsetY + i * 68, WHITE);
                 }
@@ -62,6 +67,13 @@ int main() {
                 else {
                     char text = map[i][j];
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
+                }
+                if(CheckCollisionPointRec(mouseposition,cellrect)){
+                    char infotext[50];
+                    DrawRectangle(cellrect.x,cellrect.y,68,68,GRAY);
+                    if(map[i][j]=='v'){
+                    sprintf(infotext,"gold:%d\nfood:%d", vProduction[1][1],vProduction[1][2]);
+                    DrawText(infotext,cellrect.x,cellrect.y,10,BLACK);}
                 }
 
 

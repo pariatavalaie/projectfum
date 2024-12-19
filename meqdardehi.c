@@ -80,11 +80,19 @@ void Villages(int k, int j, struct Village villages[], int* villageCount) {
             scanf("%d", &villages[i].FoodProduction);
 
             map[x][y] = 'v';
+            //each village gold and food productions
+            VillageProduction( i , vProduction);
         }
+            // if the input is not standard do the if loop again
+        else i--;
     }
 }
 
+
+//receiving number of ForceClosed and each one's location
 void ForceClosed(int k, int j) {
+    int x, y;
+    //using blocked instead of ForceClosed to shorten
     int BlockedNum;
     printf("Please enter the number of ForceClosed cells: ");
     scanf("%d", &BlockedNum);
