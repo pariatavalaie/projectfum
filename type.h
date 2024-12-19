@@ -4,7 +4,8 @@
 
 #ifndef UNTITLED10_TYPE_H
 #define UNTITLED10_TYPE_H
-struct Kingdom {
+//Kingdom structure
+ typedef struct Kingdom {
     int id;
     int x;
     int y;
@@ -14,16 +15,17 @@ struct Kingdom {
     int FoodProduction;
     int Food;
     int Gold;
-};
+}Kingdom;
 
 // Village structure
-struct Village {
+typedef struct Village {
     int VillageId;
     int x;
     int y;
     int ownerId;
     int GoldProduction;
     int FoodProduction;
-};
+}Village;
 
 #endif //UNTITLED10_TYPE_H
+

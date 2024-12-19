@@ -11,8 +11,6 @@ struct Village;
 
 void Kingdoms(int k, int j , struct Kingdom kingdoms[], int* kingdomCount);
 
-void VillageProduction(int k , int array[20][2]);
-
 void Villages(int k, int j, struct Village villages[], int* villageCount);
 
 void ForceClosed(int k, int j);
@@ -21,4 +19,15 @@ void Empty(int k, int j);
 
 void Road(int xq,int yq,int xv,int yv);
 
+void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5], void (*buttonActions[5])());
+
+void Attack();
+
+void Pass();
+
+void Trade();
+
+void Upgrade();
+
+void soldier();
 #endif

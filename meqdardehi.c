@@ -10,7 +10,7 @@
 extern int map[17][17];
 
 //receiving number of kingdoms and each one's location
-void Kingdoms(int k, int j , struct Kingdom kingdoms[], int* kingdomCount) {
+void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
     int KingdomNum;
     printf("Please enter the number of Kingdoms: ");
     scanf("%d", &KingdomNum);
@@ -27,10 +27,9 @@ void Kingdoms(int k, int j , struct Kingdom kingdoms[], int* kingdomCount) {
         printf("Please enter x, y for Kingdom %d: ", i + 1);
         scanf("%d %d", &x, &y);
 
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
-            printf("Invalid position. Try again.\n");
-            i--;
-        } else {
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) i--;
+
+        else {
             kingdoms[i].id = i + 1;
             kingdoms[i].x = x;
             kingdoms[i].y = y;
@@ -46,7 +45,7 @@ void Kingdoms(int k, int j , struct Kingdom kingdoms[], int* kingdomCount) {
     }
 }
 
-void Villages(int k, int j, struct Village villages[], int* villageCount) {
+void Villages(int k, int j, struct Village villages[], int *villageCount) {
     int VillageNum;
     printf("Please enter the number of Villages: ");
     scanf("%d", &VillageNum);
@@ -64,14 +63,12 @@ void Villages(int k, int j, struct Village villages[], int* villageCount) {
         scanf("%d %d", &x, &y);
 
         // Validate the position
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
-            printf("Invalid position. Try again.\n");
-            i--;
-        } else {
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) i--;
+        else {
             villages[i].VillageId = i + 1;
             villages[i].x = x;
             villages[i].y = y;
-            villages[i].ownerId = 0;
+            villages[i].ownerId = -1;
 
             printf("Please enter Gold production for Village %d: ", i + 1);
             scanf("%d", &villages[i].GoldProduction);
@@ -106,7 +103,6 @@ void ForceClosed(int k, int j) {
 
 
         if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
-            printf("Invalid position. Try again.\n");
             i--;
         } else {
             map[x][y] = 'x';
@@ -121,7 +117,7 @@ void Empty(int k, int i) {
             //making sure that the MAP[x][y] is empty
             if (map[r][j] != 'c' && map[r][j] != 'v' && map[r][j] != 'x') {
                 //setting difficulty
-                map[r][j] = GetRandomValue(1,9);
+                map[r][j] = GetRandomValue(1, 9);
             }
         }
     }
@@ -133,52 +129,85 @@ void Road(int xq, int yq, int xv, int yv) {
     while (x != xv || y != yv) {
         if (map[x][y] != 'c' && map[x][y] != 'x' && map[x][y] != 'v') map[x][y] = 'r';
 
-        if (y < yv && map[x][y + 1] != 'x' && map[x][y+1] != 'c') {
+        if (y < yv && map[x][y + 1] != 'x' && map[x][y + 1] != 'c') {
             y++;
-        }
-        else if (y > yv && map[x][y - 1] != 'x' && map[x][y - 1] != 'c') {
+        } else if (y > yv && map[x][y - 1] != 'x' && map[x][y - 1] != 'c') {
             y--;
-        }
-        else if (x < xv && map[x + 1][y] != 'x' && map[x + 1][y] != 'c') {
+        } else if (x < xv && map[x + 1][y] != 'x' && map[x + 1][y] != 'c') {
             x++;
-        }
-        else if (x > xv && map[x - 1][y] != 'x' && map[x - 1][y] != 'c') {
+        } else if (x > xv && map[x - 1][y] != 'x' && map[x - 1][y] != 'c') {
             x--;
 
-        }
-        else if ((y == yv && x > xv ) && (map[x - 1][y] == 'x'|| map [x- 1][y] == 'c')) {
+        } else if ((y == yv && x > xv) && (map[x - 1][y] == 'x' || map[x - 1][y] == 'c')) {
             y++;
             yv++;
-        }
-        else if ((y == yv && x < xv) && (map[x + 1][y] == 'x' || map[x + 1][y] == 'c')) {
+        } else if ((y == yv && x < xv) && (map[x + 1][y] == 'x' || map[x + 1][y] == 'c')) {
             y--;
             yv--;
-        }
-        else if ((x == xv && y < yv) &&( map [ y - 1][x] == 'x' || map[ y - 1][x] == 'c')){
+        } else if ((x == xv && y < yv) && (map[y - 1][x] == 'x' || map[y - 1][x] == 'c')) {
             x++;
             xv++;
-        }
-        else if ((x == xv && y > yv) &&( map [ y + 1][x] == 'x' || map[ y + 1][x] == 'c')){
+        } else if ((x == xv && y > yv) && (map[y + 1][x] == 'x' || map[y + 1][x] == 'c')) {
             x--;
             xv--;
-        }
-        else{
+        } else {
             break;
         }
     }
     if (endy > yv) {
         map[x][y] = 'r';
-    }
-    else if (endy < yv) {
+    } else if (endy < yv) {
         map[x][y] = 'r';
     }
-    if(endx > xv){
+    if (endx > xv) {
         map[x][y] = 'r';
-    }
-    else if( endx < xv){
+    } else if (endx < xv) {
         map[x][y] = 'r';
     }
 }
+void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5], void (*buttonActions[5])()) {
+    const int buttonWidth = 150;
+    const int buttonHeight = 50;
+    const int buttonSpacing = 20;
+    const int startX = (1350 - (5 * buttonWidth + 4 * buttonSpacing)) / 2;
+    const int startY = 350;
 
+    for (int i = 0; i < 5; i++) {
+        Rectangle buttonRect = {
+                startX , startY+ i * (buttonWidth + buttonSpacing), buttonWidth, buttonHeight};
 
+        // Check if the mouse is over the button
+        Vector2 mousePosition = GetMousePosition();
+        bool isHovered = CheckCollisionPointRec(mousePosition, buttonRect);
+        bool isClicked = isHovered && IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+
+        // Draw button
+        Color buttonColor = isHovered ? LIGHTGRAY : GRAY;
+        DrawRectangleRec(buttonRect, buttonColor);
+        DrawRectangleLinesEx(buttonRect, 2, BLACK);
+
+        // Draw button label
+        DrawText(buttonLabels[i], buttonRect.x + 10, buttonRect.y + 15, 20, BLACK);
+
+        // Execute action if clicked
+        if (isClicked && buttonActions[i] != NULL) {
+            buttonActions[i]();
+        }
+    }
+}
+void Attack(){
+    printf("Attack");
+}
+void Trade(){
+    printf("Trade");
+}
+void Upgrade(){
+    printf("Upgrade");
+}
+void Pass(){
+    printf("make road and pass");
+}
+void soldier(){
+    printf("Buy soldier");
+}
 
