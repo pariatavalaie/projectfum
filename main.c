@@ -55,7 +55,7 @@ int main() {
         float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; ++j) {
-                Rectangle cellrect={offsetX+j*68,offsetY+i*68,68,68
+                Rectangle cellrect = {offsetX + j * 68, offsetY + i * 68, 68, 68
                 };
                 if (map[i][j] == 'c') {
                     DrawTexture(Kingdom, offsetX + j * 68, offsetY + i * 68, WHITE);
@@ -68,18 +68,32 @@ int main() {
                     char text = map[i][j];
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
-                if(CheckCollisionPointRec(mouseposition,cellrect)){
+                if (CheckCollisionPointRec(mouseposition, cellrect)) {
                     char infotext[50];
-                    DrawRectangle(cellrect.x,cellrect.y,68,68,GRAY);
-                    if(map[i][j]=='v'){
-                    sprintf(infotext,"gold:%d\nfood:%d", vProduction[1][1],vProduction[1][2]);
-                    DrawText(infotext,cellrect.x,cellrect.y,10,BLACK);}
+                    DrawRectangle(cellrect.x, cellrect.y, 68, 68, GRAY);
+                    if (map[i][j] == 'v') {
+                        sprintf(infotext, "gold:%d\nfood:%d", vProduction[i][1], vProduction[i][2]);
+                        DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
+                    }
                 }
 
 
             }
-
         }
+        int showguide;
+        if(IsKeyPressed(KEY_SPACE)) showguide=!showguide;
+        if(!showguide){
+            DrawRectangle(0,0,300,300,BLUE);
+            DrawText("GAME GUIDE",50,20,20,BLACK);
+        }int xroad,yroad;
+        if(IsKeyPressed(KEY_ENTER)){
+             yroad=((mouseposition.x-offsetX)/68);
+         xroad=((mouseposition.y-offsetY))/68;}
+        int posx=offsetX+yroad*68;
+        int posy=offsetY+xroad*68;
+       DrawRectangle(posx,posy,68,68,RED);
+
+
 
 
 
