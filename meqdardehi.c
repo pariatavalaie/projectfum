@@ -80,11 +80,8 @@ void Villages(int k, int j, struct Village villages[], int* villageCount) {
             scanf("%d", &villages[i].FoodProduction);
 
             map[x][y] = 'v';
-            //each village gold and food productions
-            VillageProduction( i , vProduction);
+
         }
-            // if the input is not standard do the if loop again
-        else i--;
     }
 }
 
