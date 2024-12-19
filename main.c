@@ -59,6 +59,8 @@ int main() {
                 }
                 else if (map[i][j] == 'v') {
                     DrawTexture(Village, offsetX + j * 68, offsetY + i * 68, WHITE);
+                    xv=i;
+                    yv=j;
 
                 }
                 else if (map[i][j] == 'x') {
@@ -68,12 +70,22 @@ int main() {
                     char text = map[i][j];
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
-                if(CheckCollisionPointRec(mouseposition,cellrect)){
+                if (CheckCollisionPointRec(mouseposition, cellrect)) {
                     char infotext[50];
-                    DrawRectangle(cellrect.x,cellrect.y,68,68,GRAY);
-                    if(map[i][j]=='v'){
-                    sprintf(infotext,"gold:%d\nfood:%d", vProduction[1][1],vProduction[1][2]);
-                    DrawText(infotext,cellrect.x,cellrect.y,10,BLACK);}
+                    DrawRectangle(cellrect.x, cellrect.y, 68, 68, GRAY);
+
+                    if (map[i][j] == 'v') {
+                        // Find the village corresponding to this cell
+                        for (int v = 0; v < villageCount; v++) {
+                            if (villages[v].x == i && villages[v].y == j) { // Match coordinates
+                                sprintf(infotext, "gold: %d\nfood: %d",
+                                        villages[v].GoldProduction,
+                                        villages[v].FoodProduction);
+                                DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
+                                break;
+                            }
+                        }
+                    }
                 }
 
 
@@ -81,7 +93,7 @@ int main() {
 
         }
 
-        for (int k = 1; k <= kingdomCount; k++) {
+       for (int k = 1; k <= kingdomCount; k++) {
             int xq = kingdoms[k -1].x;
             int yq = kingdoms[k -1].y ;
             for (int i = 0; i < x; ++i) {
