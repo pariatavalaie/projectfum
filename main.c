@@ -7,7 +7,7 @@
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
 //defining map
 int map[17][17] = {0};
-int vProduction[20][2];
+int vProduction[20][2] = {0};
 const char *labels[5] = {"Attack", "Defend", "Trade", "Upgrade", "Pass"};
 void (*actions[5])() = {Attack, soldier, Trade, Upgrade, Pass};
 #include "raylib.h"
