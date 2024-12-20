@@ -4,19 +4,30 @@
 
 #ifndef UNTITLED4_MEQDARDEHI_H
 #define UNTITLED4_MEQDARDEHI_H
+#include "type.h"
 extern int map[17][17];
-extern int vProduction[20][2];
+struct Kingdom;
+struct Village;
 
-void Kingdom(int k, int j);
+void Kingdoms(int k, int j , struct Kingdom kingdoms[], int* kingdomCount);
 
-void VillageProduction(int k , int array[20][2]);
-
-void Village(int k, int j,int VillageNum);
+void Villages(int k, int j, struct Village villages[], int* villageCount);
 
 void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
 
-void road(int k,int f,int xq,int yq,int xv,int yv);
+void Road(int xq,int yq,int xv,int yv);
 
+void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5], void (*buttonActions[5])());
+
+void Attack();
+
+void Pass();
+
+void Trade();
+
+void Upgrade();
+
+void soldier();
 #endif
