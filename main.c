@@ -84,58 +84,58 @@ int main() {
                         DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
                     }
 
-                    if (map[i][j] == 'v') {
-                        for (int v = 0; v < villageCount; v++) {
-                            if (villages[v].x == i && villages[v].y == j) {
-                                sprintf(infotext, "gold: %d\nfood: %d",
-                                        villages[v].GoldProduction,
-                                        villages[v].FoodProduction);
-                                DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
-                                break;
-                            }
+                if (map[i][j] == 'v') {
+                    for (int v = 0; v < villageCount; v++) {
+                        if (villages[v].x == i && villages[v].y == j) {
+                            sprintf(infotext, "gold: %d\nfood: %d",
+                                    villages[v].GoldProduction,
+                                    villages[v].FoodProduction);
+                            DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
+                            break;
                         }
-                    } else if (map[i][j] == 'c') {
-                        for (int c = 0; c < kingdomCount; c++) {
-                            if (kingdoms[c].x == i && kingdoms[c].y == j) {
-                                sprintf(infotext, "Coins: %d\nServes:%d\nGold:%d\nFood:%d\nWorkers:%d\nSoldier:%d",
-                                        kingdoms[c].Gold,
-                                        kingdoms[c].Serve,
-                                        kingdoms[c].GoldProduction,
-                                        kingdoms[c].FoodProduction,
-                                        kingdoms[c].WorkersCount,
-                                        kingdoms[c].soldierCount
-                                );
-                                DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
-                                break;
-                            }
+                    }
+                } else if (map[i][j] == 'c') {
+                    for (int c = 0; c < kingdomCount; c++) {
+                        if (kingdoms[c].x == i && kingdoms[c].y == j) {
+                            sprintf(infotext, "Coins: %d\nServes:%d\nGold:%d\nFood:%d\nWorkers:%d\nSoldier:%d",
+                                    kingdoms[c].Gold,
+                                    kingdoms[c].Serve,
+                                    kingdoms[c].GoldProduction,
+                                    kingdoms[c].FoodProduction,
+                                    kingdoms[c].WorkersCount,
+                                    kingdoms[c].soldierCount
+                            );
+                            DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
+                            break;
                         }
                     }
                 }
+            }
 
+        }
+    }
+
+   /* for (int k = 1; k <= kingdomCount; k++) {
+        int xq = kingdoms[k - 1].x;
+        int yq = kingdoms[k - 1].y;
+        for (int i = 0; i < x; ++i) {
+            for (int j = 0; j < y; ++j) {
+                if (map[i][j] == 'v') {
+                    // Generate the road from (xq, yq) to the village (i, j)
+                    SuggestedRoad(xq, yq, i, j);
+                }
             }
         }
+    }
 
-        /* for (int k = 1; k <= kingdomCount; k++) {
-             int xq = kingdoms[k - 1].x;
-             int yq = kingdoms[k - 1].y;
-             for (int i = 0; i < x; ++i) {
-                 for (int j = 0; j < y; ++j) {
-                     if (map[i][j] == 'v') {
-                         // Generate the road from (xq, yq) to the village (i, j)
-                         SuggestedRoad(xq, yq, i, j);
-                     }
-                 }
-             }
-         }
-
-     // Next, draw the entire map, marking all paths ('r') in WHITE
-         for (int i = 0; i < x; ++i) {
-             for (int j = 0; j < y; ++j) {
-                 if (map[i][j] == 'r') {
-                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, WHITE);
-                 }
-             }
-         }*/
+// Next, draw the entire map, marking all paths ('r') in WHITE
+    for (int i = 0; i < x; ++i) {
+        for (int j = 0; j < y; ++j) {
+            if (map[i][j] == 'r') {
+                DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, WHITE);
+            }
+        }
+    }*/
 
 
 
@@ -171,8 +171,8 @@ int main() {
 
 
 
-        EndDrawing();
-    }
+    EndDrawing();
+}
     CloseWindow();
-    return 0;
+return 0;
 }

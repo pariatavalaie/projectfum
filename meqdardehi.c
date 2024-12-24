@@ -165,8 +165,8 @@ void workers(){
     }
 }
 void Upgrade( Kingdom * kingdoms, int count){
-    kingdoms[count].Gold += kingdoms[count].GoldProduction;
-    kingdoms[count].Serve += kingdoms[count].FoodProduction;
+  kingdoms[count].Gold += kingdoms[count].GoldProduction;
+  kingdoms[count].Serve += kingdoms[count].FoodProduction;
 }
 void Food(){
     if(kingdoms[currentkingdom].Gold >= 1){
