@@ -36,9 +36,9 @@ void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
             kingdoms[i].WorkersCount = 1;
             kingdoms[i].soldierCount = 1;
             kingdoms[i].GoldProduction = 1;
-            kingdoms[i].FoodProduction = 1;
-            kingdoms[i].Food = 1;
-            kingdoms[i].Gold = 1;
+            kingdoms[i].FoodProduction = 0;
+            kingdoms[i].Serve = 0;
+            kingdoms[i].Gold = 0;
 
             map[x][y] = 'c';
         }
@@ -123,48 +123,7 @@ void Empty(int k, int i) {
     }
 }
 
-void Road(int xq, int yq, int xv, int yv) {
-    int x = xq, y = yq;
-    int endy = yv, endx = xv;
-    while (x != xv || y != yv) {
-        if (map[x][y] != 'c' && map[x][y] != 'x' && map[x][y] != 'v') map[x][y] = 'r';
 
-        if (y < yv && map[x][y + 1] != 'x' && map[x][y + 1] != 'c') {
-            y++;
-        } else if (y > yv && map[x][y - 1] != 'x' && map[x][y - 1] != 'c') {
-            y--;
-        } else if (x < xv && map[x + 1][y] != 'x' && map[x + 1][y] != 'c') {
-            x++;
-        } else if (x > xv && map[x - 1][y] != 'x' && map[x - 1][y] != 'c') {
-            x--;
-
-        } else if ((y == yv && x > xv) && (map[x - 1][y] == 'x' || map[x - 1][y] == 'c')) {
-            y++;
-            yv++;
-        } else if ((y == yv && x < xv) && (map[x + 1][y] == 'x' || map[x + 1][y] == 'c')) {
-            y--;
-            yv--;
-        } else if ((x == xv && y < yv) && (map[y - 1][x] == 'x' || map[y - 1][x] == 'c')) {
-            x++;
-            xv++;
-        } else if ((x == xv && y > yv) && (map[y + 1][x] == 'x' || map[y + 1][x] == 'c')) {
-            x--;
-            xv--;
-        } else {
-            break;
-        }
-    }
-    if (endy > yv) {
-        map[x][y] = 'r';
-    } else if (endy < yv) {
-        map[x][y] = 'r';
-    }
-    if (endx > xv) {
-        map[x][y] = 'r';
-    } else if (endx < xv) {
-        map[x][y] = 'r';
-    }
-}
 void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5], void (*buttonActions[5])()) {
     const int buttonWidth = 150;
     const int buttonHeight = 50;
@@ -198,16 +157,31 @@ void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5],
 void Attack(){
     printf("Attack");
 }
-void Trade(){
-    printf("Trade");
+void workers(){
+    if(kingdoms[currentkingdom].Serve >= 3) {
+        kingdoms[currentkingdom].WorkersCount++;
+        kingdoms[currentkingdom].Serve -=3;
+        DrawText("Increased Kingdom's Workers Count!", 10, 40, 20, GREEN);
+    }
 }
-void Upgrade(){
-    printf("Upgrade");
+void Upgrade( Kingdom * kingdoms, int count){
+    kingdoms[count].Gold += kingdoms[count].GoldProduction;
+    kingdoms[count].Serve += kingdoms[count].FoodProduction;
 }
-void Pass(){
-    printf("make road and pass");
+void Food(){
+    if(kingdoms[currentkingdom].Gold >= 1){
+        kingdoms[currentkingdom].Serve ++;
+        kingdoms[currentkingdom].Gold --;
+    }
 }
 void soldier(){
-    printf("Buy soldier");
+    if(kingdoms[currentkingdom] .Gold >= 2) {
+        kingdoms[currentkingdom].soldierCount++;
+        kingdoms[currentkingdom] .Gold -= 2;
+        DrawText("Increased Kingdom's Soldier Count!", 10, 40, 20, GREEN);
+    }
 }
 
+void Road(){
+    printf("Road");
+}

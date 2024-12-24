@@ -5,7 +5,7 @@
 #ifndef UNTITLED10_TYPE_H
 #define UNTITLED10_TYPE_H
 //Kingdom structure
- typedef struct Kingdom {
+typedef struct Kingdom {
     int id;
     int x;
     int y;
@@ -13,7 +13,7 @@
     int soldierCount;
     int GoldProduction;
     int FoodProduction;
-    int Food;
+    int Serve;
     int Gold;
 }Kingdom;
 
@@ -28,4 +28,3 @@ typedef struct Village {
 }Village;
 
 #endif //UNTITLED10_TYPE_H
-

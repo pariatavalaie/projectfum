@@ -9,16 +9,17 @@
 int map[17][17] = {0};
 int vProduction[20][2] = {0};
 const char *labels[5] = {"Attack", "Defend", "Trade", "Upgrade", "Pass"};
-void (*actions[5])() = {Attack, soldier, Trade, Upgrade, Pass};
-#include "raylib.h"
+void (*actions[5])() = {Attack, soldier, workers, Upgrade, Road};
+int currentkingdom = 0;
 
+Kingdom kingdoms[4];
 
 
 int main() {
 
     //receiving map Height and Width
     int x, y;
-    Kingdom kingdoms[4];
+
     Village villages[20];
     int kingdomCount = 0;
     int villageCount = 0;
@@ -49,7 +50,7 @@ int main() {
     SetTargetFPS(60);
 
     // drawing Map
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && currentkingdom != -1) {
         Vector2 mouseposition = GetMousePosition();
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -83,62 +84,95 @@ int main() {
                         DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
                     }
 
-                if (map[i][j] == 'v') {
-                    for (int v = 0; v < villageCount; v++) {
-                        if (villages[v].x == i && villages[v].y == j) {
-                            sprintf(infotext, "gold: %d\nfood: %d",
-                                    villages[v].GoldProduction,
-                                    villages[v].FoodProduction);
-                            DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
-                            break;
+                    if (map[i][j] == 'v') {
+                        for (int v = 0; v < villageCount; v++) {
+                            if (villages[v].x == i && villages[v].y == j) {
+                                sprintf(infotext, "gold: %d\nfood: %d",
+                                        villages[v].GoldProduction,
+                                        villages[v].FoodProduction);
+                                DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
+                                break;
+                            }
                         }
-                    }
-                } else if (map[i][j] == 'c') {
-                    for (int c = 0; c < kingdomCount; c++) {
-                        if (kingdoms[c].x == i && kingdoms[c].y == j) {
-                            sprintf(infotext, "Coins: %d\nServes:%d\nGold:%d\nFood:%d\nWorkers:%d\nSoldier:%d",
-                                    kingdoms[c].Gold,
-                                    kingdoms[c].Food,
-                                    kingdoms[c].GoldProduction,
-                                    kingdoms[c].FoodProduction,
-                                    kingdoms[c].WorkersCount,
-                                    kingdoms[c].soldierCount
-                            );
-                            DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
-                            break;
+                    } else if (map[i][j] == 'c') {
+                        for (int c = 0; c < kingdomCount; c++) {
+                            if (kingdoms[c].x == i && kingdoms[c].y == j) {
+                                sprintf(infotext, "Coins: %d\nServes:%d\nGold:%d\nFood:%d\nWorkers:%d\nSoldier:%d",
+                                        kingdoms[c].Gold,
+                                        kingdoms[c].Serve,
+                                        kingdoms[c].GoldProduction,
+                                        kingdoms[c].FoodProduction,
+                                        kingdoms[c].WorkersCount,
+                                        kingdoms[c].soldierCount
+                                );
+                                DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-        }
-    }
-
-    for (int k = 1; k <= kingdomCount; k++) {
-        int xq = kingdoms[k - 1].x;
-        int yq = kingdoms[k - 1].y;
-        for (int i = 0; i < x; ++i) {
-            for (int j = 0; j < y; ++j) {
-                if (map[i][j] == 'v') {
-                    // Generate the road from (xq, yq) to the village (i, j)
-                    Road(xq, yq, i, j);
-                }
             }
         }
-    }
 
-// Next, draw the entire map, marking all paths ('r') in WHITE
-    for (int i = 0; i < x; ++i) {
-        for (int j = 0; j < y; ++j) {
-            if (map[i][j] == 'r') {
-                DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, WHITE);
-            }
+        /* for (int k = 1; k <= kingdomCount; k++) {
+             int xq = kingdoms[k - 1].x;
+             int yq = kingdoms[k - 1].y;
+             for (int i = 0; i < x; ++i) {
+                 for (int j = 0; j < y; ++j) {
+                     if (map[i][j] == 'v') {
+                         // Generate the road from (xq, yq) to the village (i, j)
+                         SuggestedRoad(xq, yq, i, j);
+                     }
+                 }
+             }
+         }
+
+     // Next, draw the entire map, marking all paths ('r') in WHITE
+         for (int i = 0; i < x; ++i) {
+             for (int j = 0; j < y; ++j) {
+                 if (map[i][j] == 'r') {
+                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, WHITE);
+                 }
+             }
+         }*/
+
+
+
+
+        if (IsKeyPressed(KEY_ONE)) {
+            Upgrade(kingdoms, currentkingdom);
+            soldier();
+            currentkingdom++;
+
+        } else if (IsKeyPressed(KEY_TWO)) {
+            Upgrade( kingdoms, currentkingdom);
+            workers();
+            currentkingdom++;
         }
-    }
-    DrawButtons(1190, 1190, labels, actions);
+        else if(IsKeyPressed(KEY_THREE)){
+            Upgrade( kingdoms, currentkingdom);
+            Food();
+            currentkingdom++;
+        }
+        else if(IsKeyPressed(KEY_FOUR)){
+            Upgrade( kingdoms, currentkingdom);
+            currentkingdom++;
+        }
+        else if(IsKeyPressed(KEY_FIVE)){
+            Upgrade( kingdoms, currentkingdom);
+            currentkingdom++;
+        }
 
-    EndDrawing();
-}
-CloseWindow();
-return 0;
+        if (currentkingdom > kingdomCount) {
+            currentkingdom = 0; // Loop back to the first kingdom
+        }
+
+
+
+
+        EndDrawing();
+    }
+    CloseWindow();
+    return 0;
 }
