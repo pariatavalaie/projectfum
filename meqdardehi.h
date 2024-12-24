@@ -6,6 +6,8 @@
 #define UNTITLED4_MEQDARDEHI_H
 #include "type.h"
 extern int map[17][17];
+extern Kingdom kingdoms[4];
+extern int currentkingdom;
 struct Kingdom;
 struct Village;
 
@@ -17,17 +19,18 @@ void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
 
-void Road(int xq,int yq,int xv,int yv);
+void SuggestedRoad(int xq,int yq,int xv,int yv);
 
 void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5], void (*buttonActions[5])());
 
 void Attack();
 
-void Pass();
+void Food();
 
-void Trade();
+void workers();
 
-void Upgrade();
+void Upgrade(Kingdom kingdoms[],int count);
 
 void soldier();
+void Road();
 #endif

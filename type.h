@@ -13,7 +13,7 @@
     int soldierCount;
     int GoldProduction;
     int FoodProduction;
-    int Food;
+    int Serve;
     int Gold;
 }Kingdom;
 
