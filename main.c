@@ -49,7 +49,7 @@ int main() {
     SetTargetFPS(60);
 
     // drawing Map
-    while (!WindowShouldClose() && currentkingdom != -1) {
+    while (!WindowShouldClose() && kingdoms[currentkingdom].villagenumber!=villageCount) {
         Vector2 mouseposition = GetMousePosition();
         BeginDrawing();
         ClearBackground(RAYWHITE);

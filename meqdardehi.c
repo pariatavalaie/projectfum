@@ -183,6 +183,7 @@ void soldier(){
 }
 
 void Road(int xroad,int yroad,int villagecount){
+    takeV(villagecount);
     if(map[xroad][yroad]!='c'&&map[xroad][yroad]!='x'&&map[xroad][yroad]!='v'){
         if(xroad==kingdoms[currentkingdom].x){
           if(yroad==kingdoms[currentkingdom].y-1||yroad==kingdoms[currentkingdom].y+1)
@@ -196,15 +197,15 @@ void Road(int xroad,int yroad,int villagecount){
             map[xroad][yroad]=-currentkingdom;
         for (int i = 0; i < villagecount ; ++i) {
             if(villages[i].ownerId==currentkingdom){
-              if(xroad==villages[i].x)
+              if(xroad==villages[i].x){
                 if(yroad==villages[i].y+1||yroad==villages[i].y-1)
-                    map[xroad][yroad]=-currentkingdom;
-              if(yroad==villages[i].y)
-                  if(xroad==villages[i].x-1||yroad==villages[i].x+1)
-                      map[xroad][yroad]=-currentkingdom;
+                    map[xroad][yroad]=-currentkingdom;}
+              if(yroad==villages[i].y){
+                  if(xroad==villages[i].x-1||xroad==villages[i].x+1)
+                      map[xroad][yroad]=-currentkingdom;}
         }}
     }
-    takeV(villagecount);}
+   }
 
 
 void takeV(int villagecount){
@@ -215,5 +216,7 @@ void takeV(int villagecount){
      if(map[i][j-1]==-currentkingdom||map[i][j+1]==-currentkingdom||map[i-1][j]==-currentkingdom||map[i+1][j]==-currentkingdom){
         villages[k].ownerId=currentkingdom;
         kingdoms[currentkingdom].villagenumber++;
+        kingdoms[currentkingdom].FoodProduction+=villages[k].FoodProduction;
+        kingdoms[currentkingdom].GoldProduction+=villages[k].GoldProduction;
      }
 }}
