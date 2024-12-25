@@ -154,6 +154,7 @@ void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5],
         }
     }
 }
+
 void Attack(){
     printf("Attack");
 }

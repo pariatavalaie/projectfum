@@ -7,7 +7,6 @@
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
 //defining map
 int map[17][17] = {0};
-int vProduction[20][2] = {0};
 const char *labels[5] = {"Attack", "Defend", "Trade", "Upgrade", "Pass"};
 void (*actions[5])() = {Attack, soldier, workers, Upgrade, Road};
 int currentkingdom = 0;
@@ -45,7 +44,6 @@ int main() {
     Texture2D Kingdom = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/kingdom.png");
     Texture2D Village = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/1.png");
     Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/Water_ruins2.png");
-
     // Set the target frame rate to 60 frames per second for smooth rendering
     SetTargetFPS(60);
 
@@ -55,6 +53,7 @@ int main() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
+
         grid(x, y);
         float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
         float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
@@ -78,11 +77,6 @@ int main() {
                 if (CheckCollisionPointRec(mouseposition, cellrect)) {
                     char infotext[50];
                     DrawRectangle(cellrect.x, cellrect.y, 68, 68, GRAY);
-
-                    if (map[i][j] == 'v') {
-                        sprintf(infotext, "gold:%d\nfood:%d", vProduction[i][1], vProduction[i][2]);
-                        DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
-                    }
 
                 if (map[i][j] == 'v') {
                     for (int v = 0; v < villageCount; v++) {
@@ -167,8 +161,6 @@ int main() {
         if (currentkingdom > kingdomCount) {
             currentkingdom = 0; // Loop back to the first kingdom
         }
-
-
 
 
     EndDrawing();
