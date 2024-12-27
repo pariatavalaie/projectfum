@@ -26,6 +26,7 @@ void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
         int x, y;
         printf("Please enter x, y for Kingdom %d: ", i + 1);
         scanf("%d %d", &x, &y);
+        if(i==0)
 
         if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) i--;
 

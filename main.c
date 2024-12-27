@@ -52,7 +52,7 @@ int main() {
 
     // drawing Map
 
-    while (!WindowShouldClose() ) {
+    while (!WindowShouldClose()&&!gameOver ) {
 
         Vector2 mouseposition = GetMousePosition();
 
