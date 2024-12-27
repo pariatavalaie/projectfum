@@ -22,17 +22,4 @@ void Empty(int k, int j);
 
 void SuggestedRoad(int xq,int yq,int xv,int yv);
 
-void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5], void (*buttonActions[5])());
-
-void Attack();
-
-void Food();
-
-void workers();
-
-void Upgrade(Kingdom kingdoms[],int count);
-
-void soldier();
-void Road(int xroad,int yroad,int villagecount);
-void takeV(int villagecount);
 #endif

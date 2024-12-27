@@ -133,7 +133,7 @@ void DrawButtons(int screenWidth, int screenHeight, const char *buttonLabels[5],
 
     for (int i = 0; i < 5; i++) {
         Rectangle buttonRect = {
-                startX , startY+ i * (buttonWidth + buttonSpacing), buttonWidth, buttonHeight};
+                startX, startY + i * (buttonWidth + buttonSpacing), buttonWidth, buttonHeight};
 
         // Check if the mouse is over the button
         Vector2 mousePosition = GetMousePosition();
@@ -220,3 +220,4 @@ void takeV(int villagecount){
         kingdoms[currentkingdom].GoldProduction+=villages[k].GoldProduction;
      }}
 }}
+
