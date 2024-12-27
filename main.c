@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include "raylib.h"
-#include "raymath.h"
 #include "meqdardehi.h"
 #include "GRID2.h"
 #include "gameUpdate.h"
-#include <unistd.h>
+
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
 //defining map
 int map[17][17] = {0};
@@ -126,7 +125,7 @@ int main() {
 
         }
     }
-        DrawText(TextFormat("TURN:%d",currentkingdom),1,500,50,RED);
+        DrawText(TextFormat("TURN KINGDOM %d",currentkingdom+1),1,500,50,RED);
         int showguide;
         if(IsKeyPressed(KEY_ENTER)){
             showguide=!showguide;
@@ -135,17 +134,16 @@ int main() {
 
 
         if (IsKeyPressed(KEY_ONE)) {
-            Upgrade(kingdoms, currentkingdom);
+
             soldier();
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_TWO)) {
-            Upgrade(kingdoms, currentkingdom);
+
             workers();
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_THREE)) {
-            Upgrade(kingdoms, currentkingdom);
             Food();
             currentkingdom++;
         }
@@ -154,13 +152,12 @@ int main() {
             int xroad,yroad;
             yroad=((mouseposition.x-offsetX)/68);
             xroad=((mouseposition.y-offsetY))/68;
-            Upgrade( kingdoms, currentkingdom);
             Road(xroad,yroad,villageCount);
             takeV(villageCount);
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){
-            Upgrade(kingdoms, currentkingdom);
+            Upgrade();
             currentkingdom++;
         }
         if (currentkingdom >= kingdomCount) {

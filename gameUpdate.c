@@ -5,24 +5,26 @@
 #include "GRID2.h"
 #include "meqdardehi.h"
 #include "type.h"
-
+#include "gameUpdate.h"
 
 void workers() {
     if (kingdoms[currentkingdom].Serve >= 3) {
         kingdoms[currentkingdom].WorkersCount++;
         kingdoms[currentkingdom].Serve -= 3;
+        Upgrade();
     }else currentkingdom--;
 }
 
-void Upgrade(Kingdom *kingdoms, int count) {
-    kingdoms[count].Gold += kingdoms[count].GoldProduction;
-    kingdoms[count].Serve += kingdoms[count].FoodProduction;
+void Upgrade() {
+    kingdoms[currentkingdom].Gold+=kingdoms[currentkingdom].GoldProduction;
+    kingdoms[currentkingdom].Serve+=kingdoms[currentkingdom].FoodProduction;
 }
 
 void Food() {
     if (kingdoms[currentkingdom].Gold >= 1) {
         kingdoms[currentkingdom].Serve++;
         kingdoms[currentkingdom].Gold--;
+        Upgrade();
     }else currentkingdom--;
 }
 
@@ -30,6 +32,7 @@ void soldier() {
     if (kingdoms[currentkingdom].Gold >= 2) {
         kingdoms[currentkingdom].soldierCount++;
         kingdoms[currentkingdom].Gold -= 2;
+        Upgrade();
     }else currentkingdom--;
 }
 void CheckCell(int xroad , int yroad){
@@ -62,13 +65,15 @@ void Road(int xroad,int yroad,int villagecount){
 
     if(map[xroad][yroad]!='c'&&map[xroad][yroad]!='x'&&map[xroad][yroad]!='v'){
         if(xroad==kingdoms[currentkingdom].x) {
-            if (yroad == kingdoms[currentkingdom].y - 1 || yroad == kingdoms[currentkingdom].y + 1)
+            if (yroad == kingdoms[currentkingdom].y - 1 || yroad == kingdoms[currentkingdom].y + 1){
                 CheckCell(xroad, yroad);
+                 Upgrade();}
         }
 
         if(yroad==kingdoms[currentkingdom].y){
-            if(xroad==kingdoms[currentkingdom].x-1||xroad==kingdoms[currentkingdom].x+1)
+            if(xroad==kingdoms[currentkingdom].x-1||xroad==kingdoms[currentkingdom].x+1){
                 CheckCell(xroad,yroad);
+             Upgrade();}
         }
         if(map[xroad][yroad+1]==-currentkingdom||map[xroad][yroad-1]==-currentkingdom||map[xroad+1][yroad]==-currentkingdom||map[xroad-1][yroad]==-currentkingdom)
             CheckCell(xroad,yroad);
@@ -77,17 +82,19 @@ void Road(int xroad,int yroad,int villagecount){
                 if(xroad==villages[i].x) {
                     if (yroad == villages[i].y + 1 || yroad == villages[i].y - 1) {
                         CheckCell(xroad, yroad);
+                        Upgrade();
                     }
                 }
                 if(yroad==villages[i].y){
                     if(xroad==villages[i].x-1||xroad==villages[i].x+1){
                         CheckCell(xroad,yroad);
+                        Upgrade();
                     }
                 }
             }
         }
     }
-    else if(map[xroad][yroad]==difficulty) currentkingdom--;
+    if(map[xroad][yroad]==difficulty) currentkingdom--;
 }
 
 

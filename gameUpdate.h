@@ -13,7 +13,7 @@ void Food();
 
 void workers();
 
-void Upgrade(Kingdom kingdoms[],int count);
+void Upgrade();
 
 void soldier();
 
