@@ -6,6 +6,7 @@
 #include "meqdardehi.h"
 #include "type.h"
 #include "gameUpdate.h"
+extern int x,y;
 
 void workers() {
     if (kingdoms[currentkingdom].Serve >= 3) {
@@ -51,13 +52,20 @@ void takeV(int villagecount) {
         int i = villages[k].x;
         int j = villages[k].y;
         if (villages[k].ownerId < 0)
-            if (map[i][j - 1] == -currentkingdom || map[i][j + 1] == -currentkingdom ||
+            if(i==0&&j==0) {if (map[i][j + 1] == -currentkingdom ||map[i + 1][j] == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }}
+            else if (map[i][j - 1] == -currentkingdom || map[i][j + 1] == -currentkingdom ||
                 map[i - 1][j] == -currentkingdom || map[i + 1][j] == -currentkingdom) {
                 villages[k].ownerId = currentkingdom;
                 kingdoms[currentkingdom].villagenumber++;
                 kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
                 kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
             }
+
     }
 }
 void Road(int xroad,int yroad,int villagecount){
@@ -68,6 +76,18 @@ void Road(int xroad,int yroad,int villagecount){
             if (yroad == kingdoms[currentkingdom].y - 1 || yroad == kingdoms[currentkingdom].y + 1){
                 CheckCell(xroad, yroad);
                  Upgrade();}
+        }
+        if(xroad==kingdoms[currentkingdom].x-1){
+            if(yroad==kingdoms[currentkingdom].x-1||yroad==kingdoms[currentkingdom].y+1){
+                CheckCell(xroad, yroad);
+                Upgrade();
+            }
+        }
+        if(xroad==kingdoms[currentkingdom].x+1){
+            if(yroad==kingdoms[currentkingdom].x-1||yroad==kingdoms[currentkingdom].y+1){
+                CheckCell(xroad, yroad);
+                Upgrade();
+            }
         }
 
         if(yroad==kingdoms[currentkingdom].y){
