@@ -162,7 +162,7 @@ void workers(){
         kingdoms[currentkingdom].WorkersCount++;
         kingdoms[currentkingdom].Serve -=3;
         DrawText("Increased Kingdom's Workers Count!", 10, 40, 20, GREEN);
-    }
+    }else currentkingdom--;
 }
 void Upgrade( Kingdom * kingdoms, int count){
   kingdoms[count].Gold += kingdoms[count].GoldProduction;
@@ -172,18 +172,18 @@ void Food(){
     if(kingdoms[currentkingdom].Gold >= 1){
         kingdoms[currentkingdom].Serve ++;
         kingdoms[currentkingdom].Gold --;
-    }
+    }else currentkingdom--;
 }
 void soldier(){
     if(kingdoms[currentkingdom] .Gold >= 2) {
         kingdoms[currentkingdom].soldierCount++;
         kingdoms[currentkingdom] .Gold -= 2;
         DrawText("Increased Kingdom's Soldier Count!", 10, 40, 20, GREEN);
-    }
+    }else currentkingdom--;
 }
 
 void Road(int xroad,int yroad,int villagecount){
-    takeV(villagecount);
+
     if(map[xroad][yroad]!='c'&&map[xroad][yroad]!='x'&&map[xroad][yroad]!='v'){
         if(xroad==kingdoms[currentkingdom].x){
           if(yroad==kingdoms[currentkingdom].y-1||yroad==kingdoms[currentkingdom].y+1)
@@ -204,7 +204,7 @@ void Road(int xroad,int yroad,int villagecount){
                   if(xroad==villages[i].x-1||xroad==villages[i].x+1)
                       map[xroad][yroad]=-currentkingdom;}
         }}
-    }
+    }if(map[xroad][yroad]!=-currentkingdom) currentkingdom--;
    }
 
 
@@ -212,11 +212,11 @@ void takeV(int villagecount){
     for(int k=0;k<villagecount;k++){
     int i=villages[k].x;
     int j=villages[k].y;
-    if(villages[k].ownerId<0)
+    if(villages[k].ownerId<0){
      if(map[i][j-1]==-currentkingdom||map[i][j+1]==-currentkingdom||map[i-1][j]==-currentkingdom||map[i+1][j]==-currentkingdom){
         villages[k].ownerId=currentkingdom;
         kingdoms[currentkingdom].villagenumber++;
         kingdoms[currentkingdom].FoodProduction+=villages[k].FoodProduction;
         kingdoms[currentkingdom].GoldProduction+=villages[k].GoldProduction;
-     }
+     }}
 }}

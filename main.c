@@ -49,10 +49,11 @@ int main() {
     SetTargetFPS(60);
 
     // drawing Map
-    while (!WindowShouldClose() && kingdoms[currentkingdom].villagenumber!=villageCount) {
+    while (!WindowShouldClose()&&kingdoms[currentkingdom].villagenumber!=villageCount) {
         Vector2 mouseposition = GetMousePosition();
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
         float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
@@ -115,6 +116,7 @@ int main() {
 
         }
     }
+        DrawText(TextFormat("TURN:%d",currentkingdom),1,500,50,RED);
         int showguide;
         if(IsKeyPressed(KEY_ENTER)){
              showguide=!showguide;
@@ -167,6 +169,7 @@ int main() {
             xroad=((mouseposition.y-offsetY))/68;
             Upgrade( kingdoms, currentkingdom);
             Road(xroad,yroad,villageCount);
+            takeV(villageCount);
             currentkingdom++;
         }
         else if(IsKeyPressed(KEY_FIVE)){
