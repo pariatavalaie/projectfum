@@ -7,19 +7,19 @@
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
 //defining map
 int map[17][17] = {0};
+int vProduction[20][2] = {0};
 const char *labels[5] = {"Attack", "Defend", "Trade", "Upgrade", "Pass"};
 void (*actions[5])() = {Attack, soldier, workers, Upgrade, Road};
 int currentkingdom = 0;
 
 Kingdom kingdoms[4];
-
+Village villages[20];
 
 int main() {
 
     //receiving map Height and Width
     int x, y;
 
-    Village villages[20];
     int kingdomCount = 0;
     int villageCount = 0;
     printf("please enter Height and Width:");
@@ -44,16 +44,16 @@ int main() {
     Texture2D Kingdom = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/kingdom.png");
     Texture2D Village = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/1.png");
     Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/Water_ruins2.png");
+    Texture2D guide= LoadTexture("C:/Users/ASUS/CLionProjects/projectfum/1000020318-new.jpg.png");
     // Set the target frame rate to 60 frames per second for smooth rendering
     SetTargetFPS(60);
 
     // drawing Map
-    while (!WindowShouldClose() && currentkingdom != -1) {
+    while (!WindowShouldClose() && kingdoms[currentkingdom].villagenumber!=villageCount) {
         Vector2 mouseposition = GetMousePosition();
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
-
         grid(x, y);
         float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
         float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
@@ -62,28 +62,36 @@ int main() {
                 Rectangle cellrect = {offsetX + j * 68, offsetY + i * 68, 68, 68
                 };
                 if (map[i][j] == 'c') {
+
                     DrawTexture(Kingdom, offsetX + j * 68, offsetY + i * 68, WHITE);
+
                 } else if (map[i][j] == 'v') {
                     DrawTexture(Village, offsetX + j * 68, offsetY + i * 68, WHITE);
-                    int xv = i;
-                    int yv = j;
 
                 } else if (map[i][j] == 'x') {
                     DrawTexture(ForceClosed, offsetX + j * 68, offsetY + i * 68, WHITE);
-                } else {
+                } else if(map[i][j]==0){
+                    DrawRectangle( offsetX + j * 68, offsetY + i * 68,68,68,RED);
+                }else if(map[i][j]==-1){
+                    DrawRectangle(offsetX + j * 68, offsetY + i * 68,68,68,WHITE);
+                }else if(map[i][j]==-2){
+                    DrawRectangle(offsetX + j * 68, offsetY + i * 68,68,68,GREEN);
+                }else if(map[i][j]==-3) {
+                    DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
+                }else {
                     char text = map[i][j];
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
                 if (CheckCollisionPointRec(mouseposition, cellrect)) {
                     char infotext[50];
                     DrawRectangle(cellrect.x, cellrect.y, 68, 68, GRAY);
-
                 if (map[i][j] == 'v') {
                     for (int v = 0; v < villageCount; v++) {
                         if (villages[v].x == i && villages[v].y == j) {
-                            sprintf(infotext, "gold: %d\nfood: %d",
+                            sprintf(infotext, "gold: %d\nfood: %d\nowner: %d",
                                     villages[v].GoldProduction,
-                                    villages[v].FoodProduction);
+                                    villages[v].FoodProduction,
+                                    villages[v].ownerId);
                             DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
                             break;
                         }
@@ -97,8 +105,7 @@ int main() {
                                     kingdoms[c].GoldProduction,
                                     kingdoms[c].FoodProduction,
                                     kingdoms[c].WorkersCount,
-                                    kingdoms[c].soldierCount
-                            );
+                                    kingdoms[c].soldierCount);
                             DrawText(infotext, cellrect.x, cellrect.y, 10, BLACK);
                             break;
                         }
@@ -108,6 +115,11 @@ int main() {
 
         }
     }
+        int showguide;
+        if(IsKeyPressed(KEY_ENTER)){
+             showguide=!showguide;
+        }
+        if(!showguide) DrawTexture(guide,500,0,WHITE);
 
    /* for (int k = 1; k <= kingdomCount; k++) {
         int xq = kingdoms[k - 1].x;
@@ -150,7 +162,11 @@ int main() {
             currentkingdom++;
         }
         else if(IsKeyPressed(KEY_FOUR)){
+            int xroad,yroad;
+            yroad=((mouseposition.x-offsetX)/68);
+            xroad=((mouseposition.y-offsetY))/68;
             Upgrade( kingdoms, currentkingdom);
+            Road(xroad,yroad,villageCount);
             currentkingdom++;
         }
         else if(IsKeyPressed(KEY_FIVE)){
@@ -158,9 +174,11 @@ int main() {
             currentkingdom++;
         }
 
-        if (currentkingdom > kingdomCount) {
+        if (currentkingdom >= kingdomCount) {
             currentkingdom = 0; // Loop back to the first kingdom
         }
+
+
 
 
     EndDrawing();

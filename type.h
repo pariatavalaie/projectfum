@@ -15,6 +15,7 @@ typedef struct Kingdom {
     int FoodProduction;
     int Serve;
     int Gold;
+    int villagenumber;
 }Kingdom;
 
 // Village structure

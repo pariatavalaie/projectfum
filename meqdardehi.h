@@ -7,6 +7,7 @@
 #include "type.h"
 extern int map[17][17];
 extern Kingdom kingdoms[4];
+extern Village villages[20];
 extern int currentkingdom;
 struct Kingdom;
 struct Village;
@@ -32,5 +33,6 @@ void workers();
 void Upgrade(Kingdom kingdoms[],int count);
 
 void soldier();
-void Road();
+void Road(int xroad,int yroad,int villagecount);
+void takeV(int villagecount);
 #endif
