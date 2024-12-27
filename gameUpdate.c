@@ -11,7 +11,7 @@ void workers() {
     if (kingdoms[currentkingdom].Serve >= 3) {
         kingdoms[currentkingdom].WorkersCount++;
         kingdoms[currentkingdom].Serve -= 3;
-    }
+    }else currentkingdom--;
 }
 
 void Upgrade(Kingdom *kingdoms, int count) {
@@ -23,14 +23,14 @@ void Food() {
     if (kingdoms[currentkingdom].Gold >= 1) {
         kingdoms[currentkingdom].Serve++;
         kingdoms[currentkingdom].Gold--;
-    }
+    }else currentkingdom--;
 }
 
 void soldier() {
     if (kingdoms[currentkingdom].Gold >= 2) {
         kingdoms[currentkingdom].soldierCount++;
         kingdoms[currentkingdom].Gold -= 2;
-    }
+    }else currentkingdom--;
 }
 void CheckCell(int xroad , int yroad){
     int cellDifficulty = map[xroad][yroad];
@@ -58,7 +58,8 @@ void takeV(int villagecount) {
     }
 }
 void Road(int xroad,int yroad,int villagecount){
-    takeV(villagecount);
+    int difficulty=map[xroad][yroad];
+
     if(map[xroad][yroad]!='c'&&map[xroad][yroad]!='x'&&map[xroad][yroad]!='v'){
         if(xroad==kingdoms[currentkingdom].x) {
             if (yroad == kingdoms[currentkingdom].y - 1 || yroad == kingdoms[currentkingdom].y + 1)
@@ -86,6 +87,7 @@ void Road(int xroad,int yroad,int villagecount){
             }
         }
     }
+    else if(map[xroad][yroad]==difficulty) currentkingdom--;
 }
 
 

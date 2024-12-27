@@ -157,7 +157,6 @@ int main() {
             Upgrade( kingdoms, currentkingdom);
             Road(xroad,yroad,villageCount);
             takeV(villageCount);
-
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){
