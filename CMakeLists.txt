@@ -24,7 +24,9 @@ endif()
 
 # Our Project
 
-add_executable(${PROJECT_NAME} main.c meqdardehi.h meqdardehi.c grid.c type.h)
+add_executable(${PROJECT_NAME} main.c meqdardehi.h meqdardehi.c grid.c type.h
+        gameUpdate.h
+        gameUpdate.c)
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
 # Web Configurations

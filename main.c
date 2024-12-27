@@ -3,14 +3,14 @@
 #include "raymath.h"
 #include "meqdardehi.h"
 #include "GRID2.h"
-
+#include "gameUpdate.h"
+#include <unistd.h>
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
 //defining map
 int map[17][17] = {0};
-int vProduction[20][2] = {0};
-const char *labels[5] = {"Attack", "Defend", "Trade", "Upgrade", "Pass"};
-void (*actions[5])() = {Attack, soldier, workers, Upgrade, Road};
+
 int currentkingdom = 0;
+int gameOver = 0;
 
 Kingdom kingdoms[4];
 Village villages[20];
@@ -28,6 +28,9 @@ int main() {
         printf("please enter Height and Width:");
         scanf("%d %d", &x, &y);
     }
+    int maxS ;
+    printf("please inter the maximum soldiers: ");
+    scanf("%d" ,&maxS);
 
     // Mark special points on the map
     Kingdoms(x, y, kingdoms, &kingdomCount);
@@ -44,13 +47,18 @@ int main() {
     Texture2D Kingdom = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/kingdom.png");
     Texture2D Village = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/1.png");
     Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/Water_ruins2.png");
-    Texture2D guide= LoadTexture("C:/Users/ASUS/CLionProjects/projectfum/1000020318-new.jpg.png");
+    Texture2D guide= LoadTexture("C:/Users/Asus/CLionProjects/projectfum/IMG_20241225_205735_469.png");
     // Set the target frame rate to 60 frames per second for smooth rendering
     SetTargetFPS(60);
 
     // drawing Map
-    while (!WindowShouldClose() && kingdoms[currentkingdom].villagenumber!=villageCount) {
+    while (!WindowShouldClose() && !gameOver) {
         Vector2 mouseposition = GetMousePosition();
+
+        if ( kingdoms[currentkingdom].villagenumber==villageCount && kingdoms[currentkingdom] . soldierCount == maxS){
+            gameOver = 1;
+        }
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
@@ -117,63 +125,38 @@ int main() {
     }
         int showguide;
         if(IsKeyPressed(KEY_ENTER)){
-             showguide=!showguide;
+            showguide=!showguide;
         }
         if(!showguide) DrawTexture(guide,500,0,WHITE);
-
-   /* for (int k = 1; k <= kingdomCount; k++) {
-        int xq = kingdoms[k - 1].x;
-        int yq = kingdoms[k - 1].y;
-        for (int i = 0; i < x; ++i) {
-            for (int j = 0; j < y; ++j) {
-                if (map[i][j] == 'v') {
-                    // Generate the road from (xq, yq) to the village (i, j)
-                    SuggestedRoad(xq, yq, i, j);
-                }
-            }
-        }
-    }
-
-// Next, draw the entire map, marking all paths ('r') in WHITE
-    for (int i = 0; i < x; ++i) {
-        for (int j = 0; j < y; ++j) {
-            if (map[i][j] == 'r') {
-                DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, WHITE);
-            }
-        }
-    }*/
-
-
 
 
         if (IsKeyPressed(KEY_ONE)) {
             Upgrade(kingdoms, currentkingdom);
             soldier();
             currentkingdom++;
-
-        } else if (IsKeyPressed(KEY_TWO)) {
-            Upgrade( kingdoms, currentkingdom);
+        }
+        else if (IsKeyPressed(KEY_TWO)) {
+            Upgrade(kingdoms, currentkingdom);
             workers();
             currentkingdom++;
         }
-        else if(IsKeyPressed(KEY_THREE)){
-            Upgrade( kingdoms, currentkingdom);
+        else if (IsKeyPressed(KEY_THREE)) {
+            Upgrade(kingdoms, currentkingdom);
             Food();
             currentkingdom++;
         }
-        else if(IsKeyPressed(KEY_FOUR)){
-            int xroad,yroad;
-            yroad=((mouseposition.x-offsetX)/68);
-            xroad=((mouseposition.y-offsetY))/68;
-            Upgrade( kingdoms, currentkingdom);
-            Road(xroad,yroad,villageCount);
+        else if (IsKeyPressed(KEY_FOUR)) {
+            Upgrade(kingdoms, currentkingdom);
+            int xroad, yroad;
+            yroad = ((mouseposition.x - offsetX) / 68);
+            xroad = ((mouseposition.y - offsetY) / 68);
+            Road(xroad, yroad, villageCount);
             currentkingdom++;
         }
-        else if(IsKeyPressed(KEY_FIVE)){
-            Upgrade( kingdoms, currentkingdom);
+        else if (IsKeyPressed(KEY_FIVE)){
+            Upgrade(kingdoms, currentkingdom);
             currentkingdom++;
         }
-
         if (currentkingdom >= kingdomCount) {
             currentkingdom = 0; // Loop back to the first kingdom
         }
