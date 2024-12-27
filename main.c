@@ -130,7 +130,7 @@ int main() {
         if(IsKeyPressed(KEY_ENTER)){
             showguide=!showguide;
         }
-        if(!showguide) DrawTexture(guide,500,0,WHITE);
+        if(!showguide) DrawTexture(guide,0,0,WHITE);
 
 
         if (IsKeyPressed(KEY_ONE)) {
