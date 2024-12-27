@@ -7,7 +7,7 @@
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
 //defining map
 int map[17][17] = {0};
-
+int x, y;
 int currentkingdom = 0;
 int gameOver = 0;
 
@@ -17,7 +17,7 @@ Village villages[20];
 int main() {
 
     //receiving map Height and Width
-    int x, y;
+
 
     int kingdomCount = 0;
     int villageCount = 0;
@@ -44,15 +44,15 @@ int main() {
     // defining each  special point texture
     Texture2D Background = LoadTexture(IMAGE_PATH);
     Texture2D Kingdom = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/kingdom.png");
-    Texture2D Village = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/1.png");
-    Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/Water_ruins2.png");
+    Texture2D Village = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/4.png");
+    Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/Tile2_64.png");
     Texture2D guide= LoadTexture("C:/Users/Asus/CLionProjects/projectfum/IMG_20241225_205735_469.png");
     // Set the target frame rate to 60 frames per second for smooth rendering
     SetTargetFPS(60);
 
     // drawing Map
 
-    while (!WindowShouldClose() && !gameOver) {
+    while (!WindowShouldClose() ) {
 
         Vector2 mouseposition = GetMousePosition();
 
