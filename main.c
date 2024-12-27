@@ -52,7 +52,9 @@ int main() {
     SetTargetFPS(60);
 
     // drawing Map
+
     while (!WindowShouldClose() && !gameOver) {
+
         Vector2 mouseposition = GetMousePosition();
 
         if ( kingdoms[currentkingdom].villagenumber==villageCount && kingdoms[currentkingdom] . soldierCount == maxS){
@@ -61,6 +63,7 @@ int main() {
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
         float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
@@ -123,6 +126,7 @@ int main() {
 
         }
     }
+        DrawText(TextFormat("TURN:%d",currentkingdom),1,500,50,RED);
         int showguide;
         if(IsKeyPressed(KEY_ENTER)){
             showguide=!showguide;
@@ -145,12 +149,15 @@ int main() {
             Food();
             currentkingdom++;
         }
-        else if (IsKeyPressed(KEY_FOUR)) {
-            Upgrade(kingdoms, currentkingdom);
-            int xroad, yroad;
-            yroad = ((mouseposition.x - offsetX) / 68);
-            xroad = ((mouseposition.y - offsetY) / 68);
-            Road(xroad, yroad, villageCount);
+
+        else if(IsKeyPressed(KEY_FOUR)){
+            int xroad,yroad;
+            yroad=((mouseposition.x-offsetX)/68);
+            xroad=((mouseposition.y-offsetY))/68;
+            Upgrade( kingdoms, currentkingdom);
+            Road(xroad,yroad,villageCount);
+            takeV(villageCount);
+
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){
