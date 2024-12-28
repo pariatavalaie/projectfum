@@ -86,7 +86,7 @@ void takeV(int villagecount) {
                     kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
                 }
             }
-            else if (i == 0) {
+            else if (i == 0&& j>0) {
                 if (map[i][j - 1] == -currentkingdom || map[i][j + 1] == -currentkingdom ||
                     map[i + 1][j] == -currentkingdom) {
                     villages[k].ownerId = currentkingdom + 1;
@@ -122,8 +122,7 @@ void takeV(int villagecount) {
                     kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
                 }
             }
-            else {
-                if (map[i - 1][j] == -currentkingdom || map[i + 1][j] == -currentkingdom ||
+            else if (map[i - 1][j] == -currentkingdom || map[i + 1][j] == -currentkingdom ||
                     map[i][j - 1] == -currentkingdom || map[i][j + 1] == -currentkingdom) {
                     villages[k].ownerId = currentkingdom + 1;
                     kingdoms[currentkingdom].villagenumber++;
@@ -133,7 +132,7 @@ void takeV(int villagecount) {
             }
         }
     }
-}
+
 
 
 void Road(int xroad,int yroad,int villagecount) {
