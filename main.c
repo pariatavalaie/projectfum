@@ -165,8 +165,6 @@ int main() {
         }
 
 
-
-
     EndDrawing();
 }
     CloseWindow();
