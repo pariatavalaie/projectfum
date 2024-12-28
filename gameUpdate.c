@@ -85,8 +85,15 @@ void takeV(int villagecount) {
                     kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
                     kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
                 }
+            }else if(i==0&&j==x-1){
+                if (map[i][j - 1] == -currentkingdom || map[i + 1][j] == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom + 1;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
             }
-            else if (i == 0&& j>0) {
+            else if (i == 0) {
                 if (map[i][j - 1] == -currentkingdom || map[i][j + 1] == -currentkingdom ||
                     map[i + 1][j] == -currentkingdom) {
                     villages[k].ownerId = currentkingdom + 1;
