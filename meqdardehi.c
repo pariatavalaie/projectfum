@@ -141,11 +141,11 @@ void Road(int xq, int yq, int xv, int yv) {
             y--;
             yv--;
         }
-        else if ((x == xv && y < yv) &&( map [ y - 1][x] == 'x' || map[ y - 1][x] == 'c')){
+        else if ((x == xv && y < yv) &&( map [x][y+1] == 'x' || map[x][y+1] == 'c')){
             x++;
             xv++;
         }
-        else if ((x == xv && y > yv) &&( map [ y + 1][x] == 'x' || map[ y + 1][x] == 'c')){
+        else if ((x == xv && y > yv) &&( map [x][y-1] == 'x' || map[x][y-1] == 'c')){
             x--;
             xv--;
         }
