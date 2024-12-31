@@ -144,18 +144,6 @@ void Road(int xroad,int yroad,int villagecount) {
                 Upgrade();
             }
         }
-        if (xroad == kingdoms[currentkingdom].x - 1) {
-            if (yroad == kingdoms[currentkingdom].x - 1 || yroad == kingdoms[currentkingdom].y + 1) {
-                CheckCell(xroad, yroad);
-                Upgrade();
-            }
-        }
-        if (xroad == kingdoms[currentkingdom].x + 1) {
-            if (yroad == kingdoms[currentkingdom].x - 1 || yroad == kingdoms[currentkingdom].y + 1) {
-                CheckCell(xroad, yroad);
-                Upgrade();
-            }
-        }
 
         if (yroad == kingdoms[currentkingdom].y) {
             if (xroad == kingdoms[currentkingdom].x - 1 || xroad == kingdoms[currentkingdom].x + 1) {
