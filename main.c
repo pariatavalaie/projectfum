@@ -15,7 +15,13 @@ Village villages[20];
 
 int main() {
     //receiving map Height and Width
-
+    for (int i = 0; i < 17 ; ++i) {
+     for(int j=0;j < 17; j++) {
+         map[i][j].type=0;
+         map[i][j].road=0;
+         map[i][j].dificulty=0;
+     }
+    }
 
     int kingdomCount = 0;
     int villageCount = 0;
@@ -86,7 +92,8 @@ int main() {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68,68,68,GREEN);
                 }else if(map[i][j].type==-3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
-                }else {
+                }
+                else{
                     char text = map[i][j].type;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
@@ -123,6 +130,20 @@ int main() {
 
         }
     }
+        if(IsKeyDown(KEY_R)){
+            int xv=((mouseposition.y-offsetY))/68;
+            int yv=((mouseposition.x-offsetX)/68);
+            for (int k = 0; k < villageCount ; ++k) {
+            if(villages[k].x==xv&&villages[k].y==yv){
+            SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,xv,yv);
+            for (int i = 0; i < x ; ++i) {
+                for (int j = 0; j <y ; ++j) {
+                    if(map[i][j].road=='r')DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLACK);
+                }
+            }}}
+
+
+        }
         DrawText(TextFormat("TURN KINGDOM %d",currentkingdom+1),1,500,50,RED);
         int showguide;
         if(IsKeyPressed(KEY_ENTER)){

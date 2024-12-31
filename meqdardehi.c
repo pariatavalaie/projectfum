@@ -124,3 +124,55 @@ void Empty(int k, int i) {
         }
     }
 }
+void SuggestedRoad(int xq, int yq, int xv, int yv) {
+    int x = xq, y = yq;
+    int endy = yv, endx = xv;
+    while (x != xv || y != yv) {
+        if (map[x][y].type!= 'c' && map[x][y].type != 'x' && map[x][y].type != 'v') map[x][y].road = 'r';
+
+        if (y < yv && map[x][y + 1].type != 'x' && map[x][y+1].type != 'c') {
+            y++;
+        }
+        else if (y > yv && map[x][y - 1] .type!= 'x' && map[x][y - 1] .type!= 'c') {
+            y--;
+        }
+        else if (x < xv && map[x + 1][y] .type!= 'x' && map[x + 1][y].type != 'c') {
+            x++;
+        }
+        else if (x > xv && map[x - 1][y].type != 'x' && map[x - 1][y].type != 'c') {
+            x--;
+
+        }
+        else if ((y == yv && x > xv ) && (map[x - 1][y].type == 'x'|| map [x- 1][y].type == 'c')) {
+            y++;
+            yv++;
+        }
+        else if ((y == yv && x < xv) && (map[x + 1][y].type == 'x' || map[x + 1][y].type == 'c')) {
+            y--;
+            yv--;
+        }
+        else if ((x == xv && y < yv) &&( map [ y - 1][x].type == 'x' || map[ y - 1][x].type == 'c')){
+            x++;
+            xv++;
+        }
+        else if ((x == xv && y > yv) &&( map [ y + 1][x].type == 'x' || map[ y + 1][x].type == 'c')){
+            x--;
+            xv--;
+        }
+        else{
+            break;
+        }
+    }
+    if (endy > yv) {
+        map[x][y].road = 'r';
+    }
+    else if (endy < yv) {
+        map[x][y].road = 'r';
+    }
+    if(endx > xv){
+        map[x][y].road = 'r';
+    }
+    else if( endx < xv){
+        map[x][y].road = 'r';
+    }
+}
