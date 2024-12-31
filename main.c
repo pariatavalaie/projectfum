@@ -17,9 +17,9 @@ int main() {
     //receiving map Height and Width
     for (int i = 0; i < 17 ; ++i) {
      for(int j=0;j < 17; j++) {
-         map[i][j].type=0;
-         map[i][j].road=0;
-         map[i][j].dificulty=0;
+         map[i][j].type=-10;
+         map[i][j].road=-10;
+         map[i][j].dificulty=-10;
      }
     }
 
@@ -138,7 +138,7 @@ int main() {
             SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,xv,yv);
             for (int i = 0; i < x ; ++i) {
                 for (int j = 0; j <y ; ++j) {
-                    if(map[i][j].road=='r')DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLACK);
+                    if(map[i][j].road=='r')DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
                 }
             }}}
 

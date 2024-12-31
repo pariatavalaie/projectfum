@@ -26,9 +26,8 @@ void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
         int x, y;
         printf("Please enter x, y for Kingdom %d: ", i + 1);
         scanf("%d %d", &x, &y);
-        if(i==0)
 
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != 0) i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) i--;
 
         else {
             kingdoms[i].id = i + 1;
@@ -64,7 +63,7 @@ void Villages(int k, int j, struct Village villages[], int *villageCount) {
         scanf("%d %d", &x, &y);
 
         // Validate the position
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != 0) i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) i--;
         else {
             villages[i].VillageId = i + 1;
             villages[i].x = x;
@@ -103,7 +102,7 @@ void ForceClosed(int k, int j) {
         scanf("%d %d", &x, &y);
 
 
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != 0) {
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) {
             i--;
         } else {
             map[x][y].type = 'x';
@@ -151,11 +150,11 @@ void SuggestedRoad(int xq, int yq, int xv, int yv) {
             y--;
             yv--;
         }
-        else if ((x == xv && y < yv) &&( map [ y - 1][x].type == 'x' || map[ y - 1][x].type == 'c')){
+        else if ((x == xv && y < yv) &&( map [x][y+1].type == 'x' || map[x][y+1].type == 'c')){
             x++;
             xv++;
         }
-        else if ((x == xv && y > yv) &&( map [ y + 1][x].type == 'x' || map[ y + 1][x].type == 'c')){
+        else if ((x == xv && y > yv) &&( map [x][y-1].type == 'x' || map[x][y-1].type == 'c')){
             x--;
             xv--;
         }
