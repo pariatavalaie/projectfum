@@ -138,7 +138,7 @@ int main() {
             SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,xv,yv);
             for (int i = 0; i < x ; ++i) {
                 for (int j = 0; j <y ; ++j) {
-                    if(map[i][j].road=='r')DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
+                    if(map[i][j].road==xv)DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
                 }
             }}}
 
