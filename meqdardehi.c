@@ -7,7 +7,7 @@
 #include "type.h"
 
 //defining map as an extern int to be known in all functions
-extern int map[17][17];
+extern Map map[17][17];
 
 //receiving number of kingdoms and each one's location
 void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
@@ -28,7 +28,7 @@ void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
         scanf("%d %d", &x, &y);
         if(i==0)
 
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != 0) i--;
 
         else {
             kingdoms[i].id = i + 1;
@@ -41,7 +41,7 @@ void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
             kingdoms[i].Serve = 0;
             kingdoms[i].Gold = 0;
 
-            map[x][y] = 'c';
+            map[x][y].type = 'c';
         }
     }
 }
@@ -64,7 +64,7 @@ void Villages(int k, int j, struct Village villages[], int *villageCount) {
         scanf("%d %d", &x, &y);
 
         // Validate the position
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != 0) i--;
         else {
             villages[i].VillageId = i + 1;
             villages[i].x = x;
@@ -77,7 +77,7 @@ void Villages(int k, int j, struct Village villages[], int *villageCount) {
             printf("Please enter Food production for Village %d: ", i + 1);
             scanf("%d", &villages[i].FoodProduction);
 
-            map[x][y] = 'v';
+            map[x][y].type = 'v';
 
         }
     }
@@ -103,10 +103,10 @@ void ForceClosed(int k, int j) {
         scanf("%d %d", &x, &y);
 
 
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != 0) {
             i--;
         } else {
-            map[x][y] = 'x';
+            map[x][y].type = 'x';
         }
     }
 }
@@ -116,9 +116,10 @@ void Empty(int k, int i) {
     for (int r = 0; r < 17; ++r) {
         for (int j = 0; j < 17; ++j) {
             //making sure that the MAP[x][y] is empty
-            if (map[r][j] != 'c' && map[r][j] != 'v' && map[r][j] != 'x') {
+            if (map[r][j].type!= 'c' && map[r][j].type != 'v' && map[r][j] .type!= 'x') {
                 //setting difficulty
-                map[r][j] = GetRandomValue(1, 5);
+                map[r][j].type = GetRandomValue(1, 5);
+                map[r][j].dificulty=map[r][j].type;
             }
         }
     }

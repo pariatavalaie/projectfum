@@ -37,13 +37,13 @@ void soldier() {
     }else currentkingdom--;
 }
 void CheckCell(int xroad , int yroad){
-    int cellDifficulty = map[xroad][yroad];
+    int cellDifficulty = map[xroad][yroad].type;
     if (cellDifficulty > kingdoms[currentkingdom].WorkersCount) {
         int remainingDifficulty = cellDifficulty - kingdoms[currentkingdom].WorkersCount;
-        map[xroad][yroad] = remainingDifficulty;
+        map[xroad][yroad].type = remainingDifficulty;
     }
     else {
-        map[xroad][yroad]=-currentkingdom;
+        map[xroad][yroad].type=-currentkingdom;
     }
 }
 
@@ -52,14 +52,14 @@ void takeV(int villagecount) {
         int i = villages[k].x;
         int j = villages[k].y;
         if (villages[k].ownerId < 0)
-            if(i==0&&j==0) {if (map[i][j + 1] == -currentkingdom ||map[i + 1][j] == -currentkingdom) {
+            if(i==0&&j==0) {if (map[i][j + 1].type == -currentkingdom ||map[i + 1][j].type == -currentkingdom) {
                     villages[k].ownerId = currentkingdom;
                     kingdoms[currentkingdom].villagenumber++;
                     kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
                     kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
                 }}
-            else if (map[i][j - 1] == -currentkingdom || map[i][j + 1] == -currentkingdom ||
-                map[i - 1][j] == -currentkingdom || map[i + 1][j] == -currentkingdom) {
+            else if (map[i][j - 1].type== -currentkingdom || map[i][j + 1].type== -currentkingdom ||
+                map[i - 1][j].type == -currentkingdom || map[i + 1][j].type == -currentkingdom) {
                 villages[k].ownerId = currentkingdom;
                 kingdoms[currentkingdom].villagenumber++;
                 kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
@@ -69,9 +69,8 @@ void takeV(int villagecount) {
     }
 }
 void Road(int xroad,int yroad,int villagecount){
-    int difficulty=map[xroad][yroad];
 
-    if(map[xroad][yroad]!='c'&&map[xroad][yroad]!='x'&&map[xroad][yroad]!='v'){
+    if(map[xroad][yroad].type!='c'&&map[xroad][yroad].type!='x'&&map[xroad][yroad].type!='v'){
         if(xroad==kingdoms[currentkingdom].x) {
             if (yroad == kingdoms[currentkingdom].y - 1 || yroad == kingdoms[currentkingdom].y + 1){
                 CheckCell(xroad, yroad);
@@ -83,7 +82,7 @@ void Road(int xroad,int yroad,int villagecount){
                 CheckCell(xroad,yroad);
              Upgrade();}
         }
-        if(map[xroad][yroad+1]==-currentkingdom||map[xroad][yroad-1]==-currentkingdom||map[xroad+1][yroad]==-currentkingdom||map[xroad-1][yroad]==-currentkingdom)
+        if(map[xroad][yroad+1].type==-currentkingdom||map[xroad][yroad-1].type==-currentkingdom||map[xroad+1][yroad].type==-currentkingdom||map[xroad-1][yroad].type==-currentkingdom)
             CheckCell(xroad,yroad);
         for (int i = 0; i < villagecount ; ++i) {
             if(villages[i].ownerId==currentkingdom){
@@ -102,7 +101,7 @@ void Road(int xroad,int yroad,int villagecount){
             }
         }
     }
-    if(map[xroad][yroad]==difficulty) currentkingdom--;
+    if(map[xroad][yroad].type==map[xroad][yroad].dificulty) currentkingdom--;
 }
 
 

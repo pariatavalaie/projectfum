@@ -5,7 +5,7 @@
 #ifndef UNTITLED4_MEQDARDEHI_H
 #define UNTITLED4_MEQDARDEHI_H
 #include "type.h"
-extern int map[17][17];
+extern Map map[17][17];
 extern Kingdom kingdoms[4];
 extern Village villages[20];
 extern int currentkingdom;
