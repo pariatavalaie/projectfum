@@ -51,21 +51,84 @@ void takeV(int villagecount) {
     for (int k = 0; k < villagecount; k++) {
         int i = villages[k].x;
         int j = villages[k].y;
-        if (villages[k].ownerId < 0)
-            if(i==0&&j==0) {if (map[i][j + 1].type == -currentkingdom ||map[i + 1][j].type == -currentkingdom) {
-                    villages[k].ownerId = currentkingdom;
+
+        if (villages[k].ownerId < 0) {
+
+            if (i == 0 && j == 0) {
+                if (map[i][j + 1].type == -currentkingdom || map[i + 1][j].type == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom + 1;
                     kingdoms[currentkingdom].villagenumber++;
                     kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
                     kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
-                }}
-            else if (map[i][j - 1].type== -currentkingdom || map[i][j + 1].type== -currentkingdom ||
-                map[i - 1][j].type == -currentkingdom || map[i + 1][j].type == -currentkingdom) {
-                villages[k].ownerId = currentkingdom;
+                }
+            }
+            else if (i == 0 && j == y - 1) {
+                if (map[i][j - 1].type== -currentkingdom || map[i + 1][j].type == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom ;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
+            }
+            else if (i == x - 1 && j == 0) {
+                if (map[i - 1][j].type == -currentkingdom || map[i][j + 1].type == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom ;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
+            }
+            else if (i == x - 1 && j == y - 1) {
+                if (map[i][j - 1].type == -currentkingdom || map[i - 1][j].type== -currentkingdom) {
+                    villages[k].ownerId = currentkingdom ;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
+            }else if (i == 0) {
+                if (map[i][j - 1].type == -currentkingdom || map[i][j + 1].type == -currentkingdom ||
+                    map[i + 1][j].type == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom ;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
+            }
+            else if (i == x - 1) {
+                if (map[i][j - 1].type == -currentkingdom || map[i][j + 1].type == -currentkingdom ||
+                    map[i - 1][j].type == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom ;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
+            }
+            else if (j == 0) {
+                if (map[i - 1][j].type == -currentkingdom || map[i + 1][j].type == -currentkingdom ||
+                    map[i][j + 1].type == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom ;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
+            }
+            else if (j == y - 1) {
+                if (map[i - 1][j].type == -currentkingdom || map[i + 1][j].type == -currentkingdom ||
+                    map[i][j - 1].type == -currentkingdom) {
+                    villages[k].ownerId = currentkingdom ;
+                    kingdoms[currentkingdom].villagenumber++;
+                    kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
+                    kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
+                }
+            }
+            else if (map[i - 1][j].type == -currentkingdom || map[i + 1][j].type == -currentkingdom ||
+                     map[i][j - 1].type== -currentkingdom || map[i][j + 1].type == -currentkingdom) {
+                villages[k].ownerId = currentkingdom ;
                 kingdoms[currentkingdom].villagenumber++;
                 kingdoms[currentkingdom].FoodProduction += villages[k].FoodProduction;
                 kingdoms[currentkingdom].GoldProduction += villages[k].GoldProduction;
             }
-
+        }
     }
 }
 void Road(int xroad,int yroad,int villagecount){

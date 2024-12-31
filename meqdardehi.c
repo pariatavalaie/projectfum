@@ -123,11 +123,12 @@ void Empty(int k, int i) {
         }
     }
 }
-void SuggestedRoad(int xq, int yq, int xv, int yv) {
+void SuggestedRoad(int xq, int yq,int i) {
     int x = xq, y = yq;
-    int endy = yv, endx = xv;
+    int endy = villages[i].y, endx = villages[i].x;
+    int xv=villages[i].x,yv=villages[i].y;
     while (x != xv || y != yv) {
-        if (map[x][y].type!= 'c' && map[x][y].type != 'x' && map[x][y].type != 'v') map[x][y].road = xv;
+        if (map[x][y].type!= 'c' && map[x][y].type != 'x' && map[x][y].type != 'v') map[x][y].road = i;
 
         if (y < yv && map[x][y + 1].type != 'x' && map[x][y+1].type != 'c') {
             y++;
@@ -163,15 +164,15 @@ void SuggestedRoad(int xq, int yq, int xv, int yv) {
         }
     }
     if (endy > yv) {
-        map[x][y].road = xv;
+        map[x][y].road = i;
     }
     else if (endy < yv) {
-        map[x][y].road = xv;
+        map[x][y].road = i;
     }
     if(endx > xv){
-        map[x][y].road = xv;
+        map[x][y].road = i;
     }
     else if( endx < xv){
-        map[x][y].road = xv;
+        map[x][y].road = i;
     }
 }
