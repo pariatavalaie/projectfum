@@ -4,65 +4,81 @@
 #include "stdio.h"
 #include "meqdardehi.h"
 #include "raylib.h"
+#include "type.h"
+
 //defining map as an extern int to be known in all functions
-extern int map[17][17];
-extern int vProduction[20][2];
+extern Map map[17][17];
+
 //receiving number of kingdoms and each one's location
-void Kingdom(int k, int j) {
+void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
     int KingdomNum;
-    int x, y;
-    printf("please inter Kingdom's number:");
+    printf("Please enter the number of Kingdoms: ");
     scanf("%d", &KingdomNum);
-    while (KingdomNum<0){
-        printf("please inter Kingdom's number:");
+
+    while (KingdomNum < 0 || KingdomNum > 5) {
+        printf("Please enter a valid number of Kingdoms (1-4): ");
         scanf("%d", &KingdomNum);
     }
 
-    for (int i = 1; i <= KingdomNum; i++) {
-        printf("please inter x , y Kingdom %d:", i);
+    *kingdomCount = KingdomNum;
+
+    for (int i = 0; i < KingdomNum; i++) {
+        int x, y;
+        printf("Please enter x, y for Kingdom %d: ", i + 1);
         scanf("%d %d", &x, &y);
 
-        // making sure that inputs are standard
-        if (k <= x || j <= y || map[i][j]=='c'|| x < 0 || y < 0) i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) i--;
 
-            // placing the symbol c for each Kingdom in the map
-        else map[x][y] = 'c';
+        else {
+            kingdoms[i].id = i + 1;
+            kingdoms[i].x = x;
+            kingdoms[i].y = y;
+            kingdoms[i].WorkersCount = 1;
+            kingdoms[i].soldierCount = 1;
+            kingdoms[i].GoldProduction = 1;
+            kingdoms[i].FoodProduction = 0;
+            kingdoms[i].Serve = 0;
+            kingdoms[i].Gold = 0;
+
+            map[x][y].type = 'c';
+        }
     }
 }
 
-//receiving each village productions
-void VillageProduction(int k , int array[20][2]){
-        for( int j = 0 ; j < 2 ; j++){
-            if (j == 0) {
-                printf("please inter Village Gold production: ");
-                scanf("%d", &array[k][j]);
-                if(array[k][j] < 0) j--;
-            }
-            if ( j == 1){
-                printf("please inter Vilage Food production:");
-                scanf("%d" , &array[k][j]);
-                if(array[k][j] < 0) j--;
-            }
-        }
+void Villages(int k, int j, struct Village villages[], int *villageCount) {
+    int VillageNum;
+    printf("Please enter the number of Villages: ");
+    scanf("%d", &VillageNum);
+
+    while (VillageNum < 0 || VillageNum > 20) {
+        printf("Please enter a valid number of Villages: ");
+        scanf("%d", &VillageNum);
     }
 
-//receiving number of Village and each one's location
-void Village(int k, int j,int VillageNum) {
-    int x,y;
-    for (int i = 0; i < VillageNum; ++i) {
-        printf("please inter x , y Village %d : ", i + 1);
+    *villageCount = VillageNum;
+
+    for (int i = 0; i < VillageNum; i++) {
+        int x, y;
+        printf("Please enter x, y for Village %d: ", i + 1);
         scanf("%d %d", &x, &y);
 
-        // making sure that inputs are standard and MAP[x][y] is empty
-        if (map[x][y] != 'c' && k > x && j > y && map[x][y]!= 'v' && x >= 0 && y >= 0 ) {
+        // Validate the position
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) i--;
+        else {
+            villages[i].VillageId = i + 1;
+            villages[i].x = x;
+            villages[i].y = y;
+            villages[i].ownerId = -1;
 
-            // placing the symbol v for each Village in the map
-            map[x][y] = 'v';
-            //each village gold and food productions
-            VillageProduction( i , vProduction);
+            printf("Please enter Gold production for Village %d: ", i + 1);
+            scanf("%d", &villages[i].GoldProduction);
+
+            printf("Please enter Food production for Village %d: ", i + 1);
+            scanf("%d", &villages[i].FoodProduction);
+
+            map[x][y].type = 'v';
+
         }
-            // if the input is not standard do the if loop again
-        else i--;
     }
 }
 
@@ -72,65 +88,91 @@ void ForceClosed(int k, int j) {
     int x, y;
     //using blocked instead of ForceClosed to shorten
     int BlockedNum;
-    printf("please inter ForceCloseds number:");
+    printf("Please enter the number of ForceClosed cells: ");
     scanf("%d", &BlockedNum);
-    while (BlockedNum<0){
-        printf("please inter ForceCloseds number:");
+
+    while (BlockedNum < 0) {
+        printf("Please enter a valid number of ForceClosed cells: ");
         scanf("%d", &BlockedNum);
     }
 
-    for (int i = 0; i < BlockedNum; ++i) {
-        printf("please inter x , y ForceClosed %d: ", i + 1);
+    for (int i = 0; i < BlockedNum; i++) {
+        int x, y;
+        printf("Please enter x, y for ForceClosed cells %d: ", i + 1);
         scanf("%d %d", &x, &y);
 
-        // making sure that inputs are standard and MAP[x][y] is empty
-        if (map[x][y] != 'c' && map[x][y] != 'v' && k > x && j > y && map[x][y] != 'x' && x >= 0 && y>= 0)
 
-            // placing the symbol x for each ForceClosed in the map
-            map[x][y] = 'x';
-
-            // if the input is not standard do the if loop again
-        else i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) {
+            i--;
+        } else {
+            map[x][y].type = 'x';
+        }
     }
 }
-//setting empty map[i][j] difficulty
+
+
 void Empty(int k, int i) {
     for (int r = 0; r < 17; ++r) {
         for (int j = 0; j < 17; ++j) {
             //making sure that the MAP[x][y] is empty
-            if (map[r][j] != 'c' && map[r][j] != 'v' && map[r][j] != 'x') {
+            if (map[r][j].type!= 'c' && map[r][j].type != 'v' && map[r][j] .type!= 'x') {
                 //setting difficulty
-                map[r][j] = GetRandomValue(1,9);
+                map[r][j].type = GetRandomValue(1, 5);
+                map[r][j].dificulty=map[r][j].type;
             }
         }
     }
 }
-
-void road(int f,int k,int xq,int yq,int xv,int yv){
+void SuggestedRoad(int xq, int yq,int i) {
     int x = xq, y = yq;
-    int endy=yv,endx=xv;
-    while (x !=xv || y != yv) {
-        if(map[x][y]!='c'&&map[x][y]!='x'&&map[x][y]!='v') map[x][y] ='r';
+    int endy = villages[i].y, endx = villages[i].x;
+    int xv=villages[i].x,yv=villages[i].y;
+    while (x != xv || y != yv) {
+        if (map[x][y].type!= 'c' && map[x][y].type != 'x' && map[x][y].type != 'v') map[x][y].road = i;
 
-        if (y < yv && map[x][y + 1] != 'x') {
+        if (y < yv && map[x][y + 1].type != 'x' && map[x][y+1].type != 'c') {
             y++;
-        } else if (y > yv && map[x][y - 1] != 'x') {
+        }
+        else if (y > yv && map[x][y - 1] .type!= 'x' && map[x][y - 1] .type!= 'c') {
             y--;
-        } else if (x < xv && map[x + 1][y] !='x') {
+        }
+        else if (x < xv && map[x + 1][y] .type!= 'x' && map[x + 1][y].type != 'c') {
             x++;
-        } else if (x > xv && map[x - 1][y] !='x') {
+        }
+        else if (x > xv && map[x - 1][y].type != 'x' && map[x - 1][y].type != 'c') {
             x--;
 
         }
-        else if(y==yv&&x>xv&&map[x-1][y]=='x'){
-            y--;
-            yv--;
-        }else if(y==yv&&x<xv&&map[x+1][y]=='x'){
+        else if ((y == yv && x > xv ) && (map[x - 1][y].type == 'x'|| map [x- 1][y].type == 'c')) {
+            y++;
+            yv++;
+        }
+        else if ((y == yv && x < xv) && (map[x + 1][y].type == 'x' || map[x + 1][y].type == 'c')) {
             y--;
             yv--;
         }
-
+        else if ((x == xv && y < yv) &&( map [x][y+1].type == 'x' || map[x][y+1].type == 'c')){
+            x++;
+            xv++;
+        }
+        else if ((x == xv && y > yv) &&( map [x][y-1].type == 'x' || map[x][y-1].type == 'c')){
+            x--;
+            xv--;
+        }
+        else{
+            break;
+        }
     }
-    if(endy>yv){map[x][y]='r';}
+    if (endy > yv) {
+        map[x][y].road = i;
+    }
+    else if (endy < yv) {
+        map[x][y].road = i;
+    }
+    if(endx > xv){
+        map[x][y].road = i;
+    }
+    else if( endx < xv){
+        map[x][y].road = i;
+    }
 }
-
