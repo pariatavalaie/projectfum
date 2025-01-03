@@ -5,19 +5,24 @@
 #include "gameUpdate.h"
 
 #define IMAGE_PATH "C:/Users/Asus/CLionProjects/projectfum/map.png"
-//defining map
-int map[17][17] = {0};
+//defining map//
+Map map[17][17];
 int x, y;
 int currentkingdom = 0;
 int gameOver = 0;
-
 Kingdom kingdoms[4];
 Village villages[20];
 
 int main() {
 
     //receiving map Height and Width
-
+    for (int i = 0; i < 17 ; ++i) {
+     for(int j=0;j < 17; j++) {
+         map[i][j].type=-10;
+         map[i][j].road=-10;
+         map[i][j].dificulty=-10;
+     }
+    }
 
     int kingdomCount = 0;
     int villageCount = 0;
@@ -71,31 +76,32 @@ int main() {
             for (int j = 0; j < y; ++j) {
                 Rectangle cellrect = {offsetX + j * 68, offsetY + i * 68, 68, 68
                 };
-                if (map[i][j] == 'c') {
+                if (map[i][j].type == 'c') {
 
                     DrawTexture(Kingdom, offsetX + j * 68, offsetY + i * 68, WHITE);
 
-                } else if (map[i][j] == 'v') {
+                } else if (map[i][j].type == 'v') {
                     DrawTexture(Village, offsetX + j * 68, offsetY + i * 68, WHITE);
 
-                } else if (map[i][j] == 'x') {
+                } else if (map[i][j].type == 'x') {
                     DrawTexture(ForceClosed, offsetX + j * 68, offsetY + i * 68, WHITE);
-                } else if(map[i][j]==0){
+                } else if(map[i][j].type==0){
                     DrawRectangle( offsetX + j * 68, offsetY + i * 68,68,68,RED);
-                }else if(map[i][j]==-1){
+                }else if(map[i][j].type==-1){
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68,68,68,WHITE);
-                }else if(map[i][j]==-2){
+                }else if(map[i][j].type==-2){
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68,68,68,GREEN);
-                }else if(map[i][j]==-3) {
+                }else if(map[i][j].type==-3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
-                }else {
-                    char text = map[i][j];
+                }
+                else{
+                    char text = map[i][j].type;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
                 if (CheckCollisionPointRec(mouseposition, cellrect)) {
                     char infotext[50];
                     DrawRectangle(cellrect.x, cellrect.y, 68, 68, GRAY);
-                if (map[i][j] == 'v') {
+                if (map[i][j].type == 'v') {
                     for (int v = 0; v < villageCount; v++) {
                         if (villages[v].x == i && villages[v].y == j) {
                             sprintf(infotext, "gold: %d\nfood: %d\nowner: %d",
@@ -106,7 +112,7 @@ int main() {
                             break;
                         }
                     }
-                } else if (map[i][j] == 'c') {
+                } else if (map[i][j].type == 'c') {
                     for (int c = 0; c < kingdomCount; c++) {
                         if (kingdoms[c].x == i && kingdoms[c].y == j) {
                             sprintf(infotext, "Coins: %d\nServes:%d\nGold:%d\nFood:%d\nWorkers:%d\nSoldier:%d",
@@ -125,13 +131,26 @@ int main() {
 
         }
     }
+        if(IsKeyDown(KEY_R)){
+            int xv=((mouseposition.y-offsetY))/68;
+            int yv=((mouseposition.x-offsetX)/68);
+            for (int k = 0; k < villageCount ; ++k) {
+            if(villages[k].x==xv&&villages[k].y==yv){
+            SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,k);
+            for (int i = 0; i < x ; ++i) {
+                for (int j = 0; j <y ; ++j) {
+                    if(map[i][j].road==k)DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
+                }
+            }}}
+
+
+        }
         DrawText(TextFormat("TURN KINGDOM %d",currentkingdom+1),1,500,50,RED);
         int showguide;
         if(IsKeyPressed(KEY_ENTER)){
             showguide=!showguide;
         }
-        if(!showguide) DrawTexture(guide,0,0,WHITE);
-
+        if(showguide) DrawTexture(guide,500,0,WHITE);
 
         if (IsKeyPressed(KEY_ONE)) {
 

@@ -7,7 +7,7 @@
 #include "type.h"
 
 //defining map as an extern int to be known in all functions
-extern int map[17][17];
+extern Map map[17][17];
 
 //receiving number of kingdoms and each one's location
 void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
@@ -26,7 +26,8 @@ void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
         int x, y;
         printf("Please enter x, y for Kingdom %d: ", i + 1);
         scanf("%d %d", &x, &y);
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) i--;
+
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) i--;
 
         else {
             kingdoms[i].id = i + 1;
@@ -39,7 +40,7 @@ void Kingdoms(int k, int j, struct Kingdom kingdoms[], int *kingdomCount) {
             kingdoms[i].Serve = 0;
             kingdoms[i].Gold = 0;
 
-            map[x][y] = 'c';
+            map[x][y].type = 'c';
         }
     }
 }
@@ -62,7 +63,7 @@ void Villages(int k, int j, struct Village villages[], int *villageCount) {
         scanf("%d %d", &x, &y);
 
         // Validate the position
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) i--;
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) i--;
         else {
             villages[i].VillageId = i + 1;
             villages[i].x = x;
@@ -75,7 +76,7 @@ void Villages(int k, int j, struct Village villages[], int *villageCount) {
             printf("Please enter Food production for Village %d: ", i + 1);
             scanf("%d", &villages[i].FoodProduction);
 
-            map[x][y] = 'v';
+            map[x][y].type = 'v';
 
         }
     }
@@ -101,10 +102,10 @@ void ForceClosed(int k, int j) {
         scanf("%d %d", &x, &y);
 
 
-        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y] != 0) {
+        if (x < 0 || y < 0 || x >= k || y >= j || map[x][y].type != -10) {
             i--;
         } else {
-            map[x][y] = 'x';
+            map[x][y].type = 'x';
         }
     }
 }
@@ -114,10 +115,64 @@ void Empty(int k, int i) {
     for (int r = 0; r < 17; ++r) {
         for (int j = 0; j < 17; ++j) {
             //making sure that the MAP[x][y] is empty
-            if (map[r][j] != 'c' && map[r][j] != 'v' && map[r][j] != 'x') {
+            if (map[r][j].type!= 'c' && map[r][j].type != 'v' && map[r][j] .type!= 'x') {
                 //setting difficulty
-                map[r][j] = GetRandomValue(1, 5);
+                map[r][j].type = GetRandomValue(1, 5);
+                map[r][j].dificulty=map[r][j].type;
             }
         }
+    }
+}
+void SuggestedRoad(int xq, int yq,int i) {
+    int x = xq, y = yq;
+    int endy = villages[i].y, endx = villages[i].x;
+    int xv=villages[i].x,yv=villages[i].y;
+    while (x != xv || y != yv) {
+        if (map[x][y].type!= 'c' && map[x][y].type != 'x' && map[x][y].type != 'v') map[x][y].road = i;
+
+        if (y < yv && map[x][y + 1].type != 'x' && map[x][y+1].type != 'c') {
+            y++;
+        }
+        else if (y > yv && map[x][y - 1] .type!= 'x' && map[x][y - 1] .type!= 'c') {
+            y--;
+        }
+        else if (x < xv && map[x + 1][y] .type!= 'x' && map[x + 1][y].type != 'c') {
+            x++;
+        }
+        else if (x > xv && map[x - 1][y].type != 'x' && map[x - 1][y].type != 'c') {
+            x--;
+
+        }
+        else if ((y == yv && x > xv ) && (map[x - 1][y].type == 'x'|| map [x- 1][y].type == 'c')) {
+            y++;
+            yv++;
+        }
+        else if ((y == yv && x < xv) && (map[x + 1][y].type == 'x' || map[x + 1][y].type == 'c')) {
+            y--;
+            yv--;
+        }
+        else if ((x == xv && y < yv) &&( map [x][y+1].type == 'x' || map[x][y+1].type == 'c')){
+            x++;
+            xv++;
+        }
+        else if ((x == xv && y > yv) &&( map [x][y-1].type == 'x' || map[x][y-1].type == 'c')){
+            x--;
+            xv--;
+        }
+        else{
+            break;
+        }
+    }
+    if (endy > yv) {
+        map[x][y].road = i;
+    }
+    else if (endy < yv) {
+        map[x][y].road = i;
+    }
+    if(endx > xv){
+        map[x][y].road = i;
+    }
+    else if( endx < xv){
+        map[x][y].road = i;
     }
 }

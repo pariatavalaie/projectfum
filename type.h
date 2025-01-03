@@ -28,4 +28,10 @@ typedef struct Village {
     int FoodProduction;
 }Village;
 
+typedef struct map{
+    int type;
+    int road;
+    int dificulty;
+}Map;
+
 #endif //UNTITLED10_TYPE_H
