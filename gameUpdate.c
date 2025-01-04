@@ -36,6 +36,27 @@ void soldier() {
         Upgrade();
     }else currentkingdom--;
 }
+void war1(int turn,int xroad,int yroad){
+    if(kingdoms[currentkingdom].soldierCount>kingdoms[turn].soldierCount){
+        DrawText(TextFormat("kingdom %d win",currentkingdom),0,0,30,RED);
+    }
+}
+
+void war(int xroad,int yroad){
+    int turn;
+    if(currentkingdom==0) turn=1;
+    else turn=0;
+    for (int i = 0; i < x ; ++i) {
+        for (int j = 0; j < y ; ++j) {
+            if(map[i][j].type==-turn&&i==xroad&&j==yroad-1)  war1(turn,xroad,yroad);
+            else if(map[i][j].type==-turn&&i==xroad&&j==yroad+1) war1(turn,xroad,yroad);
+            else if(map[i][j].type==-turn&&i==xroad+1&&j==yroad) war1(turn,xroad,yroad);
+            else if(map[i][j].type==-turn&&i==xroad-1&&j==yroad) war1(turn,xroad,yroad);
+        }
+
+    }
+}
+
 void CheckCell(int xroad , int yroad){
     int cellDifficulty = map[xroad][yroad].type;
     if (cellDifficulty > kingdoms[currentkingdom].WorkersCount) {
@@ -44,7 +65,9 @@ void CheckCell(int xroad , int yroad){
     }
     else {
         map[xroad][yroad].type=-currentkingdom;
+        war(xroad,yroad);
     }
+
 }
 
 void takeV(int villagecount) {
@@ -132,7 +155,6 @@ void takeV(int villagecount) {
     }
 }
 void Road(int xroad,int yroad,int villagecount){
-
     if(map[xroad][yroad].type!='c'&&map[xroad][yroad].type!='x'&&map[xroad][yroad].type!='v'){
         if(xroad==kingdoms[currentkingdom].x) {
             if (yroad == kingdoms[currentkingdom].y - 1 || yroad == kingdoms[currentkingdom].y + 1){
@@ -166,5 +188,3 @@ void Road(int xroad,int yroad,int villagecount){
     }
     if(map[xroad][yroad].type==map[xroad][yroad].dificulty) currentkingdom--;
 }
-
-
