@@ -17,7 +17,7 @@ int main() {
     //receiving map Height and Width
     for (int i = 0; i < 17 ; ++i) {
      for(int j=0;j < 17; j++) {
-         map[i][j].type=-10;
+         map[i][j].type=10;
          map[i][j].road=-10;
          map[i][j].dificulty=-10;
      }
