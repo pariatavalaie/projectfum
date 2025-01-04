@@ -33,8 +33,12 @@ int main() {
         scanf("%d %d", &x, &y);
     }
     int maxS ;
-    printf("please inter the maximum soldiers: ");
+    printf("please enter the maximum soldiers: ");
     scanf("%d" ,&maxS);
+    if(maxS < 0 ){
+        printf("please enter the maximum soldiers: ");
+        scanf("%d" ,&maxS);
+    }
 
     // Mark special points on the map
     Kingdoms(x, y, kingdoms, &kingdomCount);
@@ -150,7 +154,7 @@ int main() {
         if(IsKeyPressed(KEY_ENTER)){
             showguide=!showguide;
         }
-        if(showguide) DrawTexture(guide,500,0,WHITE);
+        if(showguide) DrawTexture(guide,0,500,WHITE);
 
         if (IsKeyPressed(KEY_ONE)) {
 

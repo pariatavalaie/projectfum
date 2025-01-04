@@ -166,5 +166,3 @@ void Road(int xroad,int yroad,int villagecount){
     }
     if(map[xroad][yroad].type==map[xroad][yroad].dificulty) currentkingdom--;
 }
-
-
