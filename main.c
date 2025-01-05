@@ -53,8 +53,8 @@ int main() {
         ClearBackground(RAYWHITE);
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
-        float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
-        float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
+        float offsetX = (WINDOW_WIDTH - y * 68) / 2.0;
+        float offsetY = (WINDOW_HEIGHT - x * 68) / 2.0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; ++j) {
                 if (map[i][j] == 'c') {
@@ -85,7 +85,7 @@ int main() {
                 for (int j = 0; j < y; ++j) {
                     if (map[i][j] == 'v') {
                         // Generate the road from (xq, yq) to the village (i, j)
-                        Road(xq, yq, i, j);
+                        Road(xq, yq, i, j,x,y);
                     }
                 }
             }

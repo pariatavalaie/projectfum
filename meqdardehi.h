@@ -18,6 +18,6 @@ void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
 
-void Road(int xq,int yq,int xv,int yv);
+void Road(int xq,int yq,int xv,int yv,int i,int j);
 
 #endif
