@@ -20,6 +20,6 @@ void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
 
-void SuggestedRoad(int xq,int yq,int i,int k,int j);
+void SuggestedRoad(int xq,int yq,int i);
 
 #endif
