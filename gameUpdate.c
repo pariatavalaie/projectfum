@@ -172,24 +172,27 @@ void Road(int xroad,int yroad,int villagecount) {
                 CheckCell(xroad, yroad);
                 Upgrade();
             }
-        } else if (xroad == x - 1)
+        }else if (xroad == x - 1){
             if (map[xroad][yroad + 1].type == -currentkingdom || map[xroad][yroad - 1].type == -currentkingdom ||
                 map[xroad - 1][yroad].type == -currentkingdom) {
                 CheckCell(xroad, yroad);
-                Upgrade();
-            } else if (yroad == y - 1) {
+                Upgrade();}}
+
+        else if (yroad == y - 1) {
                 if (map[xroad][yroad - 1].type == -currentkingdom || map[xroad + 1][yroad].type == -currentkingdom ||
                     map[xroad - 1][yroad].type == -currentkingdom) {
                     CheckCell(xroad, yroad);
                     Upgrade();
-                }
-            } else if (map[xroad][yroad + 1].type == -currentkingdom || map[xroad][yroad - 1].type == -currentkingdom ||
+
+                }}
+
+       else {if (map[xroad][yroad + 1].type == -currentkingdom || map[xroad][yroad - 1].type == -currentkingdom ||
                        map[xroad + 1][yroad].type == -currentkingdom || map[xroad - 1][yroad].type == -currentkingdom) {
                 CheckCell(xroad, yroad);
                 Upgrade();
-            }
+            }}
 
-        for (int i = 0; i < villagecount; ++i) {
+       for (int i = 0; i < villagecount; ++i) {
             if (villages[i].ownerId == currentkingdom) {
                 if (xroad == villages[i].x) {
                     if (yroad == villages[i].y + 1 || yroad == villages[i].y - 1) {
