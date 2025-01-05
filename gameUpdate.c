@@ -6,6 +6,7 @@
 #include "meqdardehi.h"
 #include "type.h"
 #include "gameUpdate.h"
+
 extern int x,y;
 
 void workers() {
