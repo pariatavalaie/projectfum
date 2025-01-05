@@ -135,7 +135,7 @@ int main() {
             int yv=((mouseposition.x-offsetX)/68);
             for (int k = 0; k < villageCount ; ++k) {
                 if(villages[k].x==xv&&villages[k].y==yv){
-                    SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,k);
+                    SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,k,x,y);
                     for (int i = 0; i < x ; ++i) {
                         for (int j = 0; j <y ; ++j) {
                             if(map[i][j].road==k)DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
