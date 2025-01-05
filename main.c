@@ -14,14 +14,13 @@ Kingdom kingdoms[4];
 Village villages[20];
 
 int main() {
-
     //receiving map Height and Width
     for (int i = 0; i < 17 ; ++i) {
-     for(int j=0;j < 17; j++) {
-         map[i][j].type=10;
-         map[i][j].road=-10;
-         map[i][j].dificulty=-10;
-     }
+        for(int j=0;j < 17; j++) {
+            map[i][j].type=10;
+            map[i][j].road=-10;
+            map[i][j].dificulty=-10;
+        }
     }
 
     int kingdomCount = 0;
@@ -33,12 +32,8 @@ int main() {
         scanf("%d %d", &x, &y);
     }
     int maxS ;
-    printf("please enter the maximum soldiers: ");
+    printf("please inter the maximum soldiers: ");
     scanf("%d" ,&maxS);
-    if(maxS < 0 ){
-        printf("please enter the maximum soldiers: ");
-        scanf("%d" ,&maxS);
-    }
 
     // Mark special points on the map
     Kingdoms(x, y, kingdoms, &kingdomCount);
@@ -140,7 +135,7 @@ int main() {
             int yv=((mouseposition.x-offsetX)/68);
             for (int k = 0; k < villageCount ; ++k) {
                 if(villages[k].x==xv&&villages[k].y==yv){
-                    SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,k);
+                    SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,k,x,y);
                     for (int i = 0; i < x ; ++i) {
                         for (int j = 0; j <y ; ++j) {
                             if(map[i][j].road==k)DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
