@@ -13,19 +13,19 @@ int main() {
     //receiving map Height and Width
     int x, y;
     int VillageNum;
-    printf("please inter Height and Width:");
+    printf("please enter Height and Width:");
     scanf("%d %d", &x, &y);
     while (x <= 0 || y <= 0 || x > 17 || y > 17) {
-        printf("please inter Height and Width:");
+        printf("please enter Height and Width:");
         scanf("%d %d", &x, &y);
     }
 
     //marking special points (map[i][j]) on the map
     Kingdom(x, y);
-    printf("inter Village's number please:");
+    printf("enter Village's number please:");
     scanf("%d", &VillageNum);
     while (VillageNum < 0 || VillageNum > 20) {
-        printf("inter Village's number please:");
+        printf("enter Village's number please:");
         scanf("%d", &VillageNum);
     }
 
