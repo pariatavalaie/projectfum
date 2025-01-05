@@ -4,6 +4,9 @@
 #include "raylib.h"
 #include "GRID2.h"
 
+#include "raylib.h"
+#include "GRID2.h"
+
 int grid(int i, int j) {
     // Calculate spacing between lines
     float vertical_spacing = 68;

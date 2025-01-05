@@ -6,6 +6,7 @@
 #include "meqdardehi.h"
 #include "type.h"
 #include "gameUpdate.h"
+
 extern int x,y;
 
 void workers() {
@@ -36,6 +37,8 @@ void soldier() {
         Upgrade();
     }else currentkingdom--;
 }
+
+
 void CheckCell(int xroad , int yroad){
     int cellDifficulty = map[xroad][yroad].type;
     if (cellDifficulty > kingdoms[currentkingdom].WorkersCount) {
@@ -45,6 +48,7 @@ void CheckCell(int xroad , int yroad){
     else {
         map[xroad][yroad].type=-currentkingdom;
     }
+
 }
 
 void takeV(int villagecount) {
