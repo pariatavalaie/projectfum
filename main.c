@@ -69,8 +69,8 @@ int main() {
 
         DrawTexture(Background, 0, 0, WHITE);
         grid(x, y);
-        float offsetX = (WINDOW_WIDTH - x * 68) / 2.0;
-        float offsetY = (WINDOW_HEIGHT - y * 68) / 2.0;
+        float offsetX = (WINDOW_WIDTH - y * 68) / 2.0;
+        float offsetY = (WINDOW_HEIGHT - x * 68) / 2.0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; ++j) {
                 Rectangle cellrect = {offsetX + j * 68, offsetY + i * 68, 68, 68
