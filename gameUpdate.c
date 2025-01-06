@@ -335,9 +335,7 @@ void CheckForBattle(int Xroad , int Yroad , int villageCount){
     if( xv >= 0 && yv >= 0){
         for( int i = 0 ; i < villageCount; i++){
             if( villages[i].x == xv && villages[i] . y == yv && villages[i].ownerId != -1){
-                if( villages[i] . ownerId != - currentkingdom ){
-                    attacker = -currentkingdom;
-                    defender = villages[i] . ownerId;
+                if( villages[i] . ownerId != defender){
                     BattleV(attacker , defender , i , Xroad , Yroad );
                     return;
                 }
