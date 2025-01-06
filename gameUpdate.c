@@ -252,7 +252,7 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad) {
  }
 
 
-void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad){
+void BattleV(int attacker, int defender, int i, int Xroad, int Yroad) {
     if(kingdoms[attacker].soldierCount > kingdoms[defender].soldierCount){
         villages[i] . ownerId = attacker;
         kingdoms[attacker].GoldProduction += villages[i].GoldProduction;
@@ -302,43 +302,40 @@ void BattleK(int Xroad , int Yroad , int attacker ,int defender ){
     }
 }
 
-void CheckForBattle(int Xroad , int Yroad , int villageCount){
-    int attacker , defender;
-    if(currentkingdom==0){
-        attacker=1;
-        defender=0;
+void CheckForBattle(int Xroad , int Yroad , int villageCount) {
+    int attacker, defender;
+    if (currentkingdom == 0) {
+        attacker = 1;
+        defender = 0;
+    } else {
+        attacker = 0;
+        defender = 1;
     }
-    else{
-        attacker=0;
-        defender=1;
+    int xv = -1, yv = -1;
+
+    if (map[Xroad + 1][Yroad].type == -attacker && map[Xroad + 1][Yroad].type != -defender && Xroad != x - 1) {
+        BattleR(Xroad, Yroad, attacker, defender);
+    } else if (map[Xroad - 1][Yroad].type == -attacker && map[Xroad - 1][Yroad].type != -defender && Xroad != 0) {
+        BattleR(Xroad, Yroad, attacker, defender);
+    } else if (map[Xroad][Yroad + 1].type == -attacker && map[Xroad][Yroad + 1].type != -defender && Yroad != y - 1) {
+        BattleR(Xroad, Yroad, attacker, defender);
+    } else if (map[Xroad][Yroad - 1].type == -attacker && map[Xroad][Yroad - 1].type != -defender && Yroad != y - 1) {
+        BattleR(Xroad, Yroad, attacker, defender);
+    } else if (map[Xroad + 1][Yroad].type == 'v' && Xroad != x - 1) {
+        xv = Xroad + 1, yv = Yroad;
+    } else if (map[Xroad - 1][Yroad].type == 'v' && Xroad != 0) {
+        xv = Xroad - 1, yv = Yroad;
+    } else if (map[Xroad][Yroad - 1].type == 'v' && Yroad != 0) {
+        xv = Xroad, yv = Yroad - 1;
+    } else if (map[Xroad][Yroad + 1].type == 'v' && Yroad != y - 1) {
+        xv = Xroad, yv = Yroad + 1;
     }
-     int xv = -1 , yv = -1;
 
-         if (map[Xroad + 1][Yroad].type ==-attacker && map[Xroad + 1][Yroad].type != -defender &&Xroad!=x-1) {
-             BattleR(Xroad , Yroad,attacker, defender);
-         } else if (map[Xroad - 1][Yroad].type==-attacker && map[Xroad - 1][Yroad].type != -defender&&Xroad!=0) {
-             BattleR(Xroad , Yroad,attacker, defender);
-         } else if (map[Xroad][Yroad + 1].type==-attacker&& map[Xroad][Yroad + 1].type != -defender&&Yroad!=y-1) {
-             BattleR(Xroad , Yroad,attacker, defender);
-         } else if (map[Xroad][Yroad - 1].type==-attacker && map[Xroad][Yroad - 1].type != -defender&&Yroad!=y-1) {
-             BattleR(Xroad , Yroad,attacker, defender);
-         } else if (map[Xroad + 1][Yroad].type == 'v'&&Xroad!=x-1) {
-             xv = Xroad + 1, yv = Yroad;
-         } else if (map[Xroad - 1][Yroad].type == 'v'&&Xroad!=0) {
-             xv = Xroad - 1, yv = Yroad;
-         } else if (map[Xroad][Yroad - 1].type == 'v'&&Yroad!=0) {
-             xv = Xroad, yv = Yroad - 1;
-         } else if (map[Xroad][Yroad + 1].type == 'v'&&Yroad!=y-1) {
-             xv = Xroad, yv = Yroad + 1;
-         }
-
-    if( xv >= 0 && yv >= 0){
-        for( int i = 0 ; i < villageCount; i++){
-            if( villages[i].x == xv && villages[i] . y == yv && villages[i].ownerId != -1){
-                if( villages[i] . ownerId != - currentkingdom ){
-                    attacker = -currentkingdom;
-                    defender = villages[i] . ownerId;
-                    BattleV(attacker , defender , i , Xroad , Yroad );
+    if (xv >= 0 && yv >= 0) {
+        for (int i = 0; i < villageCount; i++) {
+            if (villages[i].x == xv && villages[i].y == yv && villages[i].ownerId != -1) {
+                if (villages[i].ownerId != defender) {
+                    BattleV(attacker, defender, i, Xroad, Yroad);
                     return;
                 }
             }

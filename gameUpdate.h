@@ -25,7 +25,7 @@ void CheckCell(int xroad , int yroad);
 
 void DestroyRoads(int loserKingdom, int xRoad, int yRoad);
 
-void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad);
+void BattleV(int attacker, int defender, int i, int Xroad, int Yroad);
 
 void BattleR(int Xroad , int Yroad , int attacker , int defender  );
 
