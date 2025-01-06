@@ -172,6 +172,7 @@ int main() {
             xroad=((mouseposition.y-offsetY))/68;
             Road(xroad,yroad,villageCount);
             takeV(villageCount);
+            if(map[xroad][yroad].type==-currentkingdom){CheckForBattle(xroad,yroad,villageCount);}
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){

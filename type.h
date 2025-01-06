@@ -34,4 +34,5 @@ typedef struct map{
     int dificulty;
 }Map;
 
+
 #endif //UNTITLED10_TYPE_H
