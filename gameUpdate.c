@@ -223,6 +223,7 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad) {
     // Array to represent directions for adjacent tiles
     int directionsx[4] = {0,0,1,-1};
     int directionsy[4]={1,-1,0,0};
+    map[xRoad][yRoad].type=map[xRoad][yRoad].dificulty;
     while (1){
       int  found=0;
      // Loop through adjacent tiles and destroy roads related to the loser
@@ -234,11 +235,12 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad) {
            if (nx >= 0 && nx < x && ny >= 0 && ny < y) {
                // Remove the road if it belongs to the losing kingdom
                if (map[nx][ny].type == -loserKingdom) {
-                   xRoad = nx;
-                   yRoad = ny;
+                   xRoad=nx;
+                   yRoad=ny;
                    found = 1;
                    map[nx][ny].type = map[nx][ny].dificulty; // Reset road state to initial (destroyed)
-               } else if (map[nx][ny].type == 'c') {
+                   i=0;
+               } else if (map[nx][ny].type == 'c'&&kingdoms[loserKingdom].x==nx&&kingdoms[loserKingdom].y==ny) {
                    return;
                }
 
