@@ -23,4 +23,14 @@ void takeV(int villagecount);
 
 void CheckCell(int xroad , int yroad);
 
+void DestroyRoads(int loserKingdom, int xRoad, int yRoad, int maxX, int maxY);
+
+void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad);
+
+void BattleR(int Xroad , int Yroad , int attacker , int defender  );
+
+void BattleK(int Xroad , int Yroad , int attacker ,int defender );
+
+void CheckForBattle(int Xroad , int Yroad , int villageCount);
+
 #endif //PROJECTFUM_GAMEUPDATE_H
