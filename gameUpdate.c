@@ -214,7 +214,7 @@ void Road(int xroad,int yroad,int villagecount) {
 }
 //phase 4;
 
-void DestroyRoads(int loserKingdom, int xRoad, int yRoad) {
+void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
     // Validate battlefield coordinates
     if (xRoad < 0 || xRoad >= x|| yRoad < 0 || yRoad >= y) {
         return;
@@ -240,9 +240,20 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad) {
                    found = 1;
                    map[nx][ny].type = map[nx][ny].dificulty; // Reset road state to initial (destroyed)
                    i=0;
-               } else if (map[nx][ny].type == 'c'&&kingdoms[loserKingdom].x==nx&&kingdoms[loserKingdom].y==ny) {
+               } else
+                   for (int j = 0; j <villagecount ; ++j) {
+                     if(villages[j].x==nx&&villages[j].y==ny&&villages[j].ownerId==loserKingdom) {
+                         xRoad=nx;
+                         yRoad=ny;
+                         found = 1;
+                         i=0;
+                         villages[i].ownerId=-1;
+                     }
+                   }
+
+                 if (map[nx][ny].type == 'c'&&kingdoms[loserKingdom].x==nx&&kingdoms[loserKingdom].y==ny) {
                    return;
-               }
+                }
 
            }
        }
@@ -252,7 +263,7 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad) {
  }
 
 
-void BattleV(int attacker, int defender, int i, int Xroad, int Yroad) {
+void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad,int villagecount){
     if(kingdoms[attacker].soldierCount > kingdoms[defender].soldierCount){
         villages[i] . ownerId = attacker;
         kingdoms[attacker].GoldProduction += villages[i].GoldProduction;
@@ -264,16 +275,16 @@ void BattleV(int attacker, int defender, int i, int Xroad, int Yroad) {
         kingdoms[defender].FoodProduction -= villages[i].FoodProduction;
         kingdoms[defender].GoldProduction -= villages[i].GoldProduction;
         kingdoms[defender].soldierCount = 0;
-        DestroyRoads(defender , Xroad ,Yroad );
+        DestroyRoads(defender , Xroad ,Yroad,villagecount);
     }
     else if(kingdoms[attacker].soldierCount == kingdoms[defender].soldierCount){
         kingdoms[attacker] .soldierCount = 0;
         kingdoms[defender] .soldierCount = 0;
-        DestroyRoads(attacker , Xroad , Yroad );
-        DestroyRoads(defender , Xroad ,Yroad );
+        DestroyRoads(attacker , Xroad , Yroad,villagecount );
+        DestroyRoads(defender , Xroad ,Yroad,villagecount );
     }
 }
-void BattleR(int Xroad , int Yroad , int attacker , int defender  ){
+void BattleR(int Xroad , int Yroad , int attacker , int defender,int villagecount  ){
     int loser;
     if (kingdoms[attacker].soldierCount > kingdoms[defender].soldierCount) {
         loser = defender;
@@ -284,12 +295,12 @@ void BattleR(int Xroad , int Yroad , int attacker , int defender  ){
     }
     else if(kingdoms[attacker] . soldierCount == kingdoms[defender].soldierCount){
         loser = attacker;
-        DestroyRoads(defender,Xroad,Yroad);
+        DestroyRoads(defender,Xroad,Yroad,villagecount);
     }
-    DestroyRoads( loser, Xroad , Yroad );
+    DestroyRoads( loser, Xroad , Yroad,villagecount );
 }
 
-void BattleK(int Xroad , int Yroad , int attacker ,int defender ){
+void BattleK(int Xroad , int Yroad , int attacker ,int defender,int villagecount ){
     if (kingdoms[attacker].soldierCount > kingdoms[defender].soldierCount) {
 
     }
@@ -297,8 +308,8 @@ void BattleK(int Xroad , int Yroad , int attacker ,int defender ){
 
     }
     else if(kingdoms[attacker] . soldierCount == kingdoms[defender].soldierCount){
-        DestroyRoads(attacker , Xroad ,Yroad );
-        DestroyRoads(defender , Xroad ,Yroad );
+        DestroyRoads(attacker , Xroad ,Yroad,villagecount);
+        DestroyRoads(defender , Xroad ,Yroad,villagecount );
     }
 }
 
@@ -311,31 +322,31 @@ void CheckForBattle(int Xroad , int Yroad , int villageCount) {
         attacker = 0;
         defender = 1;
     }
-    int xv = -1, yv = -1;
+     int xv = -1 , yv = -1;
 
-    if (map[Xroad + 1][Yroad].type == -attacker && map[Xroad + 1][Yroad].type != -defender && Xroad != x - 1) {
-        BattleR(Xroad, Yroad, attacker, defender);
-    } else if (map[Xroad - 1][Yroad].type == -attacker && map[Xroad - 1][Yroad].type != -defender && Xroad != 0) {
-        BattleR(Xroad, Yroad, attacker, defender);
-    } else if (map[Xroad][Yroad + 1].type == -attacker && map[Xroad][Yroad + 1].type != -defender && Yroad != y - 1) {
-        BattleR(Xroad, Yroad, attacker, defender);
-    } else if (map[Xroad][Yroad - 1].type == -attacker && map[Xroad][Yroad - 1].type != -defender && Yroad != y - 1) {
-        BattleR(Xroad, Yroad, attacker, defender);
-    } else if (map[Xroad + 1][Yroad].type == 'v' && Xroad != x - 1) {
-        xv = Xroad + 1, yv = Yroad;
-    } else if (map[Xroad - 1][Yroad].type == 'v' && Xroad != 0) {
-        xv = Xroad - 1, yv = Yroad;
-    } else if (map[Xroad][Yroad - 1].type == 'v' && Yroad != 0) {
-        xv = Xroad, yv = Yroad - 1;
-    } else if (map[Xroad][Yroad + 1].type == 'v' && Yroad != y - 1) {
-        xv = Xroad, yv = Yroad + 1;
-    }
+         if (map[Xroad + 1][Yroad].type ==-attacker && map[Xroad + 1][Yroad].type != -defender &&Xroad!=x-1) {
+             BattleR(Xroad , Yroad,attacker, defender,villageCount);
+         } else if (map[Xroad - 1][Yroad].type==-attacker && map[Xroad - 1][Yroad].type != -defender&&Xroad!=0) {
+             BattleR(Xroad , Yroad,attacker, defender,villageCount);
+         } else if (map[Xroad][Yroad + 1].type==-attacker&& map[Xroad][Yroad + 1].type != -defender&&Yroad!=y-1) {
+             BattleR(Xroad , Yroad,attacker, defender,villageCount);
+         } else if (map[Xroad][Yroad - 1].type==-attacker && map[Xroad][Yroad - 1].type != -defender&&Yroad!=y-1) {
+             BattleR(Xroad , Yroad,attacker, defender,villageCount);
+         } else if (map[Xroad + 1][Yroad].type == 'v'&&Xroad!=x-1) {
+             xv = Xroad + 1, yv = Yroad;
+         } else if (map[Xroad - 1][Yroad].type == 'v'&&Xroad!=0) {
+             xv = Xroad - 1, yv = Yroad;
+         } else if (map[Xroad][Yroad - 1].type == 'v'&&Yroad!=0) {
+             xv = Xroad, yv = Yroad - 1;
+         } else if (map[Xroad][Yroad + 1].type == 'v'&&Yroad!=y-1) {
+             xv = Xroad, yv = Yroad + 1;
+         }
 
-    if (xv >= 0 && yv >= 0) {
-        for (int i = 0; i < villageCount; i++) {
-            if (villages[i].x == xv && villages[i].y == yv && villages[i].ownerId != -1) {
-                if (villages[i].ownerId != defender) {
-                    BattleV(attacker, defender, i, Xroad, Yroad);
+    if( xv >= 0 && yv >= 0){
+        for( int i = 0 ; i < villageCount; i++){
+            if( villages[i].x == xv && villages[i] . y == yv && villages[i].ownerId != -1){
+                if( villages[i] . ownerId != defender){
+                    BattleV(attacker , defender , i , Xroad , Yroad ,villageCount);
                     return;
                 }
             }

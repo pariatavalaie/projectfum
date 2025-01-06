@@ -52,6 +52,7 @@ int main() {
     Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/Tile2_64.png");
     Texture2D guide= LoadTexture("C:/Users/Asus/CLionProjects/projectfum/IMG_20241225_205735_469.png");
     // Set the target frame rate to 60 frames per second for smooth rendering
+
     SetTargetFPS(60);
 
     // drawing Map
@@ -172,7 +173,8 @@ int main() {
             xroad=((mouseposition.y-offsetY))/68;
             Road(xroad,yroad,villageCount);
             takeV(villageCount);
-            if(map[xroad][yroad].type==-currentkingdom){CheckForBattle(xroad,yroad,villageCount);}
+            if(map[xroad][yroad].type==-currentkingdom){CheckForBattle(xroad,yroad,villageCount);
+                }
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){
