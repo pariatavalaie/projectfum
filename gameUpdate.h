@@ -23,13 +23,13 @@ void takeV(int villagecount);
 
 void CheckCell(int xroad , int yroad);
 
-void DestroyRoads(int loserKingdom, int xRoad, int yRoad);
+void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount);
 
-void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad);
+void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad,int villagecount);
 
-void BattleR(int Xroad , int Yroad , int attacker , int defender  );
+void BattleR(int Xroad , int Yroad , int attacker , int defender,int villagecount  );
 
-void BattleK(int Xroad , int Yroad , int attacker ,int defender );
+void BattleK(int Xroad , int Yroad , int attacker ,int defender ,int villagecount);
 
 void CheckForBattle(int Xroad , int Yroad , int villageCount);
 
