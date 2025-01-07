@@ -215,6 +215,7 @@ void Road(int xroad,int yroad,int villagecount) {
 //phase 4;
 
 void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
+    int xr=xRoad,yr=yRoad;
     // Validate battlefield coordinates
     if (xRoad < 0 || xRoad >= x|| yRoad < 0 || yRoad >= y) {
         return;
