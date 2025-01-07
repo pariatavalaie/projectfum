@@ -224,7 +224,7 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
     // Array to represent directions for adjacent tiles
     int directionsx[4] = {0,0,1,-1};
     int directionsy[4]={1,-1,0,0};
-    map[xRoad][yRoad].type=map[xRoad][yRoad].dificulty;
+   if(map[xRoad][yRoad].type!=-loserKingdom) map[xRoad][yRoad].type=map[xRoad][yRoad].dificulty;
     while (1){
       int  found=0;
      // Loop through adjacent tiles and destroy roads related to the loser
@@ -241,7 +241,7 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
                    found = 1;
                    map[nx][ny].type = map[nx][ny].dificulty; // Reset road state to initial (destroyed)
                    i=0;
-               } else
+               }
                    for (int j = 0; j <villagecount ; ++j) {
                      if(villages[j].x==nx&&villages[j].y==ny&&villages[j].ownerId==loserKingdom) {
                          xRoad=nx;
@@ -286,7 +286,7 @@ void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad,int v
     }
 }
 void BattleR(int Xroad , int Yroad , int attacker , int defender,int villagecount  ){
-    int loser;
+    int loser=-1;
     if (kingdoms[attacker].soldierCount > kingdoms[defender].soldierCount) {
         loser = defender;
     }
@@ -294,7 +294,7 @@ void BattleR(int Xroad , int Yroad , int attacker , int defender,int villagecoun
         loser = attacker;
 
     }
-    else if(kingdoms[attacker] . soldierCount == kingdoms[defender].soldierCount){
+    else if(kingdoms[attacker].soldierCount == kingdoms[defender].soldierCount){
         loser = attacker;
         DestroyRoads(defender,Xroad,Yroad,villagecount);
     }
