@@ -119,6 +119,8 @@ void Empty(int k, int i) {
                 //setting difficulty
                 map[r][j].type = GetRandomValue(1, 5);
                 map[r][j].dificulty=map[r][j].type;
+                map[r][j].remain0=map[r][j].type;
+                map[r][j].remain1=map[r][j].type;
             }
         }
     }

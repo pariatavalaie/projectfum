@@ -32,6 +32,8 @@ typedef struct map{
     int type;
     int road;
     int dificulty;
+    int remain0;
+    int remain1;
 }Map;
 
 

@@ -94,8 +94,11 @@ int main() {
                 }else if(map[i][j].type==-3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
                 }
-                else{
-                    char text = map[i][j].type;
+                else if(currentkingdom==0){
+                    char text = map[i][j].remain0;
+                    DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
+                } else if(currentkingdom==1){
+                    char text = map[i][j].remain1;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
                 if (CheckCollisionPointRec(mouseposition, cellrect)) {
@@ -171,10 +174,14 @@ int main() {
             int xroad,yroad;
             yroad=((mouseposition.x-offsetX)/68);
             xroad=((mouseposition.y-offsetY))/68;
+            if(map[xroad][yroad].type==-currentkingdom){
+                currentkingdom--;
+            }
+            else{
             Road(xroad,yroad,villageCount);
             takeV(villageCount);
             if(map[xroad][yroad].type==-currentkingdom){CheckForBattle(xroad,yroad,villageCount);
-                }
+                }}
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){
