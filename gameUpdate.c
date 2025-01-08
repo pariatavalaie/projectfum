@@ -227,9 +227,31 @@ void Road(int xroad,int yroad,int villagecount) {
     else if (map[xroad][yroad].remain1 == dificult&&currentkingdom==1&&map[xroad][yroad].type!=-1) currentkingdom--;
 }
 //phase 4;
+void destroy(int loserkingdom,int xr,int yr){
+    if(map[xr][yr].type==-loserkingdom){if (loserkingdom == 0) map[xr][yr].remain0 = map[xr][yr].dificulty;
+        else map[xr][yr].remain1 = map[xr][yr].dificulty;
+     map[xr][yr].type=map[xr][yr].dificulty;}
+
+    if(map[xr-1][yr].type==-loserkingdom&&xr!=0){if (loserkingdom == 0) map[xr-1][yr].remain0 = map[xr-1][yr].dificulty;
+        else map[xr-1][yr].remain1 = map[xr-1][yr].dificulty;
+        map[xr-1][yr].type=map[xr-1][yr].dificulty;}
+
+    if(map[xr+1][yr].type==-loserkingdom&&xr!=x-1){if (loserkingdom == 0) map[xr+1][yr].remain0 = map[xr+1][yr].dificulty;
+        else map[xr+1][yr].remain1 = map[xr+1][yr].dificulty;
+        map[xr+1][yr].type=map[xr+1][yr].dificulty;}
+
+    if(map[xr][yr-1].type==-loserkingdom&&yr!=0){if (loserkingdom == 0) map[xr][yr-1].remain0 = map[xr][yr-1].dificulty;
+        else map[xr][yr-1].remain1 = map[xr][yr-1].dificulty;
+        map[xr][yr-1].type=map[xr][yr-1].dificulty;}
+
+    if(map[xr][yr+1].type==-loserkingdom&&yr!=y-1){if (loserkingdom == 0) map[xr][yr+1].remain0 = map[xr][yr+1].dificulty;
+        else map[xr][yr+1].remain1 = map[xr][yr+1].dificulty;
+        map[xr][yr+1].type=map[xr][yr].dificulty;}
+}
 
 void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
-
+ int xk=kingdoms[loserKingdom].x;
+ int yk=kingdoms[loserKingdom].y;
     // Validate battlefield coordinates
     if (xRoad < 0 || xRoad >= x|| yRoad < 0 || yRoad >= y) {
         return;
@@ -247,8 +269,8 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
       int  found=0;
      // Loop through adjacent tiles and destroy roads related to the loser
        for (int i = 0; i < 4; i++) {
-           int nx = xRoad + directionsx[i];
-           int ny = yRoad + directionsy[i];
+           int nx = xk + directionsx[i];
+           int ny = yk+ directionsy[i];
 
            // Check if the adjacent tile is within bounds
            if (nx >= 0 && nx < x && ny >= 0 && ny < y) {
@@ -259,12 +281,12 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
                    }
                }
                if (map[nx][ny].type == -loserKingdom) {
-                   xRoad=nx;
-                   yRoad=ny;
+                   xk=nx;
+                   yk=ny;
                    found = 1;
                   if(loserKingdom==0) map[nx][ny].remain0= map[nx][ny].dificulty;// Reset road state to initial (destroyed)
-                  else map[xRoad][yRoad].remain1 = map[xRoad][yRoad].dificulty;
-                  map[xRoad][yRoad].type=map[xRoad][yRoad].dificulty;
+                  else map[nx][ny].remain1 = map[nx][ny].dificulty;
+                  map[nx][ny].type=map[xRoad][yRoad].dificulty;
                    i=0;
                }
 
@@ -281,7 +303,7 @@ void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount) {
                    }
 
 
-               if (map[nx][ny].type == 'c'&&kingdoms[loserKingdom].x==nx&&kingdoms[loserKingdom].y==ny) {
+               if () {
                    return;}
 
            }
