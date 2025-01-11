@@ -28,7 +28,8 @@ typedef struct Village {
     int FoodProduction;
 }Village;
 
-typedef struct map{
+
+typedef struct map {
     int type;
     int road;
     int dificulty;

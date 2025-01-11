@@ -8,6 +8,7 @@
 #include "GRID2.h"
 #include "meqdardehi.h"
 #include "type.h"
+extern  int winner;
 
 void Food();
 
