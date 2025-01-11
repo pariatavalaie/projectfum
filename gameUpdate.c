@@ -9,13 +9,19 @@
 #include "stdbool.h"
 
 extern int x, y;
-
+Color Error = (Color){89, 12, 36 ,80};
 void workers() {
     if (kingdoms[currentkingdom].Serve >= 3) {
         kingdoms[currentkingdom].WorkersCount++;
         kingdoms[currentkingdom].Serve -= 3;
         Upgrade();
-    } else currentkingdom--;
+    } else {
+        DrawRectangle(750 , 510, 700 , 100 , Error);
+        DrawText("You cannot Hire Worker.",750 , 510 , 50 , BLACK);
+        EndDrawing();
+        WaitTime(1);
+        currentkingdom--;
+    }
 }
 
 void Upgrade() {
@@ -28,7 +34,13 @@ void Food() {
         kingdoms[currentkingdom].Serve++;
         kingdoms[currentkingdom].Gold--;
         Upgrade();
-    } else currentkingdom--;
+    } else {
+        DrawRectangle(750 , 510, 700 , 100 , Error);
+        DrawText("You cannot Buy food.",750 , 510 , 50 , BLACK);
+        EndDrawing();
+        WaitTime(1);
+        currentkingdom--;
+    }
 }
 
 void soldier() {
@@ -36,7 +48,13 @@ void soldier() {
         kingdoms[currentkingdom].soldierCount++;
         kingdoms[currentkingdom].Gold -= 2;
         Upgrade();
-    } else currentkingdom--;
+    } else {
+        DrawRectangle(750 , 510, 700 , 100 , Error);
+        DrawText("You cannot Hire Soldier.",750 , 510 , 50 , BLACK);
+        EndDrawing();
+        WaitTime(1);
+        currentkingdom--;
+    }
 }
 
 
@@ -218,10 +236,13 @@ void Road(int xroad,int yroad,int villagecount) {
                     }
                 }
             }
-        }}
+        }
+    }
 
-    if (map[xroad][yroad].remain0 == dificult&&currentkingdom==0&&map[xroad][yroad].type!=0) currentkingdom--;
-    else if (map[xroad][yroad].remain1 == dificult&&currentkingdom==1&&map[xroad][yroad].type!=-1) currentkingdom--;
+    if (map[xroad][yroad].remain0 == dificult && currentkingdom == 0 && map[xroad][yroad].type != 0) currentkingdom--;
+    else if (map[xroad][yroad].remain1 == dificult && currentkingdom == 1 &&
+             map[xroad][yroad].type != -1)
+        currentkingdom--;
 }
 
 //phase 4;
@@ -231,7 +252,10 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
     }
 
     bool visited[17][17] = {false};
-    int dirs[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    int dirs[4][2] = {{-1, 0},
+                      {1,  0},
+                      {0,  -1},
+                      {0,  1}};
 
 #define QMAX 289
     int qx[QMAX], qy[QMAX];
@@ -345,9 +369,10 @@ void BattleR(int Xroad, int Yroad, int attacker, int defender, int villagecount)
         kingdoms[attacker].soldierCount = 0;
         kingdoms[defender].soldierCount -= kingdoms[attacker].soldierCount;
     } else if (kingdoms[attacker].soldierCount == kingdoms[defender].soldierCount) {
-        loser = attacker;  // In case of equal soldiers, we can assume attacker loses
-        DestroyRoads(defender, Xroad, Yroad, villagecount);  // Remove roads for defender
-        map[Xroad][Yroad].type = -attacker;  // Mark the road with the attacker's kingdom
+        loser = attacker;
+        DestroyRoads(defender, Xroad, Yroad, villagecount);
+        map[Xroad][Yroad].type = -loser;
+        map[Xroad][Yroad].type = -attacker;
         kingdoms[attacker].soldierCount = 0;
         kingdoms[defender].soldierCount = 0;
     }
@@ -392,6 +417,7 @@ void BattleK(int Xroad, int Yroad, int attacker, int defender, int villagecount)
         DestroyRoads(attacker, Xroad, Yroad, villagecount);
     }
 }
+
 void CheckForBattle(int Xroad, int Yroad, int villageCount) {
     int attacker, defender;
     if (currentkingdom == 0) {
@@ -404,62 +430,42 @@ void CheckForBattle(int Xroad, int Yroad, int villageCount) {
     int xv = -1, yv = -1;
     int xk = -1, yk = -1;
 
-
-    if (Xroad != x - 1) {
-        if (map[Xroad + 1][Yroad].type == -attacker && map[Xroad + 1][Yroad].type != -defender) {
-            BattleR(Xroad, Yroad, attacker, defender, villageCount);
-            return;
-        } else if (map[Xroad + 1][Yroad].type == 'v') {
-            xv = Xroad + 1;
-            yv = Yroad;
-        } else if (map[Xroad + 1][Yroad].type == 'c') {
-            xk = Xroad + 1;
-            yk = Yroad;
+    if (map[Xroad + 1][Yroad].type == -attacker && map[Xroad + 1][Yroad].type != -defender && Xroad != x - 1) {
+        BattleR(Xroad, Yroad, attacker, defender, villageCount);
+    } else if (map[Xroad - 1][Yroad].type == -attacker && map[Xroad - 1][Yroad].type != -defender && Xroad != 0) {
+        BattleR(Xroad, Yroad, attacker, defender, villageCount);
+    } else if (map[Xroad][Yroad + 1].type == -attacker && map[Xroad][Yroad + 1].type != -defender && Yroad != y - 1) {
+        BattleR(Xroad, Yroad, attacker, defender, villageCount);
+    } else if (map[Xroad][Yroad - 1].type == -attacker && map[Xroad][Yroad - 1].type != -defender && Yroad != y - 1) {
+        BattleR(Xroad, Yroad, attacker, defender, villageCount);
+    } else if (map[Xroad + 1][Yroad].type == 'v' && Xroad != x - 1) {
+        xv = Xroad + 1, yv = Yroad;
+    } else if (map[Xroad - 1][Yroad].type == 'v' && Xroad != 0) {
+        xv = Xroad - 1, yv = Yroad;
+    } else if (map[Xroad][Yroad - 1].type == 'v' && Yroad != 0) {
+        xv = Xroad, yv = Yroad - 1;
+    } else if (map[Xroad][Yroad + 1].type == 'v' && Yroad != y - 1) {
+        xv = Xroad, yv = Yroad + 1;
+    } else if (map[Xroad + 1][Yroad].type == 'c' && Xroad != x - 1) {
+        xk = Xroad + 1, yk = Yroad;
+        if (kingdoms[defender].x == xk && kingdoms[defender].y == yk) {
+            BattleK(Xroad, Yroad, attacker, defender, villageCount);
         }
-    }
-
-    if (Xroad != 0) {
-        if (map[Xroad - 1][Yroad].type == -attacker && map[Xroad - 1][Yroad].type != -defender) {
-            BattleR(Xroad, Yroad, attacker, defender, villageCount);
-            return;
-        } else if (map[Xroad - 1][Yroad].type == 'v') {
-            xv = Xroad - 1;
-            yv = Yroad;
-        } else if (map[Xroad - 1][Yroad].type == 'c') {
-            xk = Xroad - 1;
-            yk = Yroad;
+    } else if (map[Xroad - 1][Yroad].type == 'c' && Xroad != 0) {
+        xk = Xroad - 1, yk = Yroad;
+        if (kingdoms[defender].x == xk && kingdoms[defender].y == yk) {
+            BattleK(Xroad, Yroad, attacker, defender, villageCount);
         }
-    }
-
-    if (Yroad != y - 1) {
-        if (map[Xroad][Yroad + 1].type == -attacker && map[Xroad][Yroad + 1].type != -defender) {
-            BattleR(Xroad, Yroad, attacker, defender, villageCount);
-            return;
-        } else if (map[Xroad][Yroad + 1].type == 'v') {
-            xv = Xroad;
-            yv = Yroad + 1;
-        } else if (map[Xroad][Yroad + 1].type == 'c') {
-            xk = Xroad;
-            yk = Yroad + 1;
+    } else if (map[Xroad][Yroad - 1].type == 'c' && Yroad != 0) {
+        xk = Xroad, yk = Yroad - 1;
+        if (kingdoms[defender].x == xk && kingdoms[defender].y == yk) {
+            BattleK(Xroad, Yroad, attacker, defender, villageCount);
         }
-    }
-
-    if (Yroad != 0) {
-        if (map[Xroad][Yroad - 1].type == -attacker && map[Xroad][Yroad - 1].type != -defender) {
-            BattleR(Xroad, Yroad, attacker, defender, villageCount);
-            return;
-        } else if (map[Xroad][Yroad - 1].type == 'v') {
-            xv = Xroad;
-            yv = Yroad - 1;
-        } else if (map[Xroad][Yroad - 1].type == 'c') {
-            xk = Xroad;
-            yk = Yroad - 1;
+    } else if (map[Xroad][Yroad + 1].type == 'c' && Yroad != y - 1) {
+        xk = Xroad, yk = Yroad + 1;
+        if (kingdoms[defender].x == xk && kingdoms[defender].y == yk) {
+            BattleK(Xroad, Yroad, attacker, defender, villageCount);
         }
-    }
-
-    if (xk >= 0 && yk >= 0) {
-        BattleK(Xroad, Yroad, attacker, defender, villageCount);
-        return;
     }
 
     if (xv >= 0 && yv >= 0) {
