@@ -98,7 +98,7 @@ int main() {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GREEN);
                 } else if (map[i][j].type == -3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
-<
+
                 } else if (currentkingdom == 0) {
                     char text = map[i][j].remain0;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
