@@ -62,11 +62,12 @@ int main() {
     while (!WindowShouldClose()) {
 
         Vector2 mouseposition = GetMousePosition();
-        if ( winner >= 0){
-            DrawRectangle(0 , 0, WINDOW_HEIGHT ,WINDOW_WIDTH, windowClosing);
-            DrawText(TextFormat("The Winner is Kingdom %d" , winner),500 , 500 , 50 , BLACK);
+        if (winner >= 0) {
+            DrawRectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, windowClosing);
+            DrawText(TextFormat("The Winner is Kingdom %d", winner), 500, 500, 50, BLACK);
+            EndDrawing();
+            WaitTime(6);
             CloseWindow();
-            WaitTime(60);
         }
 
         BeginDrawing();
@@ -89,19 +90,18 @@ int main() {
 
                 } else if (map[i][j].type == 'x') {
                     DrawTexture(ForceClosed, offsetX + j * 68, offsetY + i * 68, WHITE);
-                } else if(map[i][j].type==0){
-                    DrawRectangle( offsetX + j * 68, offsetY + i * 68,68,68,RED);
-                }else if(map[i][j].type==-1){
-                    DrawRectangle(offsetX + j * 68, offsetY + i * 68,68,68,WHITE);
-                }else if(map[i][j].type==-2){
-                    DrawRectangle(offsetX + j * 68, offsetY + i * 68,68,68,GREEN);
-                }else if(map[i][j].type==-3) {
+                } else if (map[i][j].type == 0) {
+                    DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, RED);
+                } else if (map[i][j].type == -1) {
+                    DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, WHITE);
+                } else if (map[i][j].type == -2) {
+                    DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GREEN);
+                } else if (map[i][j].type == -3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
-                }
-                else if(currentkingdom==0){
+                } else if (currentkingdom == 0) {
                     char text = map[i][j].remain0;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
-                } else if(currentkingdom==1){
+                } else if (currentkingdom == 1) {
                     char text = map[i][j].remain1;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
@@ -138,55 +138,58 @@ int main() {
 
             }
         }
-        if(IsKeyDown(KEY_R)){
-            int xv=((mouseposition.y-offsetY))/68;
-            int yv=((mouseposition.x-offsetX)/68);
-            for (int k = 0; k < villageCount ; ++k) {
-                if(villages[k].x==xv&&villages[k].y==yv){
-                    SuggestedRoad(kingdoms[currentkingdom].x,kingdoms[currentkingdom].y,k,x,y);
-                    for (int i = 0; i < x ; ++i) {
-                        for (int j = 0; j <y ; ++j) {
-                            if(map[i][j].road==k)DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
+        if (IsKeyDown(KEY_R)) {
+            int xv = ((mouseposition.y - offsetY)) / 68;
+            int yv = ((mouseposition.x - offsetX) / 68);
+            for (int k = 0; k < villageCount; ++k) {
+                if (villages[k].x == xv && villages[k].y == yv) {
+                    SuggestedRoad(kingdoms[currentkingdom].x, kingdoms[currentkingdom].y, k, x, y);
+                    for (int i = 0; i < x; ++i) {
+                        for (int j = 0; j < y; ++j) {
+                            if (map[i][j].road == k)DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GRAY);
                         }
-                    }}}
+                    }
+                }
+            }
 
 
         }
-        DrawText(TextFormat("TURN KINGDOM %d",currentkingdom+1),1,500,50,RED);
+        DrawText(TextFormat("TURN KINGDOM %d", currentkingdom + 1), 1, 500, 50, RED);
         int showguide;
-        if(IsKeyPressed(KEY_ENTER)){
-            showguide=!showguide;
+        if (IsKeyPressed(KEY_ENTER)) {
+            showguide = !showguide;
         }
-        if(showguide) DrawTexture(guide,500,0,WHITE);
+        if (showguide) DrawTexture(guide, 500, 0, WHITE);
 
         if (IsKeyPressed(KEY_ONE)) {
 
             soldier();
             currentkingdom++;
-        }
-        else if (IsKeyPressed(KEY_TWO)) {
+        } else if (IsKeyPressed(KEY_TWO)) {
 
             workers();
             currentkingdom++;
-        }
-        else if (IsKeyPressed(KEY_THREE)) {
+        } else if (IsKeyPressed(KEY_THREE)) {
             Food();
             currentkingdom++;
-        }
-
-        else if(IsKeyPressed(KEY_FOUR)){
-            int xroad,yroad;
-            yroad=((mouseposition.x-offsetX)/68);
-            xroad=((mouseposition.y-offsetY))/68;
-            if(map[xroad][yroad].type==-currentkingdom){
-                currentkingdom--;
+        } else if (IsKeyPressed(KEY_FOUR)) {
+            int xroad, yroad;
+            yroad = ((mouseposition.x - offsetX) / 68);
+            xroad = ((mouseposition.y - offsetY)) / 68;
+            for (int i = 0; i < 3; i++) {
+                if (map[xroad][yroad].type == -currentkingdom) {
+                    currentkingdom--;
+                } else {
+                    Road(xroad, yroad, villageCount);
+                    takeV(villageCount);
+                    for (int j = 0; j < 3; j++) {
+                        if (map[xroad][yroad].type == -currentkingdom) {
+                            CheckForBattle(xroad, yroad, villageCount);
+                        }
+                    }
+                }
+                currentkingdom++;
             }
-            else{
-                Road(xroad,yroad,villageCount);
-                takeV(villageCount);
-                if(map[xroad][yroad].type==-currentkingdom){CheckForBattle(xroad,yroad,villageCount);
-                }}
-            currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){
             Upgrade();
