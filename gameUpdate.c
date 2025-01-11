@@ -313,6 +313,8 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
             } else if (map[nx][ny].type == 'v') {
                 for (int v = 0; v < villagecount; v++) {
                     if (villages[v].x == nx && villages[v].y == ny && villages[v].ownerId == loserKingdom) {
+                        kingdoms[villages[v].ownerId].FoodProduction -= villages[v].FoodProduction;
+                        kingdoms[villages[v].ownerId].GoldProduction -= villages[v].GoldProduction;
                         villages[v].ownerId = -1;
                         visited[nx][ny] = true;
                         qx[back] = nx;
