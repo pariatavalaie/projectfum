@@ -28,6 +28,7 @@ void workers() {
 void Upgrade() {
     kingdoms[currentkingdom].Gold += kingdoms[currentkingdom].GoldProduction;
     kingdoms[currentkingdom].Serve += kingdoms[currentkingdom].FoodProduction;
+
 }
 
 void Food() {
@@ -268,7 +269,10 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
 
     // Only start removing roads if the starting cell is a road
     if (map[startX][startY].type == -loserKingdom) {
-        map[startX][startY].type = map[startX][startY].dificulty;
+        map[startX][startY].type=map[startX][startY].dificulty;
+        if(loserKingdom==0)map[startX][startY].remain0 = map[startX][startY].dificulty;
+
+        else map[startX][startY].remain1 = map[startX][startY].dificulty;
     }
     visited[startX][startY] = true;
 
@@ -336,7 +340,9 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
 
                 // Otherwise, delete the road
                 printf("Deleting road at (%d, %d)\n", nx, ny);
-                map[nx][ny].type = map[nx][ny].dificulty;
+                map[nx][ny].type=map[nx][ny].dificulty;
+                if(loserKingdom==0)map[nx][ny].remain0 = map[nx][ny].dificulty;
+                else map[nx][ny].remain1 = map[nx][ny].dificulty;
                 visited[nx][ny] = true;
                 qx[back] = nx;
                 qy[back] = ny;

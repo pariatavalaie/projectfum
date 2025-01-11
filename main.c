@@ -9,6 +9,7 @@
 Map map[17][17];
 int x, y;
 int currentkingdom = 0;
+int count=1;
 int gameOver = 0;
 int winner = -1;
 Kingdom kingdoms[4];
@@ -156,7 +157,8 @@ int main() {
 
 
         }
-        DrawText(TextFormat("TURN KINGDOM %d", currentkingdom + 1), 1, 500, 50, RED);
+        DrawText(TextFormat("TURN KINGDOM %d", currentkingdom + 1),offsetX+68*2-5,30,50,BLACK);
+        DrawText(TextFormat("Round %d",count),offsetX+68*2,70,50,BLACK);
         int showguide;
         if (IsKeyPressed(KEY_ENTER)) {
             showguide = !showguide;
@@ -197,6 +199,7 @@ int main() {
         }
         if (currentkingdom >= kingdomCount) {
             currentkingdom = 0; // Loop back to the first kingdom
+            count++;
         }
 
 
