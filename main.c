@@ -184,9 +184,9 @@ int main() {
                 } else {
                     Road(xroad, yroad, villageCount);
                     takeV(villageCount);
-                        if (map[xroad][yroad].type == -currentkingdom) {
-                            CheckForBattle(xroad, yroad, villageCount);
-                        }
+                    if (map[xroad][yroad].type == -currentkingdom) {
+                        CheckForBattle(xroad, yroad, villageCount);
+                    }
                 }
                 currentkingdom++;
 
