@@ -176,20 +176,16 @@ int main() {
             int xroad, yroad;
             yroad = ((mouseposition.x - offsetX) / 68);
             xroad = ((mouseposition.y - offsetY)) / 68;
-            for (int i = 0; i < 3; i++) {
                 if (map[xroad][yroad].type == -currentkingdom) {
                     currentkingdom--;
                 } else {
                     Road(xroad, yroad, villageCount);
                     takeV(villageCount);
-                    for (int j = 0; j < 3; j++) {
                         if (map[xroad][yroad].type == -currentkingdom) {
                             CheckForBattle(xroad, yroad, villageCount);
                         }
-                    }
                 }
                 currentkingdom++;
-            }
         }
         else if (IsKeyPressed(KEY_FIVE)){
             Upgrade();
