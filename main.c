@@ -10,8 +10,10 @@ Map map[17][17];
 int x, y;
 int currentkingdom = 0;
 int gameOver = 0;
+int winner = -1;
 Kingdom kingdoms[4];
 Village villages[20];
+Color windowClosing = (Color){197, 205, 232 ,60};
 
 int main() {
     //receiving map Height and Width
@@ -57,12 +59,14 @@ int main() {
 
     // drawing Map
 
-    while (!WindowShouldClose()&&!gameOver ) {
+    while (!WindowShouldClose()) {
 
         Vector2 mouseposition = GetMousePosition();
-
-        if ( kingdoms[currentkingdom].villagenumber==villageCount && kingdoms[currentkingdom] . soldierCount == maxS){
-            gameOver = 1;
+        if ( winner >= 0){
+            DrawRectangle(0 , 0, WINDOW_HEIGHT ,WINDOW_WIDTH, windowClosing);
+            DrawText(TextFormat("The Winner is Kingdom %d" , winner),500 , 500 , 50 , BLACK);
+            CloseWindow();
+            WaitTime(60);
         }
 
         BeginDrawing();
@@ -94,8 +98,11 @@ int main() {
                 }else if(map[i][j].type==-3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
                 }
-                else{
-                    char text = map[i][j].type;
+                else if(currentkingdom==0){
+                    char text = map[i][j].remain0;
+                    DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
+                } else if(currentkingdom==1){
+                    char text = map[i][j].remain1;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
                 if (CheckCollisionPointRec(mouseposition, cellrect)) {
@@ -171,10 +178,14 @@ int main() {
             int xroad,yroad;
             yroad=((mouseposition.x-offsetX)/68);
             xroad=((mouseposition.y-offsetY))/68;
-            Road(xroad,yroad,villageCount);
-            takeV(villageCount);
-            if(map[xroad][yroad].type==-currentkingdom){CheckForBattle(xroad,yroad,villageCount);
-                }
+            if(map[xroad][yroad].type==-currentkingdom){
+                currentkingdom--;
+            }
+            else{
+                Road(xroad,yroad,villageCount);
+                takeV(villageCount);
+                if(map[xroad][yroad].type==-currentkingdom){CheckForBattle(xroad,yroad,villageCount);
+                }}
             currentkingdom++;
         }
         else if (IsKeyPressed(KEY_FIVE)){
