@@ -98,10 +98,12 @@ int main() {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GREEN);
                 } else if (map[i][j].type == -3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
+<
                 } else if (currentkingdom == 0) {
                     char text = map[i][j].remain0;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 } else if (currentkingdom == 1) {
+
                     char text = map[i][j].remain1;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
                 }
@@ -172,6 +174,7 @@ int main() {
         } else if (IsKeyPressed(KEY_THREE)) {
             Food();
             currentkingdom++;
+
         } else if (IsKeyPressed(KEY_FOUR)) {
             int xroad, yroad;
             yroad = ((mouseposition.x - offsetX) / 68);
@@ -186,6 +189,7 @@ int main() {
                     }
                 }
                 currentkingdom++;
+
         }
         else if (IsKeyPressed(KEY_FIVE)){
             Upgrade();

@@ -24,6 +24,8 @@ void takeV(int villagecount);
 
 void CheckCell(int xroad , int yroad);
 
+void destroy(int looserkingdom,int xr,int yr);
+
 void DestroyRoads(int loserKingdom, int xRoad, int yRoad,int villagecount);
 
 void BattleV( int attacker , int defender , int i  , int Xroad , int Yroad,int villagecount);

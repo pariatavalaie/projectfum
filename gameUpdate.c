@@ -72,7 +72,9 @@ void CheckCell(int xroad , int yroad){
 
     if (cellDifficulty > kingdoms[z].WorkersCount&&map[xroad][yroad].type!=-k) {
         if(currentkingdom==0)
+
             map[xroad][yroad].remain0 = cellDifficulty - kingdoms[z].WorkersCount;
+
         else if(currentkingdom==1){
             map[xroad][yroad].remain1 = cellDifficulty - kingdoms[z].WorkersCount;
         }
@@ -262,6 +264,8 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
     int qx[QMAX], qy[QMAX];
     int front = 0, back = 0;
 
+
+
     // Only start removing roads if the starting cell is a road
     if (map[startX][startY].type == -loserKingdom) {
         map[startX][startY].type = map[startX][startY].dificulty;
@@ -376,11 +380,13 @@ void BattleR(int Xroad, int Yroad, int attacker, int defender, int villagecount)
         kingdoms[defender].soldierCount -= kingdoms[attacker].soldierCount;
     } else if (kingdoms[attacker].soldierCount == kingdoms[defender].soldierCount) {
         loser = attacker;
+
         DestroyRoads(defender, Xroad, Yroad, villagecount);
         map[Xroad][Yroad].type = -loser;
         map[Xroad][Yroad].type = -attacker;
         kingdoms[attacker].soldierCount = 0;
         kingdoms[defender].soldierCount = 0;
+
     }
 
     DestroyRoads(loser, Xroad, Yroad, villagecount); // Remove roads for the loser
