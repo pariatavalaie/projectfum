@@ -7,6 +7,7 @@
 #include "type.h"
 #include "gameUpdate.h"
 #include "stdbool.h"
+#include "stdio.h"
 
 extern int x, y;
 Color Error = (Color){89, 12, 36 ,80};
@@ -292,9 +293,9 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
             }
         }
 
-        // If current tile is a road and is a crossroads (more than 1 neighbor)
-        if (roadNeighborCount > 1) {
-            // Mark as visited but don't delete
+        // If the current tile is a road and is a crossroads (more than 1 neighbor)
+        if (roadNeighborCount > 2) {
+            printf("Skipping crossroads at (%d, %d) with %d neighbors\n", cx, cy, roadNeighborCount);
             visited[cx][cy] = true;
             continue;
         }
@@ -322,13 +323,15 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
                     }
                 }
 
-                // Skip deleting crossroads
-                if (neighborCount > 1) {
+                // Skip deleting crossroads unless it directly connects two kingdoms
+                if (neighborCount > 2) {
+                    printf("Skipping crossroads neighbor at (%d, %d) with %d neighbors\n", nx, ny, neighborCount);
                     visited[nx][ny] = true;
                     continue;
                 }
 
                 // Otherwise, delete the road
+                printf("Deleting road at (%d, %d)\n", nx, ny);
                 map[nx][ny].type = map[nx][ny].dificulty;
                 visited[nx][ny] = true;
                 qx[back] = nx;
@@ -337,6 +340,7 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
             } else if (map[nx][ny].type == 'v') {
                 for (int v = 0; v < villagecount; v++) {
                     if (villages[v].x == nx && villages[v].y == ny && villages[v].ownerId == loserKingdom) {
+                        printf("Removing village ownership at (%d, %d)\n", nx, ny);
                         kingdoms[villages[v].ownerId].FoodProduction -= villages[v].FoodProduction;
                         kingdoms[villages[v].ownerId].GoldProduction -= villages[v].GoldProduction;
                         villages[v].ownerId = -1;
@@ -348,14 +352,16 @@ void DestroyRoads(int loserKingdom, int startX, int startY, int villagecount) {
                     }
                 }
             } else if (map[nx][ny].type == 'c' &&
-                       kingdoms[loserKingdom].x == nx &&
-                       kingdoms[loserKingdom].y == ny) {
+                       kingdoms[loserKingdom].x != nx &&
+                       kingdoms[loserKingdom].y != ny) {
+                printf("Skipping capital at (%d, %d)\n", nx, ny);
                 visited[nx][ny] = true;
                 continue;
             }
         }
     }
 }
+
 
 void BattleR(int Xroad, int Yroad, int attacker, int defender, int villagecount) {
     int loser = -1;
@@ -405,38 +411,55 @@ void BattleV(int attacker, int defender, int i, int Xroad, int Yroad, int villag
         DestroyRoads(defender, Xroad, Yroad, villagecount);
     }
 }
+void BattleK(int Xroad, int Yroad, int attacker, int defender, int villageCount) {
+    int loser = -1;
 
-void BattleK(int Xroad, int Yroad, int attacker, int defender, int villagecount) {
     if (kingdoms[attacker].soldierCount > kingdoms[defender].soldierCount) {
+        // Attacker wins
         winner = attacker;
+        loser = defender;
+        printf("Attacker wins the battle for the capital.\n");
     } else if (kingdoms[attacker].soldierCount < kingdoms[defender].soldierCount) {
+        // Defender wins
         winner = defender;
-    } else if (kingdoms[attacker].soldierCount == kingdoms[defender].soldierCount) {
+        loser = attacker;
+        printf("Defender wins the battle for the capital.\n");
+    } else {
+        // Tie: Both sides lose all soldiers
+        winner = -1; // No clear winner
+        loser = attacker; // Treat both as losers for road destruction
         kingdoms[attacker].soldierCount = 0;
         kingdoms[defender].soldierCount = 0;
-        DestroyRoads(attacker, Xroad, Yroad, villagecount);
+        printf("Battle ends in a tie. Both kingdoms lose soldiers.\n");
+    }
+
+    // Destroy roads for the losing kingdom
+    if (loser != -1) {
+        printf("Destroying roads for kingdom %d.\n", loser);
+        DestroyRoads(loser, Xroad, Yroad, villageCount);
     }
 }
+
 
 void CheckForBattle(int Xroad, int Yroad, int villageCount) {
     int attacker, defender;
     if (currentkingdom == 0) {
-        attacker = 1;
-        defender = 0;
-    } else {
         attacker = 0;
         defender = 1;
+    } else {
+        attacker = 1;
+        defender = 0;
     }
     int xv = -1, yv = -1;
     int xk = -1, yk = -1;
 
-    if (map[Xroad + 1][Yroad].type == -attacker && map[Xroad + 1][Yroad].type != -defender && Xroad != x - 1) {
+    if (map[Xroad + 1][Yroad].type != -attacker && map[Xroad + 1][Yroad].type == -defender && Xroad != x - 1) {
         BattleR(Xroad, Yroad, attacker, defender, villageCount);
-    } else if (map[Xroad - 1][Yroad].type == -attacker && map[Xroad - 1][Yroad].type != -defender && Xroad != 0) {
+    } else if (map[Xroad - 1][Yroad].type != -attacker && map[Xroad - 1][Yroad].type== -defender && Xroad != 0) {
         BattleR(Xroad, Yroad, attacker, defender, villageCount);
-    } else if (map[Xroad][Yroad + 1].type == -attacker && map[Xroad][Yroad + 1].type != -defender && Yroad != y - 1) {
+    } else if (map[Xroad][Yroad + 1].type != -attacker && map[Xroad][Yroad + 1].type == -defender && Yroad != y - 1) {
         BattleR(Xroad, Yroad, attacker, defender, villageCount);
-    } else if (map[Xroad][Yroad - 1].type == -attacker && map[Xroad][Yroad - 1].type != -defender && Yroad != y - 1) {
+    } else if (map[Xroad][Yroad - 1].type != -attacker && map[Xroad][Yroad - 1].type == -defender && Yroad != y - 1) {
         BattleR(Xroad, Yroad, attacker, defender, villageCount);
     } else if (map[Xroad + 1][Yroad].type == 'v' && Xroad != x - 1) {
         xv = Xroad + 1, yv = Yroad;
@@ -471,7 +494,7 @@ void CheckForBattle(int Xroad, int Yroad, int villageCount) {
     if (xv >= 0 && yv >= 0) {
         for (int i = 0; i < villageCount; i++) {
             if (villages[i].x == xv && villages[i].y == yv && villages[i].ownerId != -1) {
-                if (villages[i].ownerId != defender) {
+                if (villages[i].ownerId == defender) {
                     BattleV(attacker, defender, i, Xroad, Yroad, villageCount);
                     return;
                 }
