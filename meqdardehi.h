@@ -9,6 +9,7 @@ extern Map map[17][17];
 extern Kingdom kingdoms[4];
 extern Village villages[20];
 extern int currentkingdom;
+extern int count;
 struct Kingdom;
 struct Village;
 
@@ -20,6 +21,6 @@ void ForceClosed(int k, int j);
 
 void Empty(int k, int j);
 
-void SuggestedRoad(int xq,int yq,int i);
+void SuggestedRoad(int xq,int yq,int i,int k,int j);
 
 #endif
