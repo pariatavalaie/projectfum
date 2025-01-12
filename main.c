@@ -51,6 +51,7 @@ int main() {
     Texture2D Village = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/4.png");
     Texture2D ForceClosed = LoadTexture("C:/Users/Asus/CLionProjects/projectfum/Tile2_64.png");
     Texture2D guide= LoadTexture("C:/Users/Asus/CLionProjects/projectfum/IMG_20241225_205735_469.png");
+    Texture2D gameover= LoadTexture("C:/Users/ASUS/CLionProjects/projectfum/photo_2025-01-12_21-04-12.jpg");
     // Set the target frame rate to 60 frames per second for smooth rendering
 
     SetTargetFPS(60);
@@ -197,7 +198,6 @@ int main() {
     }
     CloseWindow();
     while (!WindowShouldClose()){
-        Texture2D gameover= LoadTexture("C:/Users/ASUS/CLionProjects/projectfum/photo_2025-01-12_21-04-12.jpg");
         BeginDrawing();
         DrawTexture(gameover,0,0,WHITE);
         EndDrawing();
