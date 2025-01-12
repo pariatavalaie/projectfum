@@ -58,7 +58,14 @@ int main() {
 
     // drawing Map
 
-    while (!WindowShouldClose()&& winner==-1) {
+    while (!WindowShouldClose()) {
+        if(winner>=0){
+            BeginDrawing();
+            DrawTexture(gameover,0,0,WHITE);
+            WaitTime(6);
+            EndDrawing();
+            CloseWindow();
+        }
 
         Vector2 mouseposition = GetMousePosition();
 
@@ -197,11 +204,6 @@ int main() {
         EndDrawing();
     }
     CloseWindow();
-    while (!WindowShouldClose()){
-        BeginDrawing();
-        DrawTexture(gameover,0,0,WHITE);
-        EndDrawing();
-    }
 
     return 0;
 }
