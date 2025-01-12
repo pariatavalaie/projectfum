@@ -62,8 +62,8 @@ int main() {
         if(winner>=0){
             BeginDrawing();
             DrawTexture(gameover,0,0,WHITE);
-            WaitTime(6);
             EndDrawing();
+            WaitTime(6);
             CloseWindow();
         }
 

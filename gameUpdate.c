@@ -423,32 +423,15 @@ void BattleV(int attacker, int defender, int i, int Xroad, int Yroad, int villag
         DestroyRoads(defender, Xroad, Yroad, villagecount);
     }
 }
-void BattleK(int Xroad, int Yroad, int attacker, int defender, int villageCount) {
-    int loser = -1;
-
+void BattleK(int Xroad, int Yroad, int attacker, int defender, int villagecount) {
     if (kingdoms[attacker].soldierCount > kingdoms[defender].soldierCount) {
-        // Attacker wins
         winner = attacker;
-        loser = defender;
-        printf("Attacker wins the battle for the capital.\n");
     } else if (kingdoms[attacker].soldierCount < kingdoms[defender].soldierCount) {
-        // Defender wins
         winner = defender;
-        loser = attacker;
-        printf("Defender wins the battle for the capital.\n");
-    } else {
-        // Tie: Both sides lose all soldiers
-        winner = -1; // No clear winner
-        loser = attacker; // Treat both as losers for road destruction
+    } else if (kingdoms[attacker].soldierCount == kingdoms[defender].soldierCount) {
         kingdoms[attacker].soldierCount = 0;
         kingdoms[defender].soldierCount = 0;
-        printf("Battle ends in a tie. Both kingdoms lose soldiers.\n");
-    }
-
-    // Destroy roads for the losing kingdom
-    if (loser != -1) {
-        printf("Destroying roads for kingdom %d.\n", loser);
-        DestroyRoads(loser, Xroad, Yroad, villageCount);
+        DestroyRoads(attacker, Xroad, Yroad, villagecount);
     }
 }
 
