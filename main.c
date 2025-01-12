@@ -59,15 +59,15 @@ int main() {
     // drawing Map
 
     while (!WindowShouldClose()) {
-        if(winner>=0){
-            DrawTexture(gameover,0,0,WHITE);
+
+        Vector2 mouseposition = GetMousePosition();
+        if (winner >= 0) {
+            DrawRectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, windowClosing);
+            DrawText(TextFormat("The Winner is Kingdom %d", winner), 500, 500, 50, BLACK);
             EndDrawing();
             WaitTime(6);
             CloseWindow();
         }
-
-        Vector2 mouseposition = GetMousePosition();
-
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
