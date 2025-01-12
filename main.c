@@ -60,7 +60,6 @@ int main() {
 
     while (!WindowShouldClose()) {
         if(winner>=0){
-            BeginDrawing();
             DrawTexture(gameover,0,0,WHITE);
             EndDrawing();
             WaitTime(6);
