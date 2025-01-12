@@ -175,19 +175,19 @@ int main() {
             currentkingdom++;
 
         } else if (IsKeyPressed(KEY_FOUR)) {
-            int xroad, yroad;
+            int xroad,yroad;
             yroad = ((mouseposition.x - offsetX) / 68);
             xroad = ((mouseposition.y - offsetY)) / 68;
+            if (map[xroad][yroad].type == -currentkingdom) {
+                currentkingdom--;
+            } else {
+                Road(xroad, yroad, villageCount);
+                takeV(villageCount);
                 if (map[xroad][yroad].type == -currentkingdom) {
-                    currentkingdom--;
-                } else {
-                    Road(xroad, yroad, villageCount);
-                    takeV(villageCount);
-                    if (map[xroad][yroad].type == -currentkingdom) {
-                        CheckForBattle(xroad, yroad, villageCount);
-                    }
+                    CheckForBattle(xroad, yroad, villageCount);
                 }
-                currentkingdom++;
+            }
+            currentkingdom++;
 
         }
         else if (IsKeyPressed(KEY_FIVE)){
