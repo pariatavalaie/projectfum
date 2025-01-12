@@ -9,6 +9,7 @@ extern Map map[17][17];
 extern Kingdom kingdoms[4];
 extern Village villages[20];
 extern int currentkingdom;
+extern int count;
 struct Kingdom;
 struct Village;
 

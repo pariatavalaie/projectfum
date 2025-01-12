@@ -9,7 +9,7 @@
 Map map[17][17];
 int x, y;
 int currentkingdom = 0;
-int gameOver = 0;
+int count=1;
 int winner = -1;
 Kingdom kingdoms[4];
 Village villages[20];
@@ -25,18 +25,16 @@ int main() {
         }
     }
 
-    int kingdomCount = 0;
-    int villageCount = 0;
+
     printf("please enter Height and Width:");
     scanf("%d %d", &x, &y);
     while (x <= 0 || y <= 0 ||  x > 17 || y > 17) {
         printf("please enter Height and Width:");
         scanf("%d %d", &x, &y);
     }
-    int maxS ;
-    printf("please inter the maximum soldiers: ");
-    scanf("%d" ,&maxS);
 
+    int kingdomCount=0;
+    int villageCount=0;
     // Mark special points on the map
     Kingdoms(x, y, kingdoms, &kingdomCount);
     Villages(x, y, villages, &villageCount);
@@ -69,7 +67,6 @@ int main() {
             WaitTime(6);
             CloseWindow();
         }
-
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
@@ -98,7 +95,7 @@ int main() {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, GREEN);
                 } else if (map[i][j].type == -3) {
                     DrawRectangle(offsetX + j * 68, offsetY + i * 68, 68, 68, BLUE);
-<
+
                 } else if (currentkingdom == 0) {
                     char text = map[i][j].remain0;
                     DrawText(TextFormat("%d", text), offsetX + j * 68, offsetY + i * 68, 24, RED);
@@ -156,7 +153,8 @@ int main() {
 
 
         }
-        DrawText(TextFormat("TURN KINGDOM %d", currentkingdom + 1), 1, 500, 50, RED);
+        DrawText(TextFormat("TURN KINGDOM %d", currentkingdom + 1),offsetX+68*2-5,30,50,BLACK);
+        DrawText(TextFormat("Round %d",count),offsetX+68*2,70,50,BLACK);
         int showguide;
         if (IsKeyPressed(KEY_ENTER)) {
             showguide = !showguide;
@@ -176,19 +174,19 @@ int main() {
             currentkingdom++;
 
         } else if (IsKeyPressed(KEY_FOUR)) {
-            int xroad, yroad;
+            int xroad,yroad;
             yroad = ((mouseposition.x - offsetX) / 68);
             xroad = ((mouseposition.y - offsetY)) / 68;
+            if (map[xroad][yroad].type == -currentkingdom) {
+                currentkingdom--;
+            } else {
+                Road(xroad, yroad, villageCount);
+                takeV(villageCount);
                 if (map[xroad][yroad].type == -currentkingdom) {
-                    currentkingdom--;
-                } else {
-                    Road(xroad, yroad, villageCount);
-                    takeV(villageCount);
-                    if (map[xroad][yroad].type == -currentkingdom) {
-                        CheckForBattle(xroad, yroad, villageCount);
-                    }
+                    CheckForBattle(xroad, yroad, villageCount);
                 }
-                currentkingdom++;
+            }
+            currentkingdom++;
 
         }
         else if (IsKeyPressed(KEY_FIVE)){
@@ -197,11 +195,13 @@ int main() {
         }
         if (currentkingdom >= kingdomCount) {
             currentkingdom = 0; // Loop back to the first kingdom
+            count++;
         }
 
 
         EndDrawing();
     }
     CloseWindow();
+
     return 0;
 }

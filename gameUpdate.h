@@ -35,5 +35,4 @@ void BattleR(int Xroad , int Yroad , int attacker , int defender,int villagecoun
 void BattleK(int Xroad , int Yroad , int attacker ,int defender ,int villagecount);
 
 void CheckForBattle(int Xroad , int Yroad , int villageCount);
-
 #endif //PROJECTFUM_GAMEUPDATE_H
