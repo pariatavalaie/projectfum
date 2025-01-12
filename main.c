@@ -10,7 +10,6 @@ Map map[17][17];
 int x, y;
 int currentkingdom = 0;
 int count=1;
-int gameOver = 0;
 int winner = -1;
 Kingdom kingdoms[4];
 Village villages[20];
@@ -26,18 +25,16 @@ int main() {
         }
     }
 
-    int kingdomCount = 0;
-    int villageCount = 0;
+
     printf("please enter Height and Width:");
     scanf("%d %d", &x, &y);
     while (x <= 0 || y <= 0 ||  x > 17 || y > 17) {
         printf("please enter Height and Width:");
         scanf("%d %d", &x, &y);
     }
-    int maxS ;
-    printf("please inter the maximum soldiers: ");
-    scanf("%d" ,&maxS);
 
+    int kingdomCount=0;
+    int villageCount=0;
     // Mark special points on the map
     Kingdoms(x, y, kingdoms, &kingdomCount);
     Villages(x, y, villages, &villageCount);
@@ -60,16 +57,9 @@ int main() {
 
     // drawing Map
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose()&& winner==-1) {
 
         Vector2 mouseposition = GetMousePosition();
-        if (winner >= 0) {
-            DrawRectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, windowClosing);
-            DrawText(TextFormat("The Winner is Kingdom %d", winner), 500, 500, 50, BLACK);
-            EndDrawing();
-            WaitTime(6);
-            CloseWindow();
-        }
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -206,5 +196,12 @@ int main() {
         EndDrawing();
     }
     CloseWindow();
+    while (!WindowShouldClose()){
+        Texture2D gameover= LoadTexture("C:/Users/ASUS/CLionProjects/projectfum/photo_2025-01-12_21-04-12.jpg");
+        BeginDrawing();
+        DrawTexture(gameover,0,0,WHITE);
+        EndDrawing();
+    }
+
     return 0;
 }
